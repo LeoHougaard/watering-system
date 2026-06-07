@@ -61,11 +61,10 @@ static void scheduler_task(void *arg)
                 if (!slot->days[wday]) continue;
                 int delta = d * 24 * 60 + parse_hhmm(slot->start) - now_min;
                 if (delta < 0) delta += 7 * 24 * 60;
-                if (delta < best_delta) {
+                if (delta >= 0 && delta < best_delta) {
                     best_delta = delta;
                     next = slot;
                 }
-                break;
             }
         }
         if (next) snprintf(g_next_run, sizeof(g_next_run), "%s in %d min", next->start, best_delta);
@@ -75,6 +74,8 @@ static void scheduler_task(void *arg)
             const schedule_slot_t *slot = &s.schedule_slots[i];
             if (!slot->enabled || !slot->days[tm_now.tm_wday] || !slot_inside_start_minute(slot, &tm_now)) continue;
             if (g_last_run_yday[i] == tm_now.tm_yday && g_last_run_minute[i] == now_min) continue;
+            g_last_run_yday[i] = tm_now.tm_yday;
+            g_last_run_minute[i] = now_min;
             if (!s.auto_mode_enabled) {
                 log_skip(STOP_AUTO_DISABLED);
             } else if (s.rain_delay_enabled && s.rain_delay_until > now) {
@@ -84,16 +85,12 @@ static void scheduler_task(void *arg)
                 if (s.weather_adjust_enabled && s.weather_last_update > 0) multiplier *= s.weather_last_multiplier;
                 if (multiplier <= 0.01f) {
                     log_skip(STOP_RAIN_DELAY);
-                    g_last_run_yday[i] = tm_now.tm_yday;
-                    g_last_run_minute[i] = now_min;
                     continue;
                 }
                 uint32_t duration = (uint32_t)(slot->duration_sec * multiplier);
                 if (duration > s.scheduled_max_run_sec) duration = s.scheduled_max_run_sec;
                 if (duration < 1) duration = 1;
                 pump_controller_scheduled_run(duration);
-                g_last_run_yday[i] = tm_now.tm_yday;
-                g_last_run_minute[i] = now_min;
                 ESP_LOGI(TAG, "scheduled watering requested for %lu sec", (unsigned long)duration);
             }
         }
