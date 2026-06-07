@@ -1,0 +1,18 @@
+# ESP-IDF build output
+build/
+build_*/
+managed_components/
+dependencies.lock
+
+# Local staged ESP-IDF tools/build workaround
+.idf_tools/
+
+# Local editor and machine files
+.vscode/
+*.log
+
+# Generated firmware artifacts
+*.bin
+*.elf
+*.map
+sdkconfig.old
