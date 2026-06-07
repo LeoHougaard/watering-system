@@ -44,8 +44,8 @@ void app_main(void)
     ESP_ERROR_CHECK(config_store_init());
     ESP_ERROR_CHECK(history_store_init());
     ESP_ERROR_CHECK(user_observation_store_init());
-    ESP_ERROR_CHECK(time_service_init());
     ESP_ERROR_CHECK(wifi_provisioning_start());
+    ESP_ERROR_CHECK(time_service_init());
     ESP_ERROR_CHECK(reservoir_manager_start());
     ESP_ERROR_CHECK(moisture_manager_start());
     ESP_ERROR_CHECK(pump_controller_start());

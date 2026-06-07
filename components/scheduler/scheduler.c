@@ -42,6 +42,34 @@ static void log_skip(stop_reason_t reason)
     history_store_log_watering(&e);
 }
 
+void scheduler_refresh_next_run(void)
+{
+    system_settings_t s;
+    config_store_get_settings(&s);
+    time_t now = time(NULL);
+    struct tm tm_now;
+    localtime_r(&now, &tm_now);
+    const schedule_slot_t *next = NULL;
+    int now_min = tm_now.tm_hour * 60 + tm_now.tm_min;
+    int best_delta = 7 * 24 * 60;
+    for (int i = 0; i < MAX_SCHEDULE_SLOTS; i++) {
+        const schedule_slot_t *slot = &s.schedule_slots[i];
+        if (!slot->enabled || slot->start[0] == '\0' || slot->duration_sec == 0) continue;
+        for (int d = 0; d < 7; d++) {
+            int wday = (tm_now.tm_wday + d) % 7;
+            if (!slot->days[wday]) continue;
+            int delta = d * 24 * 60 + parse_hhmm(slot->start) - now_min;
+            if (delta < 0) delta += 7 * 24 * 60;
+            if (delta >= 0 && delta < best_delta) {
+                best_delta = delta;
+                next = slot;
+            }
+        }
+    }
+    if (next) snprintf(g_next_run, sizeof(g_next_run), "%s in %d min", next->start, best_delta);
+    else snprintf(g_next_run, sizeof(g_next_run), "No enabled schedule");
+}
+
 static void scheduler_task(void *arg)
 {
     while (true) {
@@ -50,25 +78,8 @@ static void scheduler_task(void *arg)
         time_t now = time(NULL);
         struct tm tm_now;
         localtime_r(&now, &tm_now);
-        const schedule_slot_t *next = NULL;
         int now_min = tm_now.tm_hour * 60 + tm_now.tm_min;
-        int best_delta = 7 * 24 * 60;
-        for (int i = 0; i < MAX_SCHEDULE_SLOTS; i++) {
-            const schedule_slot_t *slot = &s.schedule_slots[i];
-            if (!slot->enabled || slot->start[0] == '\0' || slot->duration_sec == 0) continue;
-            for (int d = 0; d < 7; d++) {
-                int wday = (tm_now.tm_wday + d) % 7;
-                if (!slot->days[wday]) continue;
-                int delta = d * 24 * 60 + parse_hhmm(slot->start) - now_min;
-                if (delta < 0) delta += 7 * 24 * 60;
-                if (delta >= 0 && delta < best_delta) {
-                    best_delta = delta;
-                    next = slot;
-                }
-            }
-        }
-        if (next) snprintf(g_next_run, sizeof(g_next_run), "%s in %d min", next->start, best_delta);
-        else snprintf(g_next_run, sizeof(g_next_run), "No enabled schedule");
+        scheduler_refresh_next_run();
 
         for (int i = 0; i < MAX_SCHEDULE_SLOTS; i++) {
             const schedule_slot_t *slot = &s.schedule_slots[i];
