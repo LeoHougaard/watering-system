@@ -1,6 +1,6 @@
 # ESP32-S3 Irrigation Controller
 
-ESP-IDF firmware for a local-only irrigation controller for seven planter containers. One shared pump waters all containers together through manually adjusted drip emitters. This iteration is schedule-based and does **not** measure soil moisture.
+ESP-IDF firmware for a local-only irrigation controller for seven planter containers. One shared pump waters all containers together through manually adjusted drip emitters. Watering is schedule-based, with optional capacitive soil-moisture logging for testing and trend visibility.
 
 Target board: Waveshare ESP32-S3-Zero / ESP32-S3-Zero-M with 4 MB flash and 2 MB PSRAM.
 
@@ -11,6 +11,7 @@ Target board: Waveshare ESP32-S3-Zero / ESP32-S3-Zero-M with 4 MB flash and 2 MB
 - Pump countdown, immediate stop, max runtime, cooldown, and event logging.
 - Optional debounced reservoir-level input with active-high or active-low configuration.
 - Local 1-inch SSD1306 I2C OLED status display for pump, reservoir, moisture, and next-run status.
+- Optional capacitive soil-moisture sensor on an ESP32-S3 ADC1 GPIO.
 - Scheduled watering with daily default at 06:00 for 2 minutes, max 5 minutes.
 - Internet weather compensation using Open-Meteo forecast data, FAO-56 reference evapotranspiration, and forecast/recent rain.
 - Seven editable planter profiles and user observation history.
@@ -106,3 +107,15 @@ The firmware drives a common inexpensive 1-inch 128x64 SSD1306 I2C OLED at addre
 - OLED VCC -> 3.3 V
 
 The display refreshes every 2 seconds and shows pump state, remaining run time, reservoir status, moisture status, and the next scheduled watering text. If the OLED is disconnected or not found at boot, the controller logs a warning and continues running normally.
+
+## Capacitive Soil Moisture Sensor Wiring
+
+Default moisture sensor pin:
+
+- Sensor AOUT/AO -> ESP32-S3 GPIO 1
+- Sensor GND -> ESP32 GND
+- Sensor VCC -> 3.3 V
+
+Use the sensor's analog output, usually labeled `AOUT` or `AO`, not the digital `DOUT` pin. GPIO1 is the default because it maps to ESP32-S3 ADC1 channel 0 and does not conflict with the default pump relay pins. Other supported ADC1 pins are GPIO1 through GPIO10, but avoid GPIO4 if you are using the reservoir sensor and avoid GPIO5/GPIO6 with the default pump wiring.
+
+To test it, open the local web UI, go to **Sensors**, check **Enable 5 second test logging**, keep **ADC GPIO** set to `1`, and save. `/api/v1/moisture/latest` should update with `raw` and `percent` readings about every 5 seconds. For a capacitive sensor, the raw value is typically higher when dry and lower when wet; adjust `Dry raw` and `Wet raw` after you see your actual readings.

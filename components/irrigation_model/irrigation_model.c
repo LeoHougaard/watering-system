@@ -77,6 +77,7 @@ void model_defaults_settings(system_settings_t *settings)
     settings->moisture_dry_raw = 3000;
     settings->moisture_wet_raw = 1200;
     settings->moisture_sample_interval_sec = 3600;
+    settings->moisture_history_days = 7;
     settings->weather_adjust_enabled = false;
     settings->weather_skip_on_rain = false;
     settings->weather_hot_multiplier = 1.15f;
@@ -145,6 +146,7 @@ cJSON *settings_to_json(const system_settings_t *s)
     cJSON_AddNumberToObject(root, "moisture_dry_raw", s->moisture_dry_raw);
     cJSON_AddNumberToObject(root, "moisture_wet_raw", s->moisture_wet_raw);
     cJSON_AddNumberToObject(root, "moisture_sample_interval_sec", s->moisture_sample_interval_sec);
+    cJSON_AddNumberToObject(root, "moisture_history_days", s->moisture_history_days);
     cJSON_AddBoolToObject(root, "weather_adjust_enabled", s->weather_adjust_enabled);
     cJSON_AddBoolToObject(root, "weather_skip_on_rain", s->weather_skip_on_rain);
     cJSON_AddNumberToObject(root, "weather_hot_multiplier", s->weather_hot_multiplier);
@@ -266,8 +268,8 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
             }
         }
     }
-    const char *numeric[] = {"manual_max_run_sec", "scheduled_max_run_sec", "pump_cooldown_sec", "reservoir_debounce_ms", "moisture_dry_raw", "moisture_wet_raw", "moisture_sample_interval_sec"};
-    uint32_t *values[] = {&s->manual_max_run_sec, &s->scheduled_max_run_sec, &s->pump_cooldown_sec, &s->reservoir_debounce_ms, &s->moisture_dry_raw, &s->moisture_wet_raw, &s->moisture_sample_interval_sec};
+    const char *numeric[] = {"manual_max_run_sec", "scheduled_max_run_sec", "pump_cooldown_sec", "reservoir_debounce_ms", "moisture_dry_raw", "moisture_wet_raw", "moisture_sample_interval_sec", "moisture_history_days"};
+    uint32_t *values[] = {&s->manual_max_run_sec, &s->scheduled_max_run_sec, &s->pump_cooldown_sec, &s->reservoir_debounce_ms, &s->moisture_dry_raw, &s->moisture_wet_raw, &s->moisture_sample_interval_sec, &s->moisture_history_days};
     for (size_t i = 0; i < sizeof(numeric) / sizeof(numeric[0]); i++) {
         const cJSON *v = cJSON_GetObjectItemCaseSensitive(json, numeric[i]);
         if (cJSON_IsNumber(v)) *values[i] = (uint32_t)v->valuedouble;

@@ -88,6 +88,44 @@ esp_err_t history_store_log_diagnostic(const char *message)
     return err;
 }
 
+esp_err_t history_store_trim_moisture(uint32_t days_to_keep)
+{
+    if (days_to_keep == 0) days_to_keep = 1;
+    time_t now = time(NULL);
+    if (now < 1700000000) return ESP_OK;
+
+    const char *path = path_for_kind("moisture");
+    const char *tmp_path = "/spiffs/moisture.tmp";
+    FILE *in = fopen(path, "r");
+    if (!in) return ESP_OK;
+    FILE *out = fopen(tmp_path, "w");
+    if (!out) {
+        fclose(in);
+        return ESP_FAIL;
+    }
+
+    time_t cutoff = now - (time_t)days_to_keep * 24 * 60 * 60;
+    char line[512];
+    while (fgets(line, sizeof(line), in)) {
+        bool keep = true;
+        cJSON *item = cJSON_Parse(line);
+        if (item) {
+            const cJSON *timestamp = cJSON_GetObjectItemCaseSensitive(item, "timestamp");
+            if (cJSON_IsNumber(timestamp) && timestamp->valuedouble > 1700000000) {
+                keep = (time_t)timestamp->valuedouble >= cutoff;
+            }
+            cJSON_Delete(item);
+        }
+        if (keep) fputs(line, out);
+    }
+
+    fclose(in);
+    fclose(out);
+    remove(path);
+    if (rename(tmp_path, path) != 0) return ESP_FAIL;
+    return ESP_OK;
+}
+
 char *history_store_read_json_array(const char *kind)
 {
     FILE *f = fopen(path_for_kind(kind), "r");

@@ -8,4 +8,5 @@ esp_err_t history_store_log_watering(const watering_event_t *event);
 esp_err_t history_store_log_reservoir(bool reservoir_ok);
 esp_err_t history_store_log_moisture(int percent, int raw, int gpio);
 esp_err_t history_store_log_diagnostic(const char *message);
+esp_err_t history_store_trim_moisture(uint32_t days_to_keep);
 char *history_store_read_json_array(const char *kind);

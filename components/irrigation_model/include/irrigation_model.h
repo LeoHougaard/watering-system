@@ -89,6 +89,7 @@ typedef struct {
     uint32_t moisture_dry_raw;
     uint32_t moisture_wet_raw;
     uint32_t moisture_sample_interval_sec;
+    uint32_t moisture_history_days;
     bool weather_adjust_enabled;
     bool weather_skip_on_rain;
     float weather_hot_multiplier;
