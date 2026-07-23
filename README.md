@@ -90,7 +90,7 @@ Weather adjustment is optional and is off by default. When enabled, the controll
 - If rain skipping is enabled, a run is skipped only after at least 4 mm of recent rain, or at least 4 mm forecast within 12 hours with 70% or higher weighted confidence.
 - Weather data expires after eight hours. Missing, invalid, future-dated, legacy, or stale data always falls back to the normal duration and can never leave watering indefinitely paused.
 
-Failed updates retry with a 15-minute-to-1-hour backoff. A manual refresh is available on the Weather page and at `POST /api/v1/weather/refresh`.
+Failed updates retry with a 15-minute-to-1-hour backoff. A manual refresh is available under **Settings > Weather adjustment** and at `POST /api/v1/weather/refresh`.
 
 ## Safety Notes
 
@@ -118,4 +118,4 @@ Default moisture sensor pin:
 
 Use the sensor's analog output, usually labeled `AOUT` or `AO`, not the digital `DOUT` pin. GPIO1 is the default because it maps to ESP32-S3 ADC1 channel 0 and does not conflict with the default pump relay pins. Other supported ADC1 pins are GPIO1 through GPIO10, but avoid GPIO4 if you are using the reservoir sensor and avoid GPIO5/GPIO6 with the default pump wiring.
 
-To test it, open the local web UI, go to **Sensors**, check **Enable moisture sensor**, keep **ADC GPIO** set to `1`, set **Live read interval seconds** to `5`, and save. `/api/v1/moisture/latest` and the web UI should update with live `raw` and `percent` readings on that interval. The separate **Graph sample interval minutes** setting controls how often readings are saved to history. For a capacitive sensor, the raw value is typically higher when dry and lower when wet; adjust `Dry raw` and `Wet raw` after you see your actual readings.
+To test it, open the local web UI, go to **Settings**, check **Enable moisture sensor**, keep **ADC GPIO** set to `1`, choose the `0 min 5 sec` live read interval, and save. `/api/v1/moisture/latest` and the web UI should update with live `raw` and `percent` readings on that interval. The separate graph sample interval controls how often readings are saved to history. For a capacitive sensor, the raw value is typically higher when dry and lower when wet; adjust `Dry raw` and `Wet raw` after you see your actual readings.
