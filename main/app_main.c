@@ -1,5 +1,6 @@
 #include "esp_err.h"
 #include "esp_log.h"
+#include "esp_pm.h"
 #include "esp_spiffs.h"
 #include "nvs_flash.h"
 
@@ -13,7 +14,6 @@
 #include "recommendation_engine.h"
 #include "reservoir_manager.h"
 #include "scheduler.h"
-#include "status_display.h"
 #include "time_service.h"
 #include "user_observation_store.h"
 #include "weather_manager.h"
@@ -41,6 +41,16 @@ void app_main(void)
     }
 
     mount_storage();
+
+#if CONFIG_PM_ENABLE
+    const esp_pm_config_t power_config = {
+        .max_freq_mhz = 160,
+        .min_freq_mhz = 80,
+        .light_sleep_enable = false,
+    };
+    ESP_ERROR_CHECK(esp_pm_configure(&power_config));
+#endif
+
     ESP_ERROR_CHECK(config_store_init());
     ESP_ERROR_CHECK(history_store_init());
     ESP_ERROR_CHECK(user_observation_store_init());
@@ -50,7 +60,6 @@ void app_main(void)
     ESP_ERROR_CHECK(moisture_manager_start());
     ESP_ERROR_CHECK(pump_controller_start());
     ESP_ERROR_CHECK(scheduler_start());
-    ESP_ERROR_CHECK(status_display_start());
     ESP_ERROR_CHECK(recommendation_engine_start());
     ESP_ERROR_CHECK(alarm_and_safety_start());
     ESP_ERROR_CHECK(ota_update_init());

@@ -11,6 +11,7 @@
 
 static const char *TAG = "ota";
 static const size_t OTA_CHUNK_SIZE = 4096;
+static const size_t OTA_MIN_IMAGE_SIZE = 64 * 1024;
 
 esp_err_t ota_update_init(void)
 {
@@ -28,10 +29,10 @@ static void restart_task(void *arg)
 
 esp_err_t ota_update_apply_http_request(httpd_req_t *req)
 {
-    if (req->content_len == 0) {
+    if (req->content_len < OTA_MIN_IMAGE_SIZE) {
         httpd_resp_set_status(req, "400 Bad Request");
-        httpd_resp_sendstr(req, "{\"error\":\"firmware binary body required\"}");
-        return ESP_FAIL;
+        httpd_resp_sendstr(req, "{\"error\":\"firmware binary is missing or too small\"}");
+        return ESP_ERR_INVALID_SIZE;
     }
 
     const esp_partition_t *next = esp_ota_get_next_update_partition(NULL);
@@ -66,12 +67,16 @@ esp_err_t ota_update_apply_http_request(httpd_req_t *req)
 
     int remaining = req->content_len;
     int total_received = 0;
+    int timeout_count = 0;
     ESP_LOGI(TAG, "starting OTA upload: %d bytes to %s", req->content_len, next->label);
     while (remaining > 0) {
         int to_read = remaining > (int)OTA_CHUNK_SIZE ? (int)OTA_CHUNK_SIZE : remaining;
         int received = httpd_req_recv(req, buffer, to_read);
         if (received == HTTPD_SOCK_ERR_TIMEOUT) {
-            continue;
+            if (++timeout_count <= 2) continue;
+            err = ESP_ERR_TIMEOUT;
+            ESP_LOGE(TAG, "firmware upload timed out");
+            break;
         }
         if (received <= 0) {
             err = ESP_FAIL;
@@ -86,6 +91,7 @@ esp_err_t ota_update_apply_http_request(httpd_req_t *req)
         }
         remaining -= received;
         total_received += received;
+        timeout_count = 0;
     }
     ESP_LOGI(TAG, "OTA upload received %d/%d bytes", total_received, req->content_len);
 

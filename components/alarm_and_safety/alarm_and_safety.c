@@ -20,6 +20,5 @@ static void safety_task(void *arg)
 
 esp_err_t alarm_and_safety_start(void)
 {
-    xTaskCreate(safety_task, "Safety Task", 3072, NULL, 7, NULL);
-    return ESP_OK;
+    return xTaskCreate(safety_task, "Safety Task", 3072, NULL, 7, NULL) == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }

@@ -104,6 +104,5 @@ static void reservoir_task(void *arg)
 
 esp_err_t reservoir_manager_start(void)
 {
-    xTaskCreate(reservoir_task, "Reservoir Task", 3072, NULL, 6, NULL);
-    return ESP_OK;
+    return xTaskCreate(reservoir_task, "Reservoir Task", 3072, NULL, 6, NULL) == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }

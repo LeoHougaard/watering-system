@@ -249,8 +249,13 @@ esp_err_t pump_controller_start(void)
         relay_off();
     }
     g_queue = xQueueCreate(8, sizeof(pump_command_t));
-    xTaskCreate(pump_task, "Pump Task", 4096, NULL, 8, NULL);
-    return g_queue ? ESP_OK : ESP_ERR_NO_MEM;
+    if (!g_queue) return ESP_ERR_NO_MEM;
+    if (xTaskCreate(pump_task, "Pump Task", 4096, NULL, 8, NULL) != pdPASS) {
+        vQueueDelete(g_queue);
+        g_queue = NULL;
+        return ESP_ERR_NO_MEM;
+    }
+    return ESP_OK;
 }
 
 esp_err_t pump_controller_manual_run(uint32_t duration_sec, const char *reason)

@@ -3,6 +3,36 @@
 #include <stdio.h>
 #include <string.h>
 
+static uint32_t clamp_u32(uint32_t value, uint32_t min, uint32_t max)
+{
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
+}
+
+static float clamp_float(float value, float min, float max)
+{
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
+}
+
+static uint32_t json_u32(const cJSON *item)
+{
+    if (!cJSON_IsNumber(item) || item->valuedouble <= 0) return 0;
+    if (item->valuedouble >= UINT32_MAX) return UINT32_MAX;
+    return (uint32_t)item->valuedouble;
+}
+
+static bool valid_hhmm(const char *text)
+{
+    int hour, minute;
+    char trailing;
+    return text && strlen(text) == 5 && text[2] == ':' &&
+           sscanf(text, "%2d:%2d%c", &hour, &minute, &trailing) == 2 &&
+           hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59;
+}
+
 static void copy_json_string(const cJSON *json, const char *key, char *dst, size_t dst_len)
 {
     const cJSON *item = cJSON_GetObjectItemCaseSensitive(json, key);
@@ -230,7 +260,7 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
     const cJSON *schedule = cJSON_GetObjectItemCaseSensitive(json, "schedule");
     if (cJSON_IsObject(schedule)) {
         const cJSON *duration = cJSON_GetObjectItemCaseSensitive(schedule, "duration_sec");
-        if (cJSON_IsNumber(duration)) s->schedule.duration_sec = (uint32_t)duration->valuedouble;
+        if (cJSON_IsNumber(duration)) s->schedule.duration_sec = json_u32(duration);
         const cJSON *days = cJSON_GetObjectItemCaseSensitive(schedule, "days");
         if (cJSON_IsArray(days)) {
             memset(s->schedule.days, 0, sizeof(s->schedule.days));
@@ -245,8 +275,12 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
     const cJSON *windows = cJSON_GetObjectItemCaseSensitive(json, "watering_windows");
     const cJSON *win = cJSON_IsArray(windows) ? cJSON_GetArrayItem(windows, 0) : NULL;
     if (cJSON_IsObject(win)) {
-        copy_json_string(win, "start", s->watering_window.start, sizeof(s->watering_window.start));
-        copy_json_string(win, "end", s->watering_window.end, sizeof(s->watering_window.end));
+        char start[sizeof(s->watering_window.start)] = {0};
+        char end[sizeof(s->watering_window.end)] = {0};
+        copy_json_string(win, "start", start, sizeof(start));
+        copy_json_string(win, "end", end, sizeof(end));
+        if (valid_hhmm(start)) snprintf(s->watering_window.start, sizeof(s->watering_window.start), "%s", start);
+        if (valid_hhmm(end)) snprintf(s->watering_window.end, sizeof(s->watering_window.end), "%s", end);
     }
     const cJSON *slots = cJSON_GetObjectItemCaseSensitive(json, "schedule_slots");
     if (cJSON_IsArray(slots)) {
@@ -259,8 +293,10 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
             const cJSON *duration = cJSON_GetObjectItemCaseSensitive(slot, "duration_sec");
             const cJSON *days = cJSON_GetObjectItemCaseSensitive(slot, "days");
             if (cJSON_IsBool(enabled)) s->schedule_slots[i].enabled = cJSON_IsTrue(enabled);
-            copy_json_string(slot, "start", s->schedule_slots[i].start, sizeof(s->schedule_slots[i].start));
-            if (cJSON_IsNumber(duration)) s->schedule_slots[i].duration_sec = (uint32_t)duration->valuedouble;
+            char start[sizeof(s->schedule_slots[i].start)] = {0};
+            copy_json_string(slot, "start", start, sizeof(start));
+            if (valid_hhmm(start)) snprintf(s->schedule_slots[i].start, sizeof(s->schedule_slots[i].start), "%s", start);
+            if (cJSON_IsNumber(duration)) s->schedule_slots[i].duration_sec = json_u32(duration);
             if (cJSON_IsArray(days)) {
                 cJSON *day = NULL;
                 cJSON_ArrayForEach(day, days) {
@@ -274,18 +310,18 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
     uint32_t *values[] = {&s->manual_max_run_sec, &s->scheduled_max_run_sec, &s->pump_cooldown_sec, &s->reservoir_debounce_ms, &s->moisture_dry_raw, &s->moisture_wet_raw, &s->moisture_sample_interval_sec, &s->moisture_live_interval_sec, &s->moisture_history_days};
     for (size_t i = 0; i < sizeof(numeric) / sizeof(numeric[0]); i++) {
         const cJSON *v = cJSON_GetObjectItemCaseSensitive(json, numeric[i]);
-        if (cJSON_IsNumber(v)) *values[i] = (uint32_t)v->valuedouble;
+        if (cJSON_IsNumber(v)) *values[i] = json_u32(v);
     }
     const cJSON *pump_gpio = cJSON_GetObjectItemCaseSensitive(json, "pump_gpio");
-    if (cJSON_IsNumber(pump_gpio)) s->pump_gpio = pump_gpio->valueint;
+    if (cJSON_IsNumber(pump_gpio) && pump_gpio->valueint >= 0 && pump_gpio->valueint <= 48) s->pump_gpio = pump_gpio->valueint;
     const cJSON *pump_gpio_b = cJSON_GetObjectItemCaseSensitive(json, "pump_gpio_b");
-    if (cJSON_IsNumber(pump_gpio_b)) s->pump_gpio_b = pump_gpio_b->valueint;
+    if (cJSON_IsNumber(pump_gpio_b) && pump_gpio_b->valueint >= 0 && pump_gpio_b->valueint <= 48) s->pump_gpio_b = pump_gpio_b->valueint;
     const cJSON *pump_sleep_gpio = cJSON_GetObjectItemCaseSensitive(json, "pump_sleep_gpio");
-    if (cJSON_IsNumber(pump_sleep_gpio)) s->pump_sleep_gpio = pump_sleep_gpio->valueint;
+    if (cJSON_IsNumber(pump_sleep_gpio) && pump_sleep_gpio->valueint >= -1 && pump_sleep_gpio->valueint <= 48) s->pump_sleep_gpio = pump_sleep_gpio->valueint;
     const cJSON *reservoir_gpio = cJSON_GetObjectItemCaseSensitive(json, "reservoir_gpio");
-    if (cJSON_IsNumber(reservoir_gpio)) s->reservoir_gpio = reservoir_gpio->valueint;
+    if (cJSON_IsNumber(reservoir_gpio) && reservoir_gpio->valueint >= 0 && reservoir_gpio->valueint <= 48) s->reservoir_gpio = reservoir_gpio->valueint;
     const cJSON *moisture_gpio = cJSON_GetObjectItemCaseSensitive(json, "moisture_gpio");
-    if (cJSON_IsNumber(moisture_gpio)) s->moisture_gpio = moisture_gpio->valueint;
+    if (cJSON_IsNumber(moisture_gpio) && moisture_gpio->valueint >= 1 && moisture_gpio->valueint <= 10) s->moisture_gpio = moisture_gpio->valueint;
     const cJSON *seasonal = cJSON_GetObjectItemCaseSensitive(json, "seasonal_multiplier");
     if (cJSON_IsNumber(seasonal)) s->seasonal_multiplier = (float)seasonal->valuedouble;
     const cJSON *weather_hot = cJSON_GetObjectItemCaseSensitive(json, "weather_hot_multiplier");
@@ -310,5 +346,25 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
     if (cJSON_IsBool(weather_enabled)) s->weather_adjust_enabled = cJSON_IsTrue(weather_enabled);
     const cJSON *weather_skip = cJSON_GetObjectItemCaseSensitive(json, "weather_skip_on_rain");
     if (cJSON_IsBool(weather_skip)) s->weather_skip_on_rain = cJSON_IsTrue(weather_skip);
+
+    s->schedule.duration_sec = clamp_u32(s->schedule.duration_sec, 1, 3600);
+    for (int i = 0; i < MAX_SCHEDULE_SLOTS; i++) {
+        s->schedule_slots[i].duration_sec = clamp_u32(s->schedule_slots[i].duration_sec, 1, 3600);
+        if (s->schedule_slots[i].enabled && !valid_hhmm(s->schedule_slots[i].start)) {
+            s->schedule_slots[i].enabled = false;
+        }
+    }
+    s->manual_max_run_sec = clamp_u32(s->manual_max_run_sec, 1, 3600);
+    s->scheduled_max_run_sec = clamp_u32(s->scheduled_max_run_sec, 1, 3600);
+    s->pump_cooldown_sec = clamp_u32(s->pump_cooldown_sec, 0, 86400);
+    s->reservoir_debounce_ms = clamp_u32(s->reservoir_debounce_ms, 0, 10000);
+    s->moisture_dry_raw = clamp_u32(s->moisture_dry_raw, 0, 4095);
+    s->moisture_wet_raw = clamp_u32(s->moisture_wet_raw, 0, 4095);
+    s->moisture_sample_interval_sec = clamp_u32(s->moisture_sample_interval_sec, 60, 86400);
+    s->moisture_live_interval_sec = clamp_u32(s->moisture_live_interval_sec, 1, 60);
+    s->moisture_history_days = clamp_u32(s->moisture_history_days, 1, 30);
+    s->seasonal_multiplier = clamp_float(s->seasonal_multiplier, 0.25f, 2.0f);
+    s->weather_hot_multiplier = clamp_float(s->weather_hot_multiplier, 0.5f, 2.0f);
+    s->weather_rain_multiplier = clamp_float(s->weather_rain_multiplier, 0.0f, 1.5f);
     return true;
 }

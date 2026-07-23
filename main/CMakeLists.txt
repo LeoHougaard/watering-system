@@ -2,6 +2,7 @@ idf_component_register(SRCS "app_main.c"
     INCLUDE_DIRS "."
     REQUIRES
         nvs_flash
+        esp_pm
         esp_netif
         esp_event
         spiffs
@@ -18,5 +19,4 @@ idf_component_register(SRCS "app_main.c"
         time_service
         alarm_and_safety
         user_observation_store
-        weather_manager
-        status_display)
+        weather_manager)

@@ -13,7 +13,6 @@
 #include "history_store.h"
 #include "irrigation_model.h"
 
-static const char *TAG = "recs";
 static recommendation_record_t g_recs[MAX_RECOMMENDATIONS];
 static size_t g_rec_count;
 
@@ -141,8 +140,7 @@ static void recommendation_task(void *arg)
 esp_err_t recommendation_engine_start(void)
 {
     evaluate();
-    xTaskCreate(recommendation_task, "Recommendation Task", 6144, NULL, 4, NULL);
-    return ESP_OK;
+    return xTaskCreate(recommendation_task, "Recommendation Task", 6144, NULL, 4, NULL) == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }
 
 char *recommendation_engine_get_json(void)

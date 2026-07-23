@@ -4,8 +4,8 @@ Use this when a future thread needs to build and upload firmware over Wi-Fi.
 
 ## Current Device
 
-- Device URL: `http://10.1.40.177/`
-- OTA endpoint: `http://10.1.40.177/api/v1/ota/apply`
+- Device URL: `http://10.1.40.117/`
+- OTA endpoint: `http://10.1.40.117/api/v1/ota/apply`
 - Local API PIN: `1234`
 - Firmware image path: `build_s3\esp32_irrigation_controller.bin`
 
@@ -46,7 +46,7 @@ For the current controller, the quickest path is:
 Optional overrides:
 
 ```powershell
-$env:WATERING_DEVICE_URL = "http://10.1.40.177"
+$env:WATERING_DEVICE_URL = "http://10.1.40.117"
 $env:WATERING_LOCAL_PIN = "1234"
 $env:WATERING_BUILD_STAGE = "C:\Temp\WateringSystem"
 .\tools\ota_s3_fast.cmd
@@ -56,7 +56,7 @@ After a successful build, upload with `curl.exe`. Use HTTP/1.0 and explicit time
 
 ```powershell
 curl.exe --http1.0 --no-buffer --connect-timeout 10 --max-time 180 `
-  -X POST http://10.1.40.177/api/v1/ota/apply `
+  -X POST http://10.1.40.117/api/v1/ota/apply `
   -H "X-Local-PIN: 1234" `
   -H "Content-Type: application/octet-stream" `
   --data-binary "@build_s3\esp32_irrigation_controller.bin"
@@ -75,8 +75,8 @@ Expected response:
 Wait about 8 seconds, then query:
 
 ```powershell
-curl.exe -s http://10.1.40.177/api/v1/status
-curl.exe -s http://10.1.40.177/api/v1/settings
+curl.exe -s http://10.1.40.117/api/v1/status
+curl.exe -s http://10.1.40.117/api/v1/settings
 ```
 
 Healthy pump status after the reservoir-safety fix should include:

@@ -10,7 +10,6 @@ Target board: Waveshare ESP32-S3-Zero / ESP32-S3-Zero-M with 4 MB flash and 2 MB
 - Manual runs: 5 min, 10 min, 15 min, 20 min.
 - Pump countdown, immediate stop, max runtime, cooldown, and event logging.
 - Optional debounced reservoir-level input with active-high or active-low configuration.
-- Local 1-inch SSD1306 I2C OLED status display for pump, reservoir, moisture, and next-run status.
 - Optional capacitive soil-moisture sensor on an ESP32-S3 ADC1 GPIO.
 - Scheduled watering with daily default at 06:00 for 2 minutes, max 5 minutes.
 - Internet weather compensation using Open-Meteo forecast data, FAO-56 reference evapotranspiration, and forecast/recent rain.
@@ -73,7 +72,7 @@ Invoke-WebRequest -Method Post -Uri http://192.168.4.1/api/v1/ota/apply -Headers
 
 The controller writes the uploaded binary to the inactive OTA partition, marks it as the next boot image, sends an `{ "ok": true, "rebooting": true }` response, and restarts.
 
-For the current deployed controller at `http://10.1.40.177/`, use the project runbook: [docs/OTA_RUNBOOK.md](docs/OTA_RUNBOOK.md).
+For the current deployed controller at `http://10.1.40.117/`, use the project runbook: [docs/OTA_RUNBOOK.md](docs/OTA_RUNBOOK.md).
 
 Fast build plus OTA:
 
@@ -97,17 +96,6 @@ Pump on drives GPIO5 low. Pump off drives GPIO5 high. GPIO6 remains configured a
 
 If using a bare relay coil instead of a relay module, do not connect the coil directly to the ESP32. Use an appropriate relay driver or motor driver, and update the wiring/settings to match.
 
-## OLED Status Display Wiring
-
-The firmware drives a common inexpensive 1-inch 128x64 SSD1306 I2C OLED at address `0x3C`.
-
-- OLED SCL -> ESP32-S3 GPIO 13
-- OLED SDA -> ESP32-S3 GPIO 12
-- OLED GND -> ESP32 GND
-- OLED VCC -> 3.3 V
-
-The display refreshes every 2 seconds and shows pump state, remaining run time, reservoir status, moisture status, and the next scheduled watering text. If the OLED is disconnected or not found at boot, the controller logs a warning and continues running normally.
-
 ## Capacitive Soil Moisture Sensor Wiring
 
 Default moisture sensor pin:
@@ -118,4 +106,4 @@ Default moisture sensor pin:
 
 Use the sensor's analog output, usually labeled `AOUT` or `AO`, not the digital `DOUT` pin. GPIO1 is the default because it maps to ESP32-S3 ADC1 channel 0 and does not conflict with the default pump relay pins. Other supported ADC1 pins are GPIO1 through GPIO10, but avoid GPIO4 if you are using the reservoir sensor and avoid GPIO5/GPIO6 with the default pump wiring.
 
-To test it, open the local web UI, go to **Sensors**, check **Enable moisture sensor**, keep **ADC GPIO** set to `1`, set **Live read interval seconds** to `5`, and save. `/api/v1/moisture/latest` and the OLED should update with live `raw` and `percent` readings on that interval. The separate **Graph sample interval minutes** setting controls how often readings are saved to history. For a capacitive sensor, the raw value is typically higher when dry and lower when wet; adjust `Dry raw` and `Wet raw` after you see your actual readings.
+To test it, open the local web UI, go to **Sensors**, check **Enable moisture sensor**, keep **ADC GPIO** set to `1`, set **Live read interval seconds** to `5`, and save. `/api/v1/moisture/latest` and the web UI should update with live `raw` and `percent` readings on that interval. The separate **Graph sample interval minutes** setting controls how often readings are saved to history. For a capacitive sensor, the raw value is typically higher when dry and lower when wet; adjust `Dry raw` and `Wet raw` after you see your actual readings.

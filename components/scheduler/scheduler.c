@@ -111,8 +111,7 @@ static void scheduler_task(void *arg)
 
 esp_err_t scheduler_start(void)
 {
-    xTaskCreate(scheduler_task, "Scheduler Task", 4096, NULL, 5, NULL);
-    return ESP_OK;
+    return xTaskCreate(scheduler_task, "Scheduler Task", 4096, NULL, 5, NULL) == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }
 
 const char *scheduler_next_run_text(void)

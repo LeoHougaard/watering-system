@@ -27,9 +27,9 @@ static const char *HTML3 =
 "<body><main class=wrap><header class=top><div class=brand><div><h1>Watering System</h1></div></div><div class=right><div class=status>Online</div><button onclick='toggleTheme()'>Theme</button></div></header>"
 "<nav class=nav><button data-p=dash onclick=\"show('dash')\">Status</button><button data-p=manual onclick=\"show('manual')\">Manual</button><button data-p=schedule onclick=\"show('schedule')\">Schedule</button><button data-p=weather onclick=\"show('weather')\">Weather</button><button data-p=sensor onclick=\"show('sensor')\">Sensors</button><button data-p=term onclick=\"show('term')\">Diagnostics</button></nav><div id=notice class=notice></div>"
 "<section id=dash></section><section id=manual hidden></section><section id=schedule hidden></section><section id=weather hidden></section><section id=sensor hidden></section><section id=term hidden></section></main>"
-"<script>let status={},settings={},moisture=[],latest={},diag=[],active='dash',livePause=0,scheduleDirty=false,scheduleDraft=null;const secs=[300,600,900,1200],names=['sun','mon','tue','wed','thu','fri','sat'],labels=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];if(!localStorage.pin)localStorage.pin=prompt('Local PIN','1234')||'';document.body.className=localStorage.theme||'';"
+"<script>let status={},settings={},moisture=[],latest={},diag=[],active='dash',livePause=0,scheduleDirty=false,scheduleDraft=null,refreshBusy=false;const secs=[300,600,900,1200],names=['sun','mon','tue','wed','thu','fri','sat'],labels=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];if(!localStorage.pin)localStorage.pin='1234';document.body.className=localStorage.theme||'';"
 "async function api(p,o){let r=await fetch(p,{headers:{'Content-Type':'application/json','X-Local-PIN':localStorage.pin||''},...(o||{})});let body=r.headers.get('content-type')?.includes('json')?await r.json():await r.text();if(!r.ok)throw new Error(body.error||body||('HTTP '+r.status));return body}async function syncTime(){if(status.time_valid)return;await api('/api/v1/time',{method:'POST',body:JSON.stringify({epoch_sec:Math.floor(Date.now()/1000)})})}function show(id){active=id;if(id=='schedule'&&!scheduleDirty)scheduleDraft=cloneSchedule();for(const s of document.querySelectorAll('section'))s.hidden=s.id!==id;document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.p==id));render()}function note(t,k=''){if(k)livePause=Date.now()+5000;notice.className='notice show '+k;notice.textContent=t}function busy(on){document.querySelectorAll('button').forEach(b=>b.disabled=on)}function clearDirty(id=active){let s=document.getElementById(id);if(s)delete s.dataset.dirty}function dirtySection(e){let s=e.target.closest('section');if(s&&s.id!='schedule'&&s.id!='term')s.dataset.dirty=1}document.addEventListener('input',dirtySection);document.addEventListener('change',dirtySection);function editingSchedule(){return active=='schedule'&&(scheduleDirty||(document.activeElement&&schedule.contains(document.activeElement)))}function editingForm(){let s=document.getElementById(active),e=document.activeElement;return s&&active!='schedule'&&active!='term'&&(s.dataset.dirty||(e&&s.contains(e)&&/INPUT|SELECT|TEXTAREA/.test(e.tagName)))}function cancelEdit(){clearDirty();render();drawGraph()}async function saveIt(label,fn){try{busy(true);note('Saving '+label+'...');await syncTime();fn();settings=await api('/api/v1/settings',{method:'POST',body:JSON.stringify(settings)});clearDirty();note('Saved '+label+'.','ok');await refresh(true)}catch(e){note('Could not save '+label+': '+e.message,'err')}finally{busy(false)}}"
-"async function refresh(force=false){try{let cv=document.getElementById('cmd')?.value||'';[status,settings,moisture,latest,diag]=await Promise.all([api('/api/v1/status'),api('/api/v1/settings'),api('/api/v1/moisture'),api('/api/v1/moisture/latest'),api('/api/v1/diagnostics')]);if(!status.time_valid){await syncTime();status=await api('/api/v1/status')}ensureSlots();let keepCam=active=='dash'&&document.getElementById('camStream')&&!force;if(keepCam){renderDash(true);drawGraph()}if(!keepCam&&(force||(!editingSchedule()&&!editingForm()))){if(!scheduleDirty)scheduleDraft=cloneSchedule();render();let ci=document.getElementById('cmd');if(ci){ci.value=cv;let o=document.getElementById('termOut');if(o)o.scrollTop=o.scrollHeight}drawGraph()}liveNote()}catch(e){note('Controller status unavailable: '+e.message,'err')}}function ensureSlots(){if(!settings.schedule_slots)settings.schedule_slots=[{enabled:true,start:settings.watering_windows?.[0]?.start||'06:00',duration_sec:settings.schedule?.duration_sec||120,days:names.slice()}];settings.schedule_slots=settings.schedule_slots.filter(s=>s.enabled&&s.days&&s.days.length&&s.duration_sec>0)}"
+"async function refresh(force=false){if(refreshBusy)return;refreshBusy=true;try{let cv=document.getElementById('cmd')?.value||'';[status,settings,moisture,latest,diag]=await Promise.all([api('/api/v1/status'),api('/api/v1/settings'),api('/api/v1/moisture'),api('/api/v1/moisture/latest'),api('/api/v1/diagnostics')]);if(!status.time_valid){await syncTime();status=await api('/api/v1/status')}ensureSlots();let keepCam=active=='dash'&&document.getElementById('camStream')&&!force;if(keepCam){renderDash(true);drawGraph()}if(!keepCam&&(force||(!editingSchedule()&&!editingForm()))){if(!scheduleDirty)scheduleDraft=cloneSchedule();render();let ci=document.getElementById('cmd');if(ci){ci.value=cv;let o=document.getElementById('termOut');if(o)o.scrollTop=o.scrollHeight}drawGraph()}liveNote()}catch(e){note('Controller status unavailable: '+e.message,'err')}finally{refreshBusy=false}}async function refreshLive(){if(refreshBusy||document.hidden)return;refreshBusy=true;try{[status,latest]=await Promise.all([api('/api/v1/status'),api('/api/v1/moisture/latest')]);if(active=='dash'){renderDash(true);drawGraph()}else if((active=='manual'||active=='sensor')&&!editingForm()){render();drawGraph()}liveNote()}catch(e){note('Controller status unavailable: '+e.message,'err')}finally{refreshBusy=false}}function ensureSlots(){if(!settings.schedule_slots)settings.schedule_slots=[{enabled:true,start:settings.watering_windows?.[0]?.start||'06:00',duration_sec:settings.schedule?.duration_sec||120,days:names.slice()}];settings.schedule_slots=settings.schedule_slots.filter(s=>s.enabled&&s.days&&s.days.length&&s.duration_sec>0)}"
 "function card(t,b){return `<div class=card><h2>${t}</h2>${b}</div>`}function cameraUrl(path='/stream'){return 'http://esp32-cam.local'+path}function cameraPanel(){return `<div class='panel cam'><h2>Camera monitor</h2><img id=camStream src='${cameraUrl()}' onerror=\"this.style.display='none';document.getElementById('camFallback').hidden=false\"><div id=camFallback class=muted hidden>Camera stream unavailable at esp32-cam.local.</div><div class=camrow><div class=muted>ESP32-CAM live stream</div><button onclick=\"window.open(cameraUrl('/'),'_blank')\">Open camera</button></div></div>`}function minText(s){return s<60?s+' sec':Math.round(s/60)+' min'}function prettyState(){return (status.pump_state||'UNKNOWN').replaceAll('_',' ').toLowerCase()}function weatherText(){if(!settings.weather_adjust_enabled)return 'Off';let m=settings.weather_last_multiplier||1;return `${Math.round(m*100)}% duration, ${settings.weather_last_temp_c||0} C, ${settings.weather_last_precip_mm||0} mm rain`}function liveNote(){if(Date.now()<livePause)return;let running=status.current_run_remaining_sec>0;let res=status.reservoir_bypass?'reservoir check bypassed':(status.reservoir_ok?'reservoir OK':'reservoir low');let msg=running?`Watering now, ${status.current_run_remaining_sec}s remaining.`:`Controller is ${prettyState()}.`;let cls=status.pump_state=='IDLE'&&status.reservoir_ok?'ok':'';note(`${msg} ${res}. ${status.block_reason||'Ready.'}`,cls)}"
 "function dashCards(){let mp=latest.percent==null?'--':latest.percent,can=status.pump_state=='IDLE'&&status.reservoir_ok;return `${card('Pump status',`<div class=metric>${status.pump_state||'--'}</div><div class=muted>${status.current_run_remaining_sec||0}s remaining</div><div class=muted>${status.block_reason||'Ready'}</div>`)}${card('Moisture',`<div class=metric>${mp}%</div><div class=muted>Soil sensor ${settings.moisture_sensor_enabled?'enabled':'disabled'}</div>`)}${card('Next watering',`<div class=metric>${can?'Ready':'Hold'}</div><div class=muted>${status.next_scheduled||'No schedule'}</div><div class=muted>Weather: ${weatherText()}</div>`)}`}function dashActionHtml(){let can=status.pump_state=='IDLE'&&status.reservoir_ok;return `<div><h2>Controller feedback</h2><b>${can?'Ready to water':'Watering blocked'}</b><div class=muted>${status.block_reason||'Ready.'}</div></div><button onclick=\"show('manual')\">Manual controls</button>`}function renderDash(keep=false){if(keep&&document.getElementById('dashGrid')){dashGrid.innerHTML=dashCards();dashActions.innerHTML=dashActionHtml();return}dash.innerHTML=`<div id=dashGrid class=grid>${dashCards()}</div><div class='panel statusGraph'><h2>Moisture history</h2><canvas id=dashMoistCanvas width=1000 height=360></canvas></div>${cameraPanel()}<div id=dashActions class='panel actions'>${dashActionHtml()}</div>`}"
 "function render(){renderDash();let mp=latest.percent==null?'--':latest.percent,maxManual=Math.max(1,settings.manual_max_run_sec||1200),defaultManual=Math.min(300,maxManual);"
@@ -41,7 +41,9 @@ static const char *HTML3 =
 "function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}function fmt(t){return t>1700000000?new Date(t*1000).toLocaleString():'uptime '+Math.max(0,Math.round(t||0))+'s'}function termText(){let lines=diag.slice(-40).map(d=>`[${fmt(d.timestamp)}] ${d.message||JSON.stringify(d)}`);return esc((lines.join('\\n')||'No diagnostic events yet.')+'\\n> ')}function cmdRun(){let e=document.getElementById('cmd'),c=(e?.value||'').trim().toLowerCase();if(e)e.value='';if(c=='clear'){diag=[];render();return}let out={status,schedule:settings.schedule_slots,diag:diag.slice(-20)};diag.push({timestamp:Date.now()/1000,message:'console '+(c||'status')+': '+JSON.stringify(out[c]||out.status)});render()}function daysText(ds){return !ds||!ds.length?'no days':ds.length==7?'every day':ds.map(d=>labels[names.indexOf(d)]).join(', ')}function slotText(sl){return `${sl.start||'--:--'} for ${minText(sl.duration_sec||0)} on ${daysText(sl.days)}`}function scheduleSummary(slots=settings.schedule_slots){let on=slots.filter(s=>s.enabled&&s.days&&s.days.length&&s.duration_sec>0);return on.length?on.map(slotText).join(' | '):'No active watering times.'}function cloneSchedule(){return {auto:!!settings.auto_mode_enabled,seasonal:settings.seasonal_multiplier||1,maxRun:settings.scheduled_max_run_sec||300,slots:(settings.schedule_slots||[]).map(s=>({enabled:!!s.enabled,start:s.start||'06:00',duration_sec:s.duration_sec||120,days:[...(s.days||[])]}))}}function captureSchedule(){if(!schedule.querySelector('#auto'))return scheduleDraft;let base=scheduleDraft||cloneSchedule();scheduleDraft={auto:auto.checked,seasonal:+season.value||1,maxRun:+maxSched.value||300,slots:base.slots.map((sl,i)=>({enabled:document.getElementById('se'+i).checked,start:document.getElementById('st'+i).value||'06:00',duration_sec:Math.max(1,+document.getElementById('sd'+i).value||1)*60,days:names.filter((n,d)=>document.getElementById('s'+i+'d'+d).checked)}))};scheduleDirty=true;return scheduleDraft}function slotHtml(sl,i){return `<div class=slot><label><input type=checkbox id=se${i} ${sl.enabled?'checked':''} onchange='captureSchedule()'> Enabled</label><label>Start<input id=st${i} type=time value='${sl.start||'06:00'}' oninput='captureSchedule()'></label><label>Minutes<input id=sd${i} type=number min=1 max=20 step=1 value='${Math.max(1,Math.round((sl.duration_sec||120)/60))}' oninput='captureSchedule()'></label><div class=days>${names.map((n,d)=>`<label><input type=checkbox id=s${i}d${d} ${(sl.days||[]).includes(n)?'checked':''} onchange='captureSchedule()'>${labels[d]}</label>`).join('')}</div><button class=danger onclick='removeSlot(${i})'>Remove</button></div>`}function addSlot(){let d=captureSchedule()||cloneSchedule();if(d.slots.length>=8)return note('Maximum 8 schedule times.','err');d.slots.push({enabled:true,start:'06:00',duration_sec:120,days:names.slice()});scheduleDraft=d;scheduleDirty=true;render()}function removeSlot(i){let d=captureSchedule()||cloneSchedule();d.slots.splice(i,1);scheduleDraft=d;scheduleDirty=true;render()}"
 "function runManual(){let m=Math.max(1,settings.manual_max_run_sec||1200),v=Math.max(1,Math.min(m,+manualSec.value||1));manualSec.value=v;clearDirty('manual');run(v)}async function run(s){try{busy(true);clearDirty('manual');note('Starting pump...');await api('/api/v1/manual-run',{method:'POST',body:JSON.stringify({duration_sec:s,reason:'manual_user_request'})});note('Pump command confirmed.','ok');await refresh()}catch(e){note('Pump command failed: '+e.message,'err')}finally{busy(false)}}async function stop(){try{busy(true);clearDirty('manual');note('Stopping pump...');await api('/api/v1/manual-stop',{method:'POST'});note('Stop confirmed.','ok');await refresh()}catch(e){note('Stop failed: '+e.message,'err')}finally{busy(false)}}async function saveSchedule(){try{let draft=captureSchedule();busy(true);await syncTime();let compact=draft.slots.filter(s=>s.enabled&&s.days.length&&s.duration_sec>0);while(compact.length<8)compact.push({enabled:false,start:'06:00',duration_sec:120,days:[]});settings.auto_mode_enabled=draft.auto;settings.seasonal_multiplier=draft.seasonal;settings.scheduled_max_run_sec=Math.max(draft.maxRun,...compact.map(s=>s.enabled?s.duration_sec:0));settings.schedule_slots=compact;settings.schedule.duration_sec=compact[0]?.duration_sec||settings.schedule.duration_sec;settings.schedule.days=compact[0]?.days||settings.schedule.days;settings.watering_windows=[{start:compact[0]?.start||'06:00',end:'09:00'}];note('Saving schedule...');let saved=await api('/api/v1/settings',{method:'POST',body:JSON.stringify(settings)});settings=saved;ensureSlots();scheduleDirty=false;scheduleDraft=cloneSchedule();render();note('ESP32 confirmed: '+scheduleSummary(),'ok');await refresh(true)}catch(e){note('Schedule save failed: '+e.message,'err')}finally{busy(false)}}"
 "async function saveWeather(){await saveIt('weather settings',()=>{settings.weather_adjust_enabled=wEn.checked;settings.weather_skip_on_rain=wSkip.checked;settings.weather_hot_multiplier=+wHot.value;settings.weather_rain_multiplier=+wRain.value})}async function toggleReservoirMode(){await saveIt('reservoir protection',()=>{settings.reservoir_sensor_enabled=true;settings.reservoir_sensor_bypass=!settings.reservoir_sensor_bypass})}async function saveSensorSettings(){await saveIt('moisture sensor',()=>{settings.moisture_sensor_enabled=moistEnabled.checked;settings.moisture_gpio=+moistGpio.value;settings.moisture_dry_raw=+dryRaw.value;settings.moisture_wet_raw=+wetRaw.value;settings.moisture_live_interval_sec=Math.max(1,Math.min(60,+moistLiveInterval.value||5));settings.moisture_sample_interval_sec=Math.max(60,(+moistInterval.value||60)*60);settings.moisture_history_days=Math.max(1,Math.min(30,+moistDays.value||7))})}async function savePumpDriver(){await saveIt('pump driver',()=>{settings.pump_gpio=+pumpA.value;settings.pump_gpio_b=+pumpB.value;settings.pump_sleep_gpio=+pumpSleep.value})}"
-"function drawOne(id){let c=document.getElementById(id);if(!c)return;let x=c.getContext('2d'),w=c.width,h=c.height,days=settings.moisture_history_days||7,now=Math.floor(Date.now()/1000),start=now-days*86400,d=moisture.filter(p=>(p.timestamp||0)>=start&&p.percent!=null);let L=54,R=12,T=12,B=38,gw=w-L-R,gh=h-T-B;x.clearRect(0,0,w,h);x.font='12px system-ui';x.fillStyle=getComputedStyle(document.body).getPropertyValue('--muted')||'#64748b';x.strokeStyle=getComputedStyle(document.body).getPropertyValue('--line')||'#d7e0df';x.lineWidth=1;for(let y=0;y<=100;y+=25){let py=T+(100-y)*gh/100;x.beginPath();x.moveTo(L,py);x.lineTo(w-R,py);x.stroke();x.fillText(y+'%',8,py+4)}for(let i=0;i<=Math.min(days,7);i++){let t=start+i*days*86400/Math.min(days,7),px=L+(t-start)*gw/(days*86400),dt=new Date(t*1000);x.beginPath();x.moveTo(px,T);x.lineTo(px,h-B);x.stroke();x.fillText(dt.toLocaleDateString(undefined,{month:'short',day:'numeric'}),px-18,h-14)}x.strokeStyle='#12b8b2';x.lineWidth=3;if(!d.length){x.fillText('No moisture readings in selected range',L+10,T+28);return}x.beginPath();d.forEach((p,i)=>{let px=L+((p.timestamp||start)-start)*gw/(days*86400),py=T+(100-(p.percent||0))*gh/100;i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}function drawGraph(){drawOne('dashMoistCanvas');drawOne('moistCanvas');drawOne('historyCanvas')}function toggleTheme(){document.body.className=document.body.className?'':'dark';localStorage.theme=document.body.className}setInterval(refresh,1000);refresh();</script></body></html>";
+"function drawOne(id){let c=document.getElementById(id);if(!c)return;let x=c.getContext('2d'),w=c.width,h=c.height,days=settings.moisture_history_days||7,now=Math.floor(Date.now()/1000),start=now-days*86400,d=moisture.filter(p=>(p.timestamp||0)>=start&&p.percent!=null);let L=54,R=12,T=12,B=38,gw=w-L-R,gh=h-T-B;x.clearRect(0,0,w,h);x.font='12px system-ui';x.fillStyle=getComputedStyle(document.body).getPropertyValue('--muted')||'#64748b';x.strokeStyle=getComputedStyle(document.body).getPropertyValue('--line')||'#d7e0df';x.lineWidth=1;for(let y=0;y<=100;y+=25){let py=T+(100-y)*gh/100;x.beginPath();x.moveTo(L,py);x.lineTo(w-R,py);x.stroke();x.fillText(y+'%',8,py+4)}for(let i=0;i<=Math.min(days,7);i++){let t=start+i*days*86400/Math.min(days,7),px=L+(t-start)*gw/(days*86400),dt=new Date(t*1000);x.beginPath();x.moveTo(px,T);x.lineTo(px,h-B);x.stroke();x.fillText(dt.toLocaleDateString(undefined,{month:'short',day:'numeric'}),px-18,h-14)}x.strokeStyle='#12b8b2';x.lineWidth=3;if(!d.length){x.fillText('No moisture readings in selected range',L+10,T+28);return}x.beginPath();d.forEach((p,i)=>{let px=L+((p.timestamp||start)-start)*gw/(days*86400),py=T+(100-(p.percent||0))*gh/100;i?x.lineTo(px,py):x.moveTo(px,py)});x.stroke()}function drawGraph(){drawOne('dashMoistCanvas');drawOne('moistCanvas');drawOne('historyCanvas')}function toggleTheme(){document.body.className=document.body.className?'':'dark';localStorage.theme=document.body.className}function liveLoop(){refreshLive().finally(()=>setTimeout(liveLoop,status.current_run_remaining_sec>0?1000:5000))}document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh(true)});setInterval(refresh,60000);refresh();liveLoop();</script></body></html>";
+
+#define MAX_JSON_BODY_BYTES 8192
 
 static esp_err_t send_json(httpd_req_t *req, cJSON *json)
 {
@@ -53,16 +55,42 @@ static esp_err_t send_json(httpd_req_t *req, cJSON *json)
     return ESP_OK;
 }
 
-static char *read_body(httpd_req_t *req)
+static cJSON *read_json_body(httpd_req_t *req)
 {
-    char *buf = calloc(1, req->content_len + 1);
-    if (!buf) return NULL;
-    int got = httpd_req_recv(req, buf, req->content_len);
-    if (got <= 0) {
-        free(buf);
+    if (req->content_len <= 0) {
+        httpd_resp_set_status(req, "400 Bad Request");
+        httpd_resp_sendstr(req, "{\"error\":\"JSON body required\"}");
         return NULL;
     }
-    return buf;
+    if (req->content_len > MAX_JSON_BODY_BYTES) {
+        httpd_resp_set_status(req, "413 Payload Too Large");
+        httpd_resp_sendstr(req, "{\"error\":\"request body too large\"}");
+        return NULL;
+    }
+    char *buf = calloc(1, req->content_len + 1);
+    if (!buf) return NULL;
+    size_t received = 0;
+    int timeouts = 0;
+    while (received < req->content_len) {
+        int got = httpd_req_recv(req, buf + received, req->content_len - received);
+        if (got == HTTPD_SOCK_ERR_TIMEOUT && timeouts++ == 0) continue;
+        if (got <= 0) {
+            free(buf);
+            httpd_resp_set_status(req, "400 Bad Request");
+            httpd_resp_sendstr(req, "{\"error\":\"incomplete request body\"}");
+            return NULL;
+        }
+        received += (size_t)got;
+    }
+    cJSON *json = cJSON_Parse(buf);
+    free(buf);
+    if (!cJSON_IsObject(json)) {
+        cJSON_Delete(json);
+        httpd_resp_set_status(req, "400 Bad Request");
+        httpd_resp_sendstr(req, "{\"error\":\"valid JSON object required\"}");
+        return NULL;
+    }
+    return json;
 }
 
 static bool require_pin(httpd_req_t *req)
@@ -119,9 +147,8 @@ static esp_err_t status_get(httpd_req_t *req)
 static esp_err_t time_post(httpd_req_t *req)
 {
     if (!require_pin(req)) return ESP_OK;
-    char *body = read_body(req);
-    cJSON *json = cJSON_Parse(body);
-    free(body);
+    cJSON *json = read_json_body(req);
+    if (!json) return ESP_OK;
     const cJSON *epoch = cJSON_GetObjectItem(json, "epoch_sec");
     if (!cJSON_IsNumber(epoch) || epoch->valuedouble < 1700000000) {
         cJSON_Delete(json);
@@ -146,6 +173,8 @@ static esp_err_t planters_get(httpd_req_t *req)
     if (strstr(req->uri, "/api/v1/planters/")) {
         int id = atoi(strrchr(req->uri, '/') + 1);
         if (id >= 1 && id <= PLANTER_COUNT) return send_json(req, planter_to_json(&planters[id - 1]));
+        httpd_resp_set_status(req, "404 Not Found");
+        return httpd_resp_sendstr(req, "{\"error\":\"planter not found\"}");
     }
     cJSON *array = cJSON_CreateArray();
     for (int i = 0; i < PLANTER_COUNT; i++) cJSON_AddItemToArray(array, planter_to_json(&planters[i]));
@@ -230,13 +259,23 @@ static esp_err_t wifi_get(httpd_req_t *req)
 static esp_err_t manual_run_post(httpd_req_t *req)
 {
     if (!require_pin(req)) return ESP_OK;
-    char *body = read_body(req);
-    cJSON *json = cJSON_Parse(body);
-    free(body);
+    cJSON *json = read_json_body(req);
+    if (!json) return ESP_OK;
     uint32_t duration = 30;
     const cJSON *d = cJSON_GetObjectItem(json, "duration_sec");
     const cJSON *reason = cJSON_GetObjectItem(json, "reason");
-    if (cJSON_IsNumber(d)) duration = (uint32_t)d->valuedouble;
+    system_settings_t settings;
+    config_store_get_settings(&settings);
+    if (!cJSON_IsNumber(d) || d->valuedouble < 1 || d->valuedouble > settings.manual_max_run_sec) {
+        cJSON_Delete(json);
+        httpd_resp_set_status(req, "400 Bad Request");
+        cJSON *err = cJSON_CreateObject();
+        char message[96];
+        snprintf(message, sizeof(message), "duration_sec must be between 1 and %lu", (unsigned long)settings.manual_max_run_sec);
+        cJSON_AddStringToObject(err, "error", message);
+        return send_json(req, err);
+    }
+    duration = (uint32_t)d->valuedouble;
     char block_reason[96] = {0};
     esp_err_t can_run = pump_controller_can_manual_run(duration, block_reason, sizeof(block_reason));
     if (can_run != ESP_OK) {
@@ -271,9 +310,8 @@ static esp_err_t stop_post(httpd_req_t *req)
 static esp_err_t settings_post(httpd_req_t *req)
 {
     if (!require_pin(req)) return ESP_OK;
-    char *body = read_body(req);
-    cJSON *json = cJSON_Parse(body);
-    free(body);
+    cJSON *json = read_json_body(req);
+    if (!json) return ESP_OK;
     system_settings_t settings;
     config_store_get_settings(&settings);
     json_to_settings(json, &settings);
@@ -286,9 +324,8 @@ static esp_err_t settings_post(httpd_req_t *req)
 static esp_err_t observation_post(httpd_req_t *req)
 {
     if (!require_pin(req)) return ESP_OK;
-    char *body = read_body(req);
-    cJSON *json = cJSON_Parse(body);
-    free(body);
+    cJSON *json = read_json_body(req);
+    if (!json) return ESP_OK;
     user_observation_t o = {.timestamp = time(NULL)};
     snprintf(o.severity, sizeof(o.severity), "medium");
     const cJSON *p = cJSON_GetObjectItem(json, "planter_id");
@@ -309,14 +346,18 @@ static esp_err_t observation_post(httpd_req_t *req)
 static esp_err_t rain_delay_post(httpd_req_t *req)
 {
     if (!require_pin(req)) return ESP_OK;
-    char *body = read_body(req);
-    cJSON *json = cJSON_Parse(body);
-    free(body);
+    cJSON *json = read_json_body(req);
+    if (!json) return ESP_OK;
     const cJSON *hours = cJSON_GetObjectItem(json, "hours");
+    if (!cJSON_IsNumber(hours) || hours->valuedouble < 0 || hours->valuedouble > 168) {
+        cJSON_Delete(json);
+        httpd_resp_set_status(req, "400 Bad Request");
+        return httpd_resp_sendstr(req, "{\"error\":\"hours must be between 0 and 168\"}");
+    }
     system_settings_t settings;
     config_store_get_settings(&settings);
-    settings.rain_delay_enabled = true;
-    settings.rain_delay_until = time(NULL) + (cJSON_IsNumber(hours) ? hours->valueint : 24) * 3600;
+    settings.rain_delay_enabled = hours->valueint > 0;
+    settings.rain_delay_until = settings.rain_delay_enabled ? time(NULL) + hours->valueint * 3600 : 0;
     config_store_save_settings(&settings);
     cJSON_Delete(json);
     return settings_get(req);
@@ -332,9 +373,8 @@ static void restart_task(void *arg)
 static esp_err_t wifi_post(httpd_req_t *req)
 {
     if (!require_pin(req)) return ESP_OK;
-    char *body = read_body(req);
-    cJSON *json = cJSON_Parse(body);
-    free(body);
+    cJSON *json = read_json_body(req);
+    if (!json) return ESP_OK;
 
     const cJSON *ssid = cJSON_GetObjectItem(json, "ssid");
     const cJSON *password = cJSON_GetObjectItem(json, "password");
@@ -378,14 +418,17 @@ static esp_err_t wildcard_post(httpd_req_t *req)
     const char *uri = req->uri;
     if (strstr(uri, "/planters/")) {
         int id = atoi(strrchr(uri, '/') + 1);
-        char *body = read_body(req);
-        cJSON *json = cJSON_Parse(body);
-        free(body);
+        cJSON *json = read_json_body(req);
+        if (!json) return ESP_OK;
         planter_config_t planters[PLANTER_COUNT];
         config_store_get_planters(planters);
         if (id >= 1 && id <= PLANTER_COUNT) {
             json_to_planter(json, &planters[id - 1]);
             config_store_save_planter(&planters[id - 1]);
+        } else {
+            cJSON_Delete(json);
+            httpd_resp_set_status(req, "404 Not Found");
+            return httpd_resp_sendstr(req, "{\"error\":\"planter not found\"}");
         }
         cJSON_Delete(json);
         return planters_get(req);
@@ -402,9 +445,8 @@ static esp_err_t wildcard_post(httpd_req_t *req)
         recommendation_engine_snooze(id, 24);
         return recs_get(req);
     }
-    cJSON *ok = cJSON_CreateObject();
-    cJSON_AddBoolToObject(ok, "ok", true);
-    return send_json(req, ok);
+    httpd_resp_set_status(req, "404 Not Found");
+    return httpd_resp_sendstr(req, "{\"error\":\"endpoint not found\"}");
 }
 
 static void reg(httpd_handle_t server, const char *uri, httpd_method_t method, esp_err_t (*handler)(httpd_req_t *))

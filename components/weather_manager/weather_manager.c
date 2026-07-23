@@ -143,6 +143,5 @@ static void weather_task(void *arg)
 
 esp_err_t weather_manager_start(void)
 {
-    xTaskCreate(weather_task, "Weather Task", 6144, NULL, 3, NULL);
-    return ESP_OK;
+    return xTaskCreate(weather_task, "Weather Task", 6144, NULL, 3, NULL) == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }

@@ -155,8 +155,7 @@ static void moisture_task(void *arg)
 
 esp_err_t moisture_manager_start(void)
 {
-    xTaskCreate(moisture_task, "Moisture Task", 4096, NULL, 4, NULL);
-    return ESP_OK;
+    return xTaskCreate(moisture_task, "Moisture Task", 4096, NULL, 4, NULL) == pdPASS ? ESP_OK : ESP_ERR_NO_MEM;
 }
 
 moisture_reading_t moisture_manager_get_latest(void)

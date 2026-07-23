@@ -2,7 +2,7 @@ $ErrorActionPreference = 'Stop'
 
 $deviceUrl = $env:WATERING_DEVICE_URL
 if (-not $deviceUrl) {
-    $deviceUrl = 'http://10.1.40.177'
+    $deviceUrl = 'http://10.1.40.117'
 }
 $pin = $env:WATERING_LOCAL_PIN
 if (-not $pin) {
