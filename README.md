@@ -80,6 +80,18 @@ Fast build plus OTA:
 .\tools\ota_s3_fast.cmd
 ```
 
+## Weather Adjustment
+
+Weather adjustment is optional and is off by default. When enabled, the controller refreshes Open-Meteo data every three hours and uses a rolling water balance instead of calendar-day totals:
+
+- FAO-56 reference evapotranspiration from the previous 24 hours and forecast 24 hours estimates plant water demand.
+- Rain from the previous 24 hours receives the most credit. Forecast rain receives less credit based on confidence and whether it is expected in the next 12 hours or later.
+- Duration is limited to 50–135% of the configured schedule before the existing seasonal and maximum-runtime limits are applied.
+- If rain skipping is enabled, a run is skipped only after at least 4 mm of recent rain, or at least 4 mm forecast within 12 hours with 70% or higher weighted confidence.
+- Weather data expires after eight hours. Missing, invalid, future-dated, legacy, or stale data always falls back to the normal duration and can never leave watering indefinitely paused.
+
+Failed updates retry with a 15-minute-to-1-hour backoff. A manual refresh is available on the Weather page and at `POST /api/v1/weather/refresh`.
+
 ## Safety Notes
 
 Use a relay module and enclosure rated for the pump and environment. Keep mains wiring physically isolated from ESP32 low-voltage wiring. The firmware drives the active-low pump relay GPIO high for off after startup, but electrical fail-safe design still matters.

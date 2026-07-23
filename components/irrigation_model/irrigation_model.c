@@ -17,6 +17,55 @@ static float clamp_float(float value, float min, float max)
     return value;
 }
 
+weather_adjustment_t model_weather_adjustment(const weather_observation_t *o, bool allow_rain_skip)
+{
+    const float baseline_et0_mm = 3.0f;
+    weather_adjustment_t result = {.multiplier = 1.0f};
+    if (!o) return result;
+
+    float recent_rain = clamp_float(o->recent_rain_mm, 0.0f, 100.0f);
+    float rain_12h = clamp_float(o->forecast_rain_12h_mm, 0.0f, 100.0f);
+    float rain_24h = clamp_float(o->forecast_rain_24h_mm, rain_12h, 100.0f);
+    float probability = clamp_float(o->forecast_rain_probability_pct, 0.0f, 100.0f) / 100.0f;
+    float previous_et0 = clamp_float(o->previous_et0_mm, 0.0f, 15.0f);
+    float forecast_et0 = clamp_float(o->forecast_et0_mm, 0.0f, 15.0f);
+
+    /* Replace mostly what plants lost since the previous watering while still
+       anticipating the next day. Forecast rain is discounted by confidence
+       and by how far away it is so rain tomorrow cannot cancel water today. */
+    result.demand_et0_mm = previous_et0 * 0.65f + forecast_et0 * 0.35f;
+    if (result.demand_et0_mm < 0.1f) result.demand_et0_mm = baseline_et0_mm;
+    float later_rain = rain_24h - rain_12h;
+    float soon_credit = 0.30f + 0.50f * probability;
+    float later_credit = 0.10f + 0.25f * probability;
+    result.effective_rain_mm = recent_rain * 0.80f + rain_12h * soon_credit + later_rain * later_credit;
+
+    result.skipped_for_rain = allow_rain_skip &&
+        (recent_rain >= 4.0f || (rain_12h >= 4.0f && probability >= 0.70f));
+    if (result.skipped_for_rain) {
+        result.multiplier = 0.0f;
+    } else {
+        result.multiplier = clamp_float(
+            (result.demand_et0_mm - result.effective_rain_mm) / baseline_et0_mm,
+            0.50f,
+            1.35f);
+    }
+    return result;
+}
+
+bool model_weather_data_is_fresh(const system_settings_t *settings, time_t now)
+{
+    if (!settings || settings->weather_data_version < WEATHER_DATA_VERSION || settings->weather_last_update <= 0 ||
+        now <= 0 || now < settings->weather_last_update) return false;
+    return (now - settings->weather_last_update) <= WEATHER_DATA_MAX_AGE_SEC;
+}
+
+float model_weather_multiplier(const system_settings_t *settings, time_t now)
+{
+    if (!settings || !settings->weather_adjust_enabled || !model_weather_data_is_fresh(settings, now)) return 1.0f;
+    return clamp_float(settings->weather_last_multiplier, 0.0f, 1.35f);
+}
+
 static uint32_t json_u32(const cJSON *item)
 {
     if (!cJSON_IsNumber(item) || item->valuedouble <= 0) return 0;
@@ -186,6 +235,12 @@ cJSON *settings_to_json(const system_settings_t *s)
     cJSON_AddNumberToObject(root, "weather_last_multiplier", s->weather_last_multiplier);
     cJSON_AddNumberToObject(root, "weather_last_temp_c", s->weather_last_temp_c);
     cJSON_AddNumberToObject(root, "weather_last_precip_mm", s->weather_last_precip_mm);
+    cJSON_AddNumberToObject(root, "weather_last_et0_mm", s->weather_last_et0_mm);
+    cJSON_AddNumberToObject(root, "weather_last_recent_rain_mm", s->weather_last_recent_rain_mm);
+    cJSON_AddNumberToObject(root, "weather_last_forecast_rain_mm", s->weather_last_forecast_rain_mm);
+    cJSON_AddNumberToObject(root, "weather_last_rain_probability_pct", s->weather_last_rain_probability_pct);
+    cJSON_AddNumberToObject(root, "weather_data_version", s->weather_data_version);
+    cJSON_AddBoolToObject(root, "weather_data_fresh", model_weather_data_is_fresh(s, time(NULL)));
     if (s->weather_last_update > 0) cJSON_AddNumberToObject(root, "weather_last_update", (double)s->weather_last_update);
     else cJSON_AddNullToObject(root, "weather_last_update");
     cJSON_AddNumberToObject(root, "pump_gpio", s->pump_gpio);

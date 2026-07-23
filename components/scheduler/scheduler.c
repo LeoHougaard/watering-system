@@ -92,8 +92,7 @@ static void scheduler_task(void *arg)
             } else if (s.rain_delay_enabled && s.rain_delay_until > now) {
                 log_skip(STOP_RAIN_DELAY);
             } else {
-                float multiplier = s.seasonal_multiplier;
-                if (s.weather_adjust_enabled && s.weather_last_update > 0) multiplier *= s.weather_last_multiplier;
+                float multiplier = s.seasonal_multiplier * model_weather_multiplier(&s, now);
                 if (multiplier <= 0.01f) {
                     log_skip(STOP_RAIN_DELAY);
                     continue;

@@ -10,6 +10,8 @@
 #define MAX_RECOMMENDATIONS 16
 #define MAX_FAULT_FLAGS 8
 #define MAX_SCHEDULE_SLOTS 8
+#define WEATHER_DATA_VERSION 2
+#define WEATHER_DATA_MAX_AGE_SEC (8 * 60 * 60)
 
 typedef enum {
     PUMP_STATE_IDLE,
@@ -104,7 +106,28 @@ typedef struct {
     int reservoir_gpio;
     char auth_pin_hash[65];
     uint32_t moisture_live_interval_sec;
+    float weather_last_et0_mm;
+    float weather_last_recent_rain_mm;
+    float weather_last_forecast_rain_mm;
+    float weather_last_rain_probability_pct;
+    uint32_t weather_data_version;
 } system_settings_t;
+
+typedef struct {
+    float recent_rain_mm;
+    float forecast_rain_12h_mm;
+    float forecast_rain_24h_mm;
+    float forecast_rain_probability_pct;
+    float previous_et0_mm;
+    float forecast_et0_mm;
+} weather_observation_t;
+
+typedef struct {
+    float multiplier;
+    float demand_et0_mm;
+    float effective_rain_mm;
+    bool skipped_for_rain;
+} weather_adjustment_t;
 
 typedef struct {
     pump_state_t pump_state;
@@ -169,3 +192,6 @@ cJSON *runtime_to_json(const runtime_state_t *runtime);
 cJSON *planter_to_json(const planter_config_t *planter);
 bool json_to_planter(const cJSON *json, planter_config_t *planter);
 bool json_to_settings(const cJSON *json, system_settings_t *settings);
+weather_adjustment_t model_weather_adjustment(const weather_observation_t *observation, bool allow_rain_skip);
+bool model_weather_data_is_fresh(const system_settings_t *settings, time_t now);
+float model_weather_multiplier(const system_settings_t *settings, time_t now);
