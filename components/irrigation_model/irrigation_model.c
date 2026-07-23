@@ -88,6 +88,7 @@ void model_defaults_settings(system_settings_t *settings)
     settings->pump_sleep_gpio = -1;
     settings->reservoir_gpio = 4;
     snprintf(settings->auth_pin_hash, sizeof(settings->auth_pin_hash), "local-pin-not-set");
+    settings->moisture_live_interval_sec = 5;
 }
 
 void model_defaults_planters(planter_config_t planters[PLANTER_COUNT])
@@ -146,6 +147,7 @@ cJSON *settings_to_json(const system_settings_t *s)
     cJSON_AddNumberToObject(root, "moisture_dry_raw", s->moisture_dry_raw);
     cJSON_AddNumberToObject(root, "moisture_wet_raw", s->moisture_wet_raw);
     cJSON_AddNumberToObject(root, "moisture_sample_interval_sec", s->moisture_sample_interval_sec);
+    cJSON_AddNumberToObject(root, "moisture_live_interval_sec", s->moisture_live_interval_sec);
     cJSON_AddNumberToObject(root, "moisture_history_days", s->moisture_history_days);
     cJSON_AddBoolToObject(root, "weather_adjust_enabled", s->weather_adjust_enabled);
     cJSON_AddBoolToObject(root, "weather_skip_on_rain", s->weather_skip_on_rain);
@@ -268,8 +270,8 @@ bool json_to_settings(const cJSON *json, system_settings_t *s)
             }
         }
     }
-    const char *numeric[] = {"manual_max_run_sec", "scheduled_max_run_sec", "pump_cooldown_sec", "reservoir_debounce_ms", "moisture_dry_raw", "moisture_wet_raw", "moisture_sample_interval_sec", "moisture_history_days"};
-    uint32_t *values[] = {&s->manual_max_run_sec, &s->scheduled_max_run_sec, &s->pump_cooldown_sec, &s->reservoir_debounce_ms, &s->moisture_dry_raw, &s->moisture_wet_raw, &s->moisture_sample_interval_sec, &s->moisture_history_days};
+    const char *numeric[] = {"manual_max_run_sec", "scheduled_max_run_sec", "pump_cooldown_sec", "reservoir_debounce_ms", "moisture_dry_raw", "moisture_wet_raw", "moisture_sample_interval_sec", "moisture_live_interval_sec", "moisture_history_days"};
+    uint32_t *values[] = {&s->manual_max_run_sec, &s->scheduled_max_run_sec, &s->pump_cooldown_sec, &s->reservoir_debounce_ms, &s->moisture_dry_raw, &s->moisture_wet_raw, &s->moisture_sample_interval_sec, &s->moisture_live_interval_sec, &s->moisture_history_days};
     for (size_t i = 0; i < sizeof(numeric) / sizeof(numeric[0]); i++) {
         const cJSON *v = cJSON_GetObjectItemCaseSensitive(json, numeric[i]);
         if (cJSON_IsNumber(v)) *values[i] = (uint32_t)v->valuedouble;

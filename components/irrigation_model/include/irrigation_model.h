@@ -103,6 +103,7 @@ typedef struct {
     int pump_sleep_gpio;
     int reservoir_gpio;
     char auth_pin_hash[65];
+    uint32_t moisture_live_interval_sec;
 } system_settings_t;
 
 typedef struct {

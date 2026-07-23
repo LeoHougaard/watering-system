@@ -12,6 +12,8 @@ TEST_CASE("default settings match acceptance defaults", "[settings]")
     TEST_ASSERT_EQUAL_UINT32(300, s.scheduled_max_run_sec);
     TEST_ASSERT_EQUAL_UINT32(300, s.pump_cooldown_sec);
     TEST_ASSERT_EQUAL_FLOAT(1.0f, s.seasonal_multiplier);
+    TEST_ASSERT_EQUAL_UINT32(5, s.moisture_live_interval_sec);
+    TEST_ASSERT_EQUAL_UINT32(3600, s.moisture_sample_interval_sec);
     for (int i = 0; i < 7; i++) TEST_ASSERT_TRUE(s.schedule.days[i]);
 }
 

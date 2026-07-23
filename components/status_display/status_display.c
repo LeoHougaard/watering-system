@@ -164,16 +164,17 @@ static void status_display_task(void *arg)
         char line[32];
 
         fb_clear();
-        draw_text(0, 0, "WATERING SYSTEM");
+        draw_text(0, 2, "WATERING SYSTEM");
         snprintf(line, sizeof(line), "PUMP:%s", short_pump_state(runtime.pump_state));
-        draw_text(0, 2, line);
-        snprintf(line, sizeof(line), "LEFT:%lus", (unsigned long)runtime.current_run_remaining_sec);
         draw_text(0, 3, line);
-        snprintf(line, sizeof(line), "RES:%s", runtime.reservoir_ok ? "OK" : "LOW");
+        snprintf(line, sizeof(line), "LEFT:%lus", (unsigned long)runtime.current_run_remaining_sec);
         draw_text(0, 4, line);
-        if (moisture.enabled) snprintf(line, sizeof(line), "MOIST:%d%%", moisture.percent);
-        else snprintf(line, sizeof(line), "MOIST:OFF");
+        snprintf(line, sizeof(line), "RES:%s", runtime.reservoir_ok ? "OK" : "LOW");
         draw_text(0, 5, line);
+        if (moisture.enabled && moisture.percent >= 0) snprintf(line, sizeof(line), "MOIST:%d%% R%d", moisture.percent, moisture.raw);
+        else if (moisture.enabled) snprintf(line, sizeof(line), "MOIST:R%d", moisture.raw);
+        else snprintf(line, sizeof(line), "MOIST:OFF");
+        draw_text(0, 6, line);
         snprintf(line, sizeof(line), "NEXT:%s", scheduler_next_run_text());
         draw_text(0, 7, line);
         oled_flush();

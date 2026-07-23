@@ -16,6 +16,14 @@ static planter_config_t g_planters[PLANTER_COUNT];
 static bool normalize_settings(system_settings_t *settings)
 {
     bool changed = false;
+    if (settings->moisture_live_interval_sec == 0) {
+        settings->moisture_live_interval_sec = 5;
+        changed = true;
+    }
+    if (settings->moisture_live_interval_sec > 60) {
+        settings->moisture_live_interval_sec = 60;
+        changed = true;
+    }
     if (settings->manual_max_run_sec == 600) {
         settings->manual_max_run_sec = 1200;
         changed = true;
@@ -36,13 +44,13 @@ static esp_err_t load_blob_or_default(nvs_handle_t nvs, const char *key, void *v
     esp_err_t err = nvs_get_blob(nvs, key, NULL, &required);
     if (err == ESP_ERR_NVS_NOT_FOUND) return ESP_ERR_NVS_NOT_FOUND;
     if (err != ESP_OK) return err;
-    if (required != size) return ESP_ERR_INVALID_SIZE;
+    if (required > size) return ESP_ERR_INVALID_SIZE;
     void *tmp = malloc(size);
     if (!tmp) return ESP_ERR_NO_MEM;
     err = nvs_get_blob(nvs, key, tmp, &required);
-    if (err == ESP_OK && required == size) memcpy(value, tmp, size);
+    if (err == ESP_OK && required <= size) memcpy(value, tmp, required);
     free(tmp);
-    return err == ESP_OK && required == size ? ESP_OK : ESP_ERR_INVALID_SIZE;
+    return err == ESP_OK && required <= size ? ESP_OK : ESP_ERR_INVALID_SIZE;
 }
 
 esp_err_t config_store_init(void)

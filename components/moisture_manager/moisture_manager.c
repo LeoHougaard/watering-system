@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "config_store.h"
 #include "esp_adc/adc_oneshot.h"
@@ -17,6 +18,7 @@ static moisture_reading_t g_latest = {
     .gpio = -1,
     .raw = 0,
     .percent = -1,
+    .updated_at = 0,
 };
 
 static int clamp_percent(int value)
@@ -57,6 +59,7 @@ static void clear_latest(bool enabled, int gpio)
     g_latest.gpio = gpio;
     g_latest.raw = 0;
     g_latest.percent = -1;
+    g_latest.updated_at = 0;
 }
 
 static void moisture_task(void *arg)
@@ -65,6 +68,7 @@ static void moisture_task(void *arg)
     adc_oneshot_unit_handle_t unit = NULL;
     int configured_gpio = -1;
     adc_channel_t channel = ADC_CHANNEL_0;
+    TickType_t last_log_tick = 0;
 
     while (true) {
         system_settings_t settings;
@@ -127,14 +131,24 @@ static void moisture_task(void *arg)
             int percent = raw_to_percent(raw, settings.moisture_dry_raw, settings.moisture_wet_raw);
             g_latest.raw = raw;
             g_latest.percent = percent;
-            history_store_log_moisture(percent, raw, settings.moisture_gpio);
-            history_store_trim_moisture(settings.moisture_history_days);
-            ESP_LOGI(TAG, "moisture GPIO %d raw=%d percent=%d", settings.moisture_gpio, raw, percent);
+            g_latest.updated_at = time(NULL);
+
+            uint32_t log_interval = settings.moisture_sample_interval_sec;
+            if (log_interval < 60) log_interval = 60;
+            TickType_t now_tick = xTaskGetTickCount();
+            if (last_log_tick == 0 ||
+                now_tick - last_log_tick >= pdMS_TO_TICKS(log_interval * 1000)) {
+                history_store_log_moisture(percent, raw, settings.moisture_gpio);
+                history_store_trim_moisture(settings.moisture_history_days);
+                last_log_tick = now_tick;
+            }
+            ESP_LOGI(TAG, "moisture live GPIO %d raw=%d percent=%d", settings.moisture_gpio, raw, percent);
         } else {
             ESP_LOGW(TAG, "moisture read failed: %s", esp_err_to_name(err));
         }
-        uint32_t interval = settings.moisture_sample_interval_sec;
-        if (interval < 60) interval = 60;
+        uint32_t interval = settings.moisture_live_interval_sec;
+        if (interval < 1) interval = 1;
+        if (interval > 60) interval = 60;
         vTaskDelay(pdMS_TO_TICKS(interval * 1000));
     }
 }
