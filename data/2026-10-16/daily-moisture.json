@@ -1,0 +1,380 @@
+[
+  {
+    "date_pdt": "2026-09-05",
+    "samples": 4,
+    "min_percent": 80,
+    "mean_percent": 80.75,
+    "max_percent": 82,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-06",
+    "samples": 24,
+    "min_percent": 79,
+    "mean_percent": 80.67,
+    "max_percent": 83,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-07",
+    "samples": 24,
+    "min_percent": 76,
+    "mean_percent": 78.12,
+    "max_percent": 80,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-08",
+    "samples": 24,
+    "min_percent": 74,
+    "mean_percent": 75.83,
+    "max_percent": 78,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-09",
+    "samples": 24,
+    "min_percent": 72,
+    "mean_percent": 73.83,
+    "max_percent": 76,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-10",
+    "samples": 24,
+    "min_percent": 70,
+    "mean_percent": 72.25,
+    "max_percent": 74,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-11",
+    "samples": 24,
+    "min_percent": 67,
+    "mean_percent": 69.08,
+    "max_percent": 72,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-12",
+    "samples": 24,
+    "min_percent": 65,
+    "mean_percent": 67.17,
+    "max_percent": 69,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-13",
+    "samples": 24,
+    "min_percent": 63,
+    "mean_percent": 65.29,
+    "max_percent": 68,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-14",
+    "samples": 24,
+    "min_percent": 61,
+    "mean_percent": 62.92,
+    "max_percent": 65,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-15",
+    "samples": 24,
+    "min_percent": 58,
+    "mean_percent": 60.25,
+    "max_percent": 63,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-16",
+    "samples": 24,
+    "min_percent": 56,
+    "mean_percent": 57.46,
+    "max_percent": 60,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-17",
+    "samples": 24,
+    "min_percent": 49,
+    "mean_percent": 53.42,
+    "max_percent": 58,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-18",
+    "samples": 24,
+    "min_percent": 47,
+    "mean_percent": 49.88,
+    "max_percent": 53,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-19",
+    "samples": 24,
+    "min_percent": 43,
+    "mean_percent": 45.54,
+    "max_percent": 49,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-20",
+    "samples": 24,
+    "min_percent": 39,
+    "mean_percent": 42.29,
+    "max_percent": 45,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-21",
+    "samples": 24,
+    "min_percent": 38,
+    "mean_percent": 41.29,
+    "max_percent": 44,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-22",
+    "samples": 24,
+    "min_percent": 39,
+    "mean_percent": 41.33,
+    "max_percent": 44,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-23",
+    "samples": 24,
+    "min_percent": 40,
+    "mean_percent": 53.29,
+    "max_percent": 59,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-24",
+    "samples": 24,
+    "min_percent": 53,
+    "mean_percent": 62.75,
+    "max_percent": 92,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-25",
+    "samples": 24,
+    "min_percent": 79,
+    "mean_percent": 83.71,
+    "max_percent": 89,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-26",
+    "samples": 24,
+    "min_percent": 80,
+    "mean_percent": 82.83,
+    "max_percent": 87,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-27",
+    "samples": 24,
+    "min_percent": 80,
+    "mean_percent": 84.67,
+    "max_percent": 89,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-28",
+    "samples": 24,
+    "min_percent": 82,
+    "mean_percent": 85.42,
+    "max_percent": 88,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-29",
+    "samples": 24,
+    "min_percent": 77,
+    "mean_percent": 82.88,
+    "max_percent": 90,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-09-30",
+    "samples": 24,
+    "min_percent": 78,
+    "mean_percent": 84.38,
+    "max_percent": 90,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-01",
+    "samples": 24,
+    "min_percent": 82,
+    "mean_percent": 86.46,
+    "max_percent": 90,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-02",
+    "samples": 24,
+    "min_percent": 82,
+    "mean_percent": 86.79,
+    "max_percent": 91,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-03",
+    "samples": 24,
+    "min_percent": 84,
+    "mean_percent": 87.67,
+    "max_percent": 92,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-04",
+    "samples": 24,
+    "min_percent": 85,
+    "mean_percent": 88.75,
+    "max_percent": 94,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-05",
+    "samples": 24,
+    "min_percent": 86,
+    "mean_percent": 89.17,
+    "max_percent": 94,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-06",
+    "samples": 24,
+    "min_percent": 85,
+    "mean_percent": 89.83,
+    "max_percent": 93,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-07",
+    "samples": 24,
+    "min_percent": 86,
+    "mean_percent": 90.17,
+    "max_percent": 93,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-08",
+    "samples": 24,
+    "min_percent": 88,
+    "mean_percent": 90.88,
+    "max_percent": 94,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-09",
+    "samples": 24,
+    "min_percent": 85,
+    "mean_percent": 90.5,
+    "max_percent": 94,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-10",
+    "samples": 24,
+    "min_percent": 85,
+    "mean_percent": 89.25,
+    "max_percent": 94,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-11",
+    "samples": 24,
+    "min_percent": 85,
+    "mean_percent": 89.83,
+    "max_percent": 93,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-12",
+    "samples": 24,
+    "min_percent": 85,
+    "mean_percent": 89.79,
+    "max_percent": 93,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-13",
+    "samples": 24,
+    "min_percent": 15,
+    "mean_percent": 86.88,
+    "max_percent": 93,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  },
+  {
+    "date_pdt": "2026-10-14",
+    "samples": 24,
+    "min_percent": 0,
+    "mean_percent": 7.5,
+    "max_percent": 63,
+    "zero_percent_samples": 19,
+    "adc_full_scale_samples": 7
+  },
+  {
+    "date_pdt": "2026-10-15",
+    "samples": 24,
+    "min_percent": 0,
+    "mean_percent": 41.5,
+    "max_percent": 100,
+    "zero_percent_samples": 13,
+    "adc_full_scale_samples": 10
+  },
+  {
+    "date_pdt": "2026-10-16",
+    "samples": 20,
+    "min_percent": 85,
+    "mean_percent": 93.75,
+    "max_percent": 100,
+    "zero_percent_samples": 0,
+    "adc_full_scale_samples": 0
+  }
+]

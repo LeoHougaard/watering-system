@@ -1,0 +1,114 @@
+{
+  "started_at_utc": "2026-10-17T03:00:30.385855+00:00",
+  "method": "GET",
+  "device_url": "http://10.1.40.117",
+  "files": [
+    {
+      "file": "status-before.json",
+      "endpoint": "/api/v1/status",
+      "retrieved_at_utc": "2026-10-17T03:00:30.659060+00:00",
+      "duration_sec": 0.273,
+      "bytes": 636,
+      "sha256": "cd1f297376bd2276216052901ebe3acddbdd7aed1a9a03cd77284e6c59feaad0",
+      "records": null
+    },
+    {
+      "file": "settings.json",
+      "endpoint": "/api/v1/settings",
+      "retrieved_at_utc": "2026-10-17T03:00:30.863419+00:00",
+      "duration_sec": 0.204,
+      "bytes": 1297,
+      "sha256": "b6822ea2636eddba786f522b2ec3281bbfcff4baa74fbd5bff0fcc609a9dfc37",
+      "records": null
+    },
+    {
+      "file": "watering-history.json",
+      "endpoint": "/api/v1/history",
+      "retrieved_at_utc": "2026-10-17T03:00:30.990404+00:00",
+      "duration_sec": 0.127,
+      "bytes": 9326,
+      "sha256": "d3e306d8eb290d91445b5fbf58c21b83b21ca3d8ec202e4c24430e09dc92dc18",
+      "records": 66
+    },
+    {
+      "file": "diagnostics.json",
+      "endpoint": "/api/v1/diagnostics",
+      "retrieved_at_utc": "2026-10-17T03:00:31.106723+00:00",
+      "duration_sec": 0.116,
+      "bytes": 13547,
+      "sha256": "2582b98be78b242234c3d3d0221f20d2a5df17a2bf572631a7f1e633fc3615f0",
+      "records": 145
+    },
+    {
+      "file": "moisture-latest.json",
+      "endpoint": "/api/v1/moisture/latest",
+      "retrieved_at_utc": "2026-10-17T03:00:31.272856+00:00",
+      "duration_sec": 0.166,
+      "bytes": 95,
+      "sha256": "b26cc82d54438880c4dccadb7776d51b1b97d33190283fabe06607e1d410a917",
+      "records": null
+    },
+    {
+      "file": "moisture-retained-365-days.json",
+      "endpoint": "/api/v1/moisture?days=365&max_points=1000",
+      "retrieved_at_utc": "2026-10-17T03:00:32.323651+00:00",
+      "duration_sec": 1.051,
+      "bytes": 9395,
+      "sha256": "2453f74b4e3c17cbf3e8a22b5cab7b79a6f675d085e1d692a11a44aa853da460",
+      "records": 162
+    },
+    {
+      "file": "moisture-retained-detailed.json",
+      "endpoint": "/api/v1/moisture?days=60&max_points=1000",
+      "retrieved_at_utc": "2026-10-17T03:00:33.361701+00:00",
+      "duration_sec": 1.037,
+      "bytes": 56993,
+      "sha256": "2f22e793b14afdd246b68c3140d5654106ea69e6d798091dacbb4f067c9b45e6",
+      "records": 983
+    },
+    {
+      "file": "moisture-recent-41-days.json",
+      "endpoint": "/api/v1/moisture?days=41&max_points=1000",
+      "retrieved_at_utc": "2026-10-17T03:00:34.451546+00:00",
+      "duration_sec": 1.09,
+      "bytes": 57042,
+      "sha256": "3d03ab429d64533d82a2d5ab196be74fd2cff0334d9e5fec5ceebf8cb707d8d5",
+      "records": 984
+    },
+    {
+      "file": "moisture-recent-40-days.json",
+      "endpoint": "/api/v1/moisture?days=40&max_points=1000",
+      "retrieved_at_utc": "2026-10-17T03:00:35.522893+00:00",
+      "duration_sec": 1.071,
+      "bytes": 55650,
+      "sha256": "a42acf7c11683186a88b5c8fff4c6081c04f02c1fb5c85abbca3edc9f1991f29",
+      "records": 960
+    },
+    {
+      "file": "status-after.json",
+      "endpoint": "/api/v1/status",
+      "retrieved_at_utc": "2026-10-17T03:00:35.595419+00:00",
+      "duration_sec": 0.072,
+      "bytes": 636,
+      "sha256": "9413836a203b10b5c027ad555fbdbf1c32162d4a0b26fca99bdd4dcb3f25b26c",
+      "records": null
+    },
+    {
+      "file": "settings-after.json",
+      "endpoint": "/api/v1/settings",
+      "retrieved_at_utc": "2026-10-17T03:00:35.779457+00:00",
+      "duration_sec": 0.184,
+      "bytes": 1297,
+      "sha256": "b6822ea2636eddba786f522b2ec3281bbfcff4baa74fbd5bff0fcc609a9dfc37",
+      "records": null
+    }
+  ],
+  "finished_at_utc": "2026-10-17T03:00:35.780710+00:00",
+  "local_source_commit": "08b6fc5",
+  "history_export_limits": [
+    "Watering and diagnostics are bounded rolling logs; older rotated records are unavailable through the live API.",
+    "Moisture queries are capped at 1,000 output points. Above that input count, timestamps, raw values and percentages are averaged into time buckets.",
+    "No raw-file, start/end, or pagination endpoint is exposed by this firmware. The 365-day and detailed retained responses are averaged; recent 41/40-day responses have hourly cadence and match on overlap.",
+    "earlier-records-2026-09-05.json preserves the previously saved local archive, including planter and observation records no longer exposed by the current firmware."
+  ]
+}

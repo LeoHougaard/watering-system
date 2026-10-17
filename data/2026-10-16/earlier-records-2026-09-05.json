@@ -1,0 +1,2826 @@
+{
+  "source": {
+    "file": "docs/reviews/2026-09-05/final-state.json",
+    "local_commit": "08b6fc5",
+    "sha256": "7cf2300018ce4e1420ecae898887d07c4a5a869c5cba2019a03246422f76d9fc",
+    "description": "Previously saved readings and records, not a current device response. Settings intentionally omitted."
+  },
+  "moisture": [
+    {
+      "timestamp": 1787110691,
+      "percent": 22,
+      "raw": 2590,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787111615,
+      "percent": 25,
+      "raw": 2541,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787111619,
+      "percent": 22,
+      "raw": 2598,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787111697,
+      "percent": 24,
+      "raw": 2557,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787115297,
+      "percent": 26,
+      "raw": 2531,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787118897,
+      "percent": 25,
+      "raw": 2543,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787122497,
+      "percent": 26,
+      "raw": 2519,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787126097,
+      "percent": 26,
+      "raw": 2520,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787129697,
+      "percent": 25,
+      "raw": 2543,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787133297,
+      "percent": 26,
+      "raw": 2520,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787136897,
+      "percent": 26,
+      "raw": 2523,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787140497,
+      "percent": 22,
+      "raw": 2591,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787144097,
+      "percent": 26,
+      "raw": 2532,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787147697,
+      "percent": 23,
+      "raw": 2577,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787151297,
+      "percent": 25,
+      "raw": 2539,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787154799,
+      "percent": 22,
+      "raw": 2600,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787158399,
+      "percent": 21,
+      "raw": 2607,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787159399,
+      "percent": 22,
+      "raw": 2587,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787160760,
+      "percent": 22,
+      "raw": 2594,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787164360,
+      "percent": 21,
+      "raw": 2621,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787167960,
+      "percent": 22,
+      "raw": 2602,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787171560,
+      "percent": 21,
+      "raw": 2611,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787175160,
+      "percent": 22,
+      "raw": 2601,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787178760,
+      "percent": 34,
+      "raw": 2387,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787182360,
+      "percent": 40,
+      "raw": 2274,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787185960,
+      "percent": 39,
+      "raw": 2294,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787189560,
+      "percent": 38,
+      "raw": 2315,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787193160,
+      "percent": 40,
+      "raw": 2270,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787196760,
+      "percent": 39,
+      "raw": 2298,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787200360,
+      "percent": 40,
+      "raw": 2271,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787203960,
+      "percent": 40,
+      "raw": 2272,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787207560,
+      "percent": 41,
+      "raw": 2262,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787211160,
+      "percent": 40,
+      "raw": 2273,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787214760,
+      "percent": 39,
+      "raw": 2296,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787218360,
+      "percent": 40,
+      "raw": 2264,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787221960,
+      "percent": 40,
+      "raw": 2275,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787225560,
+      "percent": 39,
+      "raw": 2289,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787229160,
+      "percent": 39,
+      "raw": 2291,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787232760,
+      "percent": 39,
+      "raw": 2281,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787236360,
+      "percent": 39,
+      "raw": 2298,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787239960,
+      "percent": 39,
+      "raw": 2288,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787243560,
+      "percent": 38,
+      "raw": 2311,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787247160,
+      "percent": 37,
+      "raw": 2333,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787250760,
+      "percent": 37,
+      "raw": 2318,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787254360,
+      "percent": 38,
+      "raw": 2301,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787257960,
+      "percent": 36,
+      "raw": 2335,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787261560,
+      "percent": 35,
+      "raw": 2362,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787265160,
+      "percent": 37,
+      "raw": 2324,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787268760,
+      "percent": 38,
+      "raw": 2310,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787272360,
+      "percent": 37,
+      "raw": 2328,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787275960,
+      "percent": 38,
+      "raw": 2305,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787279560,
+      "percent": 36,
+      "raw": 2337,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787283160,
+      "percent": 38,
+      "raw": 2299,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787286760,
+      "percent": 38,
+      "raw": 2313,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787290360,
+      "percent": 38,
+      "raw": 2309,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787293960,
+      "percent": 38,
+      "raw": 2304,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787297560,
+      "percent": 36,
+      "raw": 2336,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787301160,
+      "percent": 39,
+      "raw": 2296,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787304760,
+      "percent": 38,
+      "raw": 2312,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787308360,
+      "percent": 37,
+      "raw": 2320,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787311959,
+      "percent": 37,
+      "raw": 2320,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787315559,
+      "percent": 37,
+      "raw": 2325,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787319159,
+      "percent": 36,
+      "raw": 2344,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787322759,
+      "percent": 36,
+      "raw": 2339,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787326359,
+      "percent": 37,
+      "raw": 2321,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787329959,
+      "percent": 36,
+      "raw": 2340,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787333559,
+      "percent": 35,
+      "raw": 2359,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787337159,
+      "percent": 34,
+      "raw": 2374,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787340759,
+      "percent": 35,
+      "raw": 2369,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787344359,
+      "percent": 32,
+      "raw": 2411,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787347959,
+      "percent": 33,
+      "raw": 2399,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787351559,
+      "percent": 34,
+      "raw": 2375,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787355159,
+      "percent": 34,
+      "raw": 2373,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787358759,
+      "percent": 35,
+      "raw": 2363,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787362359,
+      "percent": 36,
+      "raw": 2341,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787365959,
+      "percent": 35,
+      "raw": 2362,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787369559,
+      "percent": 36,
+      "raw": 2346,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787373159,
+      "percent": 37,
+      "raw": 2330,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787376759,
+      "percent": 36,
+      "raw": 2352,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787380359,
+      "percent": 36,
+      "raw": 2348,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787383959,
+      "percent": 34,
+      "raw": 2387,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787387559,
+      "percent": 36,
+      "raw": 2352,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787391159,
+      "percent": 34,
+      "raw": 2380,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787394759,
+      "percent": 36,
+      "raw": 2341,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787398359,
+      "percent": 36,
+      "raw": 2338,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787401959,
+      "percent": 35,
+      "raw": 2358,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787405559,
+      "percent": 36,
+      "raw": 2346,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787409159,
+      "percent": 33,
+      "raw": 2392,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787412759,
+      "percent": 34,
+      "raw": 2373,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787416359,
+      "percent": 33,
+      "raw": 2389,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787419959,
+      "percent": 31,
+      "raw": 2429,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787423559,
+      "percent": 32,
+      "raw": 2412,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787427159,
+      "percent": 33,
+      "raw": 2395,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787430759,
+      "percent": 33,
+      "raw": 2392,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787434359,
+      "percent": 31,
+      "raw": 2427,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787437959,
+      "percent": 32,
+      "raw": 2419,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787441559,
+      "percent": 30,
+      "raw": 2444,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787445159,
+      "percent": 33,
+      "raw": 2390,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787448759,
+      "percent": 32,
+      "raw": 2412,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787452359,
+      "percent": 31,
+      "raw": 2441,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787455958,
+      "percent": 32,
+      "raw": 2409,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787459558,
+      "percent": 31,
+      "raw": 2429,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787463158,
+      "percent": 34,
+      "raw": 2381,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787466758,
+      "percent": 50,
+      "raw": 2090,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787470358,
+      "percent": 70,
+      "raw": 1734,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787473958,
+      "percent": 66,
+      "raw": 1808,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787477558,
+      "percent": 65,
+      "raw": 1826,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787481158,
+      "percent": 69,
+      "raw": 1751,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787484758,
+      "percent": 66,
+      "raw": 1800,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787488358,
+      "percent": 64,
+      "raw": 1839,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787491958,
+      "percent": 70,
+      "raw": 1733,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787495558,
+      "percent": 69,
+      "raw": 1748,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787499158,
+      "percent": 69,
+      "raw": 1755,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787502758,
+      "percent": 70,
+      "raw": 1727,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787506358,
+      "percent": 69,
+      "raw": 1755,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787509958,
+      "percent": 66,
+      "raw": 1803,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787513558,
+      "percent": 67,
+      "raw": 1782,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787517158,
+      "percent": 65,
+      "raw": 1826,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787520758,
+      "percent": 64,
+      "raw": 1841,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787524358,
+      "percent": 70,
+      "raw": 1739,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787527958,
+      "percent": 67,
+      "raw": 1784,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787531558,
+      "percent": 69,
+      "raw": 1752,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787535158,
+      "percent": 70,
+      "raw": 1739,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787538758,
+      "percent": 70,
+      "raw": 1738,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787542358,
+      "percent": 68,
+      "raw": 1775,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787545958,
+      "percent": 67,
+      "raw": 1782,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787549558,
+      "percent": 65,
+      "raw": 1823,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787553158,
+      "percent": 68,
+      "raw": 1759,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787556758,
+      "percent": 66,
+      "raw": 1801,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787560358,
+      "percent": 63,
+      "raw": 1865,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787563958,
+      "percent": 66,
+      "raw": 1800,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787567558,
+      "percent": 66,
+      "raw": 1796,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787571158,
+      "percent": 65,
+      "raw": 1822,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787574758,
+      "percent": 66,
+      "raw": 1812,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787578358,
+      "percent": 68,
+      "raw": 1766,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787581957,
+      "percent": 66,
+      "raw": 1803,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787585557,
+      "percent": 64,
+      "raw": 1833,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787589157,
+      "percent": 62,
+      "raw": 1870,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787592757,
+      "percent": 63,
+      "raw": 1861,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787596357,
+      "percent": 65,
+      "raw": 1814,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787599957,
+      "percent": 67,
+      "raw": 1779,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787603557,
+      "percent": 64,
+      "raw": 1835,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787607157,
+      "percent": 63,
+      "raw": 1858,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787610757,
+      "percent": 63,
+      "raw": 1853,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787614357,
+      "percent": 62,
+      "raw": 1867,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787617957,
+      "percent": 63,
+      "raw": 1865,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787621557,
+      "percent": 65,
+      "raw": 1829,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787625157,
+      "percent": 65,
+      "raw": 1817,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787628757,
+      "percent": 64,
+      "raw": 1839,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787632357,
+      "percent": 63,
+      "raw": 1858,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787635957,
+      "percent": 62,
+      "raw": 1868,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787639557,
+      "percent": 63,
+      "raw": 1853,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787643157,
+      "percent": 61,
+      "raw": 1888,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787646757,
+      "percent": 61,
+      "raw": 1894,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787650357,
+      "percent": 63,
+      "raw": 1860,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787653957,
+      "percent": 61,
+      "raw": 1887,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787657557,
+      "percent": 62,
+      "raw": 1884,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787661157,
+      "percent": 63,
+      "raw": 1856,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787664757,
+      "percent": 62,
+      "raw": 1880,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787668357,
+      "percent": 63,
+      "raw": 1856,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787671957,
+      "percent": 60,
+      "raw": 1905,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787675557,
+      "percent": 60,
+      "raw": 1915,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787679157,
+      "percent": 61,
+      "raw": 1892,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787682757,
+      "percent": 60,
+      "raw": 1904,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787686357,
+      "percent": 60,
+      "raw": 1916,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787689957,
+      "percent": 60,
+      "raw": 1904,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787693557,
+      "percent": 60,
+      "raw": 1911,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787697157,
+      "percent": 59,
+      "raw": 1933,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787700757,
+      "percent": 61,
+      "raw": 1899,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787704357,
+      "percent": 62,
+      "raw": 1879,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787707957,
+      "percent": 59,
+      "raw": 1921,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787711557,
+      "percent": 62,
+      "raw": 1873,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787715157,
+      "percent": 61,
+      "raw": 1891,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787718757,
+      "percent": 60,
+      "raw": 1908,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787722357,
+      "percent": 62,
+      "raw": 1868,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787725957,
+      "percent": 60,
+      "raw": 1916,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787729556,
+      "percent": 62,
+      "raw": 1867,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787733156,
+      "percent": 60,
+      "raw": 1905,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787736756,
+      "percent": 61,
+      "raw": 1886,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787740356,
+      "percent": 61,
+      "raw": 1902,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787743956,
+      "percent": 57,
+      "raw": 1967,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787747556,
+      "percent": 59,
+      "raw": 1934,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787751156,
+      "percent": 58,
+      "raw": 1947,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787754756,
+      "percent": 60,
+      "raw": 1907,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787758356,
+      "percent": 57,
+      "raw": 1959,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787761956,
+      "percent": 56,
+      "raw": 1988,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787765556,
+      "percent": 55,
+      "raw": 1994,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787769156,
+      "percent": 56,
+      "raw": 1988,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787772756,
+      "percent": 56,
+      "raw": 1981,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787776356,
+      "percent": 57,
+      "raw": 1959,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787779956,
+      "percent": 56,
+      "raw": 1979,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787783556,
+      "percent": 59,
+      "raw": 1934,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787787156,
+      "percent": 58,
+      "raw": 1956,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787790756,
+      "percent": 58,
+      "raw": 1954,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787794356,
+      "percent": 58,
+      "raw": 1951,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787797956,
+      "percent": 58,
+      "raw": 1950,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787801556,
+      "percent": 57,
+      "raw": 1961,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787805156,
+      "percent": 59,
+      "raw": 1928,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787808756,
+      "percent": 56,
+      "raw": 1983,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787812356,
+      "percent": 58,
+      "raw": 1953,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787815956,
+      "percent": 56,
+      "raw": 1979,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787819556,
+      "percent": 56,
+      "raw": 1992,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787823156,
+      "percent": 56,
+      "raw": 1977,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787826756,
+      "percent": 55,
+      "raw": 1995,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787830356,
+      "percent": 54,
+      "raw": 2019,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787833956,
+      "percent": 56,
+      "raw": 1990,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787837556,
+      "percent": 54,
+      "raw": 2023,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787841156,
+      "percent": 54,
+      "raw": 2021,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787844756,
+      "percent": 56,
+      "raw": 1991,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787848356,
+      "percent": 53,
+      "raw": 2034,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787851956,
+      "percent": 56,
+      "raw": 1990,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787855556,
+      "percent": 53,
+      "raw": 2043,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787859156,
+      "percent": 55,
+      "raw": 1997,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787862756,
+      "percent": 54,
+      "raw": 2023,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787866355,
+      "percent": 52,
+      "raw": 2053,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787869955,
+      "percent": 60,
+      "raw": 1914,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787873555,
+      "percent": 64,
+      "raw": 1834,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787877155,
+      "percent": 75,
+      "raw": 1650,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787880755,
+      "percent": 72,
+      "raw": 1704,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787884355,
+      "percent": 70,
+      "raw": 1724,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787887955,
+      "percent": 70,
+      "raw": 1725,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787891555,
+      "percent": 67,
+      "raw": 1789,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787895155,
+      "percent": 71,
+      "raw": 1714,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787898755,
+      "percent": 72,
+      "raw": 1703,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787902355,
+      "percent": 66,
+      "raw": 1798,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787905955,
+      "percent": 71,
+      "raw": 1721,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787909555,
+      "percent": 68,
+      "raw": 1774,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787913155,
+      "percent": 68,
+      "raw": 1770,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787916755,
+      "percent": 67,
+      "raw": 1787,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787920355,
+      "percent": 69,
+      "raw": 1756,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787923955,
+      "percent": 67,
+      "raw": 1786,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787927555,
+      "percent": 69,
+      "raw": 1748,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787931155,
+      "percent": 66,
+      "raw": 1802,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787934755,
+      "percent": 66,
+      "raw": 1808,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787938355,
+      "percent": 69,
+      "raw": 1753,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787941955,
+      "percent": 69,
+      "raw": 1743,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787945555,
+      "percent": 67,
+      "raw": 1784,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787949155,
+      "percent": 67,
+      "raw": 1789,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787952755,
+      "percent": 68,
+      "raw": 1764,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787956355,
+      "percent": 66,
+      "raw": 1810,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787959955,
+      "percent": 67,
+      "raw": 1781,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787963555,
+      "percent": 68,
+      "raw": 1768,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787967155,
+      "percent": 69,
+      "raw": 1757,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787970755,
+      "percent": 66,
+      "raw": 1811,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787974355,
+      "percent": 65,
+      "raw": 1820,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787977955,
+      "percent": 71,
+      "raw": 1720,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787981555,
+      "percent": 67,
+      "raw": 1782,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787985155,
+      "percent": 64,
+      "raw": 1848,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787988755,
+      "percent": 65,
+      "raw": 1827,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787992355,
+      "percent": 65,
+      "raw": 1827,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787995954,
+      "percent": 66,
+      "raw": 1803,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1787999554,
+      "percent": 66,
+      "raw": 1809,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788003154,
+      "percent": 65,
+      "raw": 1813,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788006754,
+      "percent": 65,
+      "raw": 1829,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788010354,
+      "percent": 65,
+      "raw": 1815,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788013954,
+      "percent": 65,
+      "raw": 1816,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788017554,
+      "percent": 64,
+      "raw": 1842,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788021154,
+      "percent": 61,
+      "raw": 1888,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788024754,
+      "percent": 64,
+      "raw": 1836,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788028354,
+      "percent": 64,
+      "raw": 1834,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788031954,
+      "percent": 63,
+      "raw": 1853,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788035554,
+      "percent": 61,
+      "raw": 1885,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788039154,
+      "percent": 61,
+      "raw": 1891,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788042754,
+      "percent": 63,
+      "raw": 1860,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788046354,
+      "percent": 66,
+      "raw": 1812,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788049954,
+      "percent": 62,
+      "raw": 1873,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788053554,
+      "percent": 63,
+      "raw": 1849,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788057154,
+      "percent": 62,
+      "raw": 1871,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788060754,
+      "percent": 64,
+      "raw": 1837,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788064354,
+      "percent": 63,
+      "raw": 1864,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788067954,
+      "percent": 62,
+      "raw": 1867,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788071554,
+      "percent": 63,
+      "raw": 1851,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788075154,
+      "percent": 63,
+      "raw": 1860,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788078754,
+      "percent": 61,
+      "raw": 1890,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788082354,
+      "percent": 61,
+      "raw": 1892,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788085954,
+      "percent": 60,
+      "raw": 1909,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788089554,
+      "percent": 60,
+      "raw": 1908,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788093154,
+      "percent": 59,
+      "raw": 1924,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788096754,
+      "percent": 61,
+      "raw": 1891,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788100354,
+      "percent": 61,
+      "raw": 1888,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788103954,
+      "percent": 60,
+      "raw": 1908,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788107554,
+      "percent": 58,
+      "raw": 1942,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788111154,
+      "percent": 61,
+      "raw": 1890,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788114754,
+      "percent": 61,
+      "raw": 1888,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788118354,
+      "percent": 60,
+      "raw": 1919,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788121954,
+      "percent": 58,
+      "raw": 1951,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788125553,
+      "percent": 62,
+      "raw": 1874,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788129153,
+      "percent": 61,
+      "raw": 1890,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788132753,
+      "percent": 61,
+      "raw": 1902,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788136353,
+      "percent": 61,
+      "raw": 1887,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788139953,
+      "percent": 59,
+      "raw": 1923,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788143553,
+      "percent": 59,
+      "raw": 1938,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788147153,
+      "percent": 60,
+      "raw": 1905,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788150753,
+      "percent": 60,
+      "raw": 1908,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788154353,
+      "percent": 60,
+      "raw": 1914,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788157953,
+      "percent": 60,
+      "raw": 1912,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788161553,
+      "percent": 61,
+      "raw": 1892,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788165153,
+      "percent": 57,
+      "raw": 1965,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788168753,
+      "percent": 58,
+      "raw": 1950,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788172353,
+      "percent": 59,
+      "raw": 1926,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788175953,
+      "percent": 58,
+      "raw": 1941,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788179553,
+      "percent": 58,
+      "raw": 1948,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788183153,
+      "percent": 58,
+      "raw": 1951,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788186753,
+      "percent": 56,
+      "raw": 1986,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788190353,
+      "percent": 56,
+      "raw": 1983,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788193953,
+      "percent": 55,
+      "raw": 1999,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788197553,
+      "percent": 57,
+      "raw": 1957,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788201153,
+      "percent": 57,
+      "raw": 1969,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788204753,
+      "percent": 56,
+      "raw": 1992,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788208353,
+      "percent": 54,
+      "raw": 2026,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788211953,
+      "percent": 54,
+      "raw": 2016,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788215553,
+      "percent": 57,
+      "raw": 1964,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788219153,
+      "percent": 56,
+      "raw": 1977,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788222753,
+      "percent": 55,
+      "raw": 2001,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788226353,
+      "percent": 57,
+      "raw": 1972,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788229953,
+      "percent": 56,
+      "raw": 1980,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788233553,
+      "percent": 55,
+      "raw": 2009,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788237153,
+      "percent": 56,
+      "raw": 1981,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788240753,
+      "percent": 56,
+      "raw": 1985,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788244353,
+      "percent": 57,
+      "raw": 1973,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788247953,
+      "percent": 56,
+      "raw": 1988,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788251553,
+      "percent": 56,
+      "raw": 1987,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788255153,
+      "percent": 56,
+      "raw": 1988,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788258753,
+      "percent": 55,
+      "raw": 2008,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788262352,
+      "percent": 55,
+      "raw": 2009,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788265952,
+      "percent": 54,
+      "raw": 2017,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788269552,
+      "percent": 54,
+      "raw": 2028,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788273152,
+      "percent": 55,
+      "raw": 2005,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788276752,
+      "percent": 52,
+      "raw": 2050,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788280352,
+      "percent": 52,
+      "raw": 2058,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788283952,
+      "percent": 52,
+      "raw": 2052,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788287552,
+      "percent": 54,
+      "raw": 2017,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788291152,
+      "percent": 52,
+      "raw": 2055,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788294752,
+      "percent": 52,
+      "raw": 2047,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788298352,
+      "percent": 52,
+      "raw": 2057,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788301952,
+      "percent": 51,
+      "raw": 2065,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788305552,
+      "percent": 51,
+      "raw": 2070,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788309152,
+      "percent": 52,
+      "raw": 2059,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788312752,
+      "percent": 53,
+      "raw": 2034,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788316352,
+      "percent": 52,
+      "raw": 2050,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788319952,
+      "percent": 51,
+      "raw": 2068,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788323552,
+      "percent": 51,
+      "raw": 2073,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788327152,
+      "percent": 51,
+      "raw": 2066,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788330752,
+      "percent": 53,
+      "raw": 2043,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788334352,
+      "percent": 53,
+      "raw": 2045,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788337952,
+      "percent": 55,
+      "raw": 2009,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788341552,
+      "percent": 51,
+      "raw": 2071,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788345152,
+      "percent": 56,
+      "raw": 1984,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788348752,
+      "percent": 75,
+      "raw": 1648,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788352352,
+      "percent": 76,
+      "raw": 1626,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788355952,
+      "percent": 75,
+      "raw": 1640,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788359552,
+      "percent": 81,
+      "raw": 1525,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788363152,
+      "percent": 78,
+      "raw": 1594,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788366752,
+      "percent": 78,
+      "raw": 1591,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788370352,
+      "percent": 75,
+      "raw": 1644,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788373952,
+      "percent": 76,
+      "raw": 1632,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788377552,
+      "percent": 73,
+      "raw": 1675,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788381152,
+      "percent": 71,
+      "raw": 1710,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788384751,
+      "percent": 77,
+      "raw": 1606,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788388352,
+      "percent": 74,
+      "raw": 1653,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788391951,
+      "percent": 74,
+      "raw": 1658,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788395551,
+      "percent": 90,
+      "raw": 1377,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788399151,
+      "percent": 94,
+      "raw": 1303,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788402751,
+      "percent": 92,
+      "raw": 1340,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788406351,
+      "percent": 91,
+      "raw": 1361,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788409951,
+      "percent": 93,
+      "raw": 1324,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788413551,
+      "percent": 97,
+      "raw": 1254,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788417151,
+      "percent": 85,
+      "raw": 1455,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788420751,
+      "percent": 88,
+      "raw": 1400,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788424351,
+      "percent": 86,
+      "raw": 1452,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788427951,
+      "percent": 85,
+      "raw": 1458,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788431551,
+      "percent": 82,
+      "raw": 1515,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788435151,
+      "percent": 86,
+      "raw": 1450,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788438751,
+      "percent": 86,
+      "raw": 1444,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788442351,
+      "percent": 88,
+      "raw": 1404,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788445951,
+      "percent": 84,
+      "raw": 1485,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788449551,
+      "percent": 86,
+      "raw": 1438,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788453151,
+      "percent": 84,
+      "raw": 1480,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788456751,
+      "percent": 87,
+      "raw": 1425,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788460351,
+      "percent": 86,
+      "raw": 1441,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788463951,
+      "percent": 85,
+      "raw": 1455,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788467551,
+      "percent": 83,
+      "raw": 1494,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788471151,
+      "percent": 82,
+      "raw": 1517,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788474751,
+      "percent": 84,
+      "raw": 1479,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788478351,
+      "percent": 86,
+      "raw": 1443,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788481951,
+      "percent": 79,
+      "raw": 1563,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788485551,
+      "percent": 85,
+      "raw": 1457,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788489151,
+      "percent": 85,
+      "raw": 1464,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788492751,
+      "percent": 83,
+      "raw": 1492,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788496351,
+      "percent": 82,
+      "raw": 1520,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788499951,
+      "percent": 83,
+      "raw": 1490,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788503551,
+      "percent": 81,
+      "raw": 1533,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788507151,
+      "percent": 81,
+      "raw": 1530,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788510751,
+      "percent": 80,
+      "raw": 1547,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788514350,
+      "percent": 83,
+      "raw": 1490,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788517950,
+      "percent": 83,
+      "raw": 1498,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788521550,
+      "percent": 82,
+      "raw": 1512,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788525150,
+      "percent": 84,
+      "raw": 1473,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788528750,
+      "percent": 83,
+      "raw": 1497,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788532350,
+      "percent": 83,
+      "raw": 1498,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788535950,
+      "percent": 81,
+      "raw": 1529,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788539550,
+      "percent": 84,
+      "raw": 1485,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788543150,
+      "percent": 83,
+      "raw": 1489,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788546750,
+      "percent": 84,
+      "raw": 1474,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788550350,
+      "percent": 83,
+      "raw": 1496,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788553950,
+      "percent": 86,
+      "raw": 1439,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788557550,
+      "percent": 82,
+      "raw": 1512,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788561150,
+      "percent": 86,
+      "raw": 1448,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788564750,
+      "percent": 86,
+      "raw": 1444,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788568350,
+      "percent": 84,
+      "raw": 1488,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788571950,
+      "percent": 81,
+      "raw": 1526,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788575550,
+      "percent": 82,
+      "raw": 1515,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788579150,
+      "percent": 86,
+      "raw": 1452,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788582750,
+      "percent": 85,
+      "raw": 1459,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788586350,
+      "percent": 86,
+      "raw": 1446,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788589950,
+      "percent": 84,
+      "raw": 1471,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788593550,
+      "percent": 85,
+      "raw": 1457,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788597150,
+      "percent": 88,
+      "raw": 1407,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788600750,
+      "percent": 85,
+      "raw": 1459,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788604350,
+      "percent": 81,
+      "raw": 1534,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788607950,
+      "percent": 84,
+      "raw": 1488,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788611550,
+      "percent": 83,
+      "raw": 1502,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788615150,
+      "percent": 85,
+      "raw": 1455,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788618750,
+      "percent": 82,
+      "raw": 1518,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788622350,
+      "percent": 82,
+      "raw": 1518,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788625950,
+      "percent": 87,
+      "raw": 1432,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788629550,
+      "percent": 85,
+      "raw": 1462,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788633150,
+      "percent": 81,
+      "raw": 1542,
+      "gpio": 1
+    },
+    {
+      "timestamp": 1788636057,
+      "percent": 83,
+      "raw": 1505,
+      "gpio": 1
+    }
+  ],
+  "history": [
+    {
+      "timestamp": 1784768731,
+      "type": "manual",
+      "duration_sec": 2,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1784768735,
+      "type": "manual",
+      "duration_sec": 1,
+      "reservoir_ok_at_start": true,
+      "completed": false,
+      "stopped_reason": "manual_stop"
+    },
+    {
+      "timestamp": 1784768824,
+      "type": "scheduled",
+      "duration_sec": 2,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1784769194,
+      "type": "manual",
+      "duration_sec": 1,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1784811620,
+      "type": "scheduled",
+      "duration_sec": 120,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787105986,
+      "type": "manual",
+      "duration_sec": 1,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787110277,
+      "type": "manual",
+      "duration_sec": 3,
+      "reservoir_ok_at_start": true,
+      "completed": false,
+      "stopped_reason": "manual_stop"
+    },
+    {
+      "timestamp": 1787110314,
+      "type": "manual",
+      "duration_sec": 2,
+      "reservoir_ok_at_start": true,
+      "completed": false,
+      "stopped_reason": "manual_stop"
+    },
+    {
+      "timestamp": 1787112070,
+      "type": "manual",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787230809,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787403607,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787490005,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787662803,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1787835600,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1788008427,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1788094826,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1788267623,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1788440420,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    },
+    {
+      "timestamp": 1788613217,
+      "type": "scheduled",
+      "duration_sec": 600,
+      "reservoir_ok_at_start": true,
+      "completed": true,
+      "stopped_reason": "timer_complete"
+    }
+  ],
+  "planters": [
+    {
+      "id": 1,
+      "name": "Planter 1",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "name": "Planter 2",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "name": "Planter 3",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "id": 4,
+      "name": "Planter 4",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "id": 5,
+      "name": "Planter 5",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "id": 6,
+      "name": "Planter 6",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    },
+    {
+      "id": 7,
+      "name": "Planter 7",
+      "plant_type": "unknown",
+      "container_size": "medium",
+      "sun_exposure": "unknown",
+      "water_need": "medium",
+      "dripper_setting": "unknown",
+      "enabled": true,
+      "notes": ""
+    }
+  ],
+  "observations": [
+    {
+      "timestamp": 1784768730,
+      "planter_id": 1,
+      "condition": "software_test",
+      "severity": "low",
+      "note": "Automated software verification; no hardware attached."
+    }
+  ]
+}

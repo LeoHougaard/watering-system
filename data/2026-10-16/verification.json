@@ -1,0 +1,257 @@
+{
+  "collected_at_utc": "2026-10-17T03:00:35.780710+00:00",
+  "device_clock_error_sec": 0.78,
+  "settings_unchanged": true,
+  "storage_used_percent": 13.78,
+  "latest_reading_age_sec_at_export": 49,
+  "hourly_history_age_sec_at_export": 109,
+  "moisture_365": {
+    "count": 162,
+    "first_utc": "2026-08-19T05:07:31+00:00",
+    "last_utc": "2026-10-16T22:58:46+00:00",
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "min_interval_sec": 23483,
+    "max_interval_sec": 35337,
+    "median_interval_sec": 32399,
+    "min_percent": 0,
+    "max_percent": 96,
+    "averaged_by_device": true,
+    "intervals_are_aggregate_spacing_not_sensor_gaps": true
+  },
+  "moisture_detailed": {
+    "count": 983,
+    "first_utc": "2026-08-19T04:03:03+00:00",
+    "last_utc": "2026-10-17T02:28:46+00:00",
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "min_interval_sec": 3599,
+    "max_interval_sec": 6714,
+    "median_interval_sec": 5400.0,
+    "min_percent": 0,
+    "max_percent": 100,
+    "averaged_by_device": true,
+    "intervals_are_aggregate_spacing_not_sensor_gaps": true
+  },
+  "moisture_recent_41_days": {
+    "count": 984,
+    "first_utc": "2026-09-06T03:59:00+00:00",
+    "last_utc": "2026-10-17T02:58:46+00:00",
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "min_interval_sec": 3599,
+    "max_interval_sec": 3601,
+    "median_interval_sec": 3600,
+    "gaps_over_90_min": [],
+    "min_percent": 0,
+    "max_percent": 100,
+    "averaged_by_device": false
+  },
+  "moisture_recent_40_days": {
+    "count": 960,
+    "first_utc": "2026-09-07T03:59:00+00:00",
+    "last_utc": "2026-10-17T02:58:46+00:00",
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "min_interval_sec": 3599,
+    "max_interval_sec": 3601,
+    "median_interval_sec": 3600,
+    "gaps_over_90_min": [],
+    "min_percent": 0,
+    "max_percent": 100,
+    "averaged_by_device": false
+  },
+  "moisture_prior_archive": {
+    "count": 429,
+    "first_utc": "2026-08-19T03:38:11+00:00",
+    "last_utc": "2026-09-05T19:20:57+00:00",
+    "duplicate_timestamps": 0,
+    "sorted": true,
+    "min_interval_sec": 4,
+    "max_interval_sec": 3601,
+    "median_interval_sec": 3600.0,
+    "gaps_over_90_min": [],
+    "min_percent": 21,
+    "max_percent": 97,
+    "averaged_by_device": false
+  },
+  "recent_overlap_matches": true,
+  "gap_between_prior_archive_and_recent_export": {
+    "from_utc": "2026-09-05T19:20:57+00:00",
+    "to_utc": "2026-09-06T03:59:00+00:00",
+    "hours": 8.634
+  },
+  "watering": {
+    "count": 66,
+    "by_type": {
+      "manual": 7,
+      "scheduled": 23,
+      "skipped": 36
+    },
+    "by_stop_reason": {
+      "timer_complete": 27,
+      "manual_stop": 3,
+      "moisture_target": 36
+    },
+    "first_utc": "2026-07-23T01:05:31+00:00",
+    "last_utc": "2026-10-16T13:00:04+00:00",
+    "completed_runtime_sec": 9726,
+    "incomplete_non_skip": [
+      {
+        "timestamp": 1784768735,
+        "type": "manual",
+        "duration_sec": 1,
+        "reservoir_ok_at_start": true,
+        "completed": false,
+        "stopped_reason": "manual_stop"
+      },
+      {
+        "timestamp": 1787110277,
+        "type": "manual",
+        "duration_sec": 3,
+        "reservoir_ok_at_start": true,
+        "completed": false,
+        "stopped_reason": "manual_stop"
+      },
+      {
+        "timestamp": 1787110314,
+        "type": "manual",
+        "duration_sec": 2,
+        "reservoir_ok_at_start": true,
+        "completed": false,
+        "stopped_reason": "manual_stop"
+      }
+    ]
+  },
+  "diagnostics": {
+    "count": 145,
+    "messages": {
+      "OTA partitioning and upload/apply handler are enabled.": 47,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 816 min": 1,
+      "Controller clock set from browser.": 9,
+      "OTA update failed.": 2,
+      "OTA update applied; rebooting into new firmware.": 28,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 716 min": 1,
+      "status MANUAL_RUNNING, reservoir OK, block 'Running.', next 06:00 in 715 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 715 min": 1,
+      "status SCHEDULED_RUNNING, reservoir OK, block 'Running.', next 18:07 in 0 min": 1,
+      "status COOLDOWN, reservoir OK, block 'Running.', next 18:07 in 0 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 713 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 711 min": 1,
+      "status MANUAL_RUNNING, reservoir OK, block 'Running.', next 06:00 in 707 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 707 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 705 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 666 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 665 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 664 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 641 min": 3,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 637 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 500 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 494 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 837 min": 1,
+      "status IDLE, reservoir OK, block 'none', next Waiting for valid clock": 3,
+      "status MANUAL_RUNNING, reservoir OK, block 'Running.', next 06:00 in 641 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 640 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 579 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 573 min": 1,
+      "status MANUAL_RUNNING, reservoir OK, block 'Running.', next 06:00 in 569 min": 2,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 569 min": 2,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 547 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 546 min": 1,
+      "status MANUAL_RUNNING, reservoir OK, block 'Running.', next 06:00 in 539 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 1969 min": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 21 hours and 11 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 19 hours and 54 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 19 hours and 37 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 19 hours and 35 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 19 hours and 32 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 17 hours and 44 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 17 hours and 39 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 17 hours and 17 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 16 hours and 48 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 16 hours and 46 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 16 hours and 25 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 16 hours and 1 minute": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 15 hours and 49 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 15 hours and 36 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 15 hours and 26 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 15 hours and 19 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 15 hours and 8 minutes": 1,
+      "status IDLE, reservoir OK, block 'none', next 06:00 in 15 hours and 5 minutes": 1,
+      "No probe response. Using daily allowance.": 5
+    },
+    "timestamps_below_valid_clock": 19,
+    "historical_ota_failures": [
+      {
+        "timestamp": 1784768600,
+        "message": "OTA update failed."
+      },
+      {
+        "timestamp": 1784768605,
+        "message": "OTA update failed."
+      }
+    ],
+    "probe_fallbacks": [
+      {
+        "timestamp": 1789911132,
+        "message": "No probe response. Using daily allowance."
+      },
+      {
+        "timestamp": 1789997531,
+        "message": "No probe response. Using daily allowance."
+      },
+      {
+        "timestamp": 1790085849,
+        "message": "No probe response. Using daily allowance."
+      },
+      {
+        "timestamp": 1791984727,
+        "message": "No probe response. Using daily allowance."
+      },
+      {
+        "timestamp": 1792071126,
+        "message": "No probe response. Using daily allowance."
+      }
+    ]
+  },
+  "daily_automation_since_2026_09_06": {
+    "days_checked": 41,
+    "days_with_watering": 5,
+    "days_skipped_at_target": 36,
+    "every_day_logged": true,
+    "all_checks_within_30_seconds_of_0600": true,
+    "all_daily_runtime_within_600_seconds": true,
+    "all_scheduled_pulses_completed": true,
+    "total_runtime_sec": 3000
+  },
+  "probe_anomaly": {
+    "zero_percent_readings": 32,
+    "first_zero_pdt": "2026-10-14T01:58:47-07:00",
+    "last_zero_pdt": "2026-10-15T12:58:46-07:00",
+    "adc_full_scale_readings": 17,
+    "first_adc_full_scale_pdt": "2026-10-14T07:58:47-07:00",
+    "last_adc_full_scale_pdt": "2026-10-15T12:58:46-07:00",
+    "inference": "Full-scale ADC readings and the abrupt fall/recovery warrant checking the probe connection and placement. The logs do not establish a cause or actual root-zone moisture."
+  },
+  "ui": {
+    "http_status": 200,
+    "bytes": 35150,
+    "sha256": "f87ddfca69e0d2452160a89ef99780db5fa3c648bc3ad32bd9455ef34e7eaed4",
+    "matches_local_source_commit": "08b6fc5",
+    "rendered_visual_check": false,
+    "browser_failure": "Preview automation snapshot timed out after 15000ms. Repeated twice; evaluate also timed out. The fallback browser provider reported no browser available."
+  },
+  "camera": {
+    "status_url": "http://esp32-cam.local/status",
+    "verified": false,
+    "error": "curl: (6) Could not resolve host: esp32-cam.local",
+    "source_issue": "Camera firmware on the existing public default branch contains hardcoded network credentials and shared OTA PINs. Values excluded from this export. No credentials were changed."
+  },
+  "physical_verification": {
+    "pump_activated_for_this_review": false,
+    "power_cycle_performed": false,
+    "water_delivery_verified": false,
+    "reservoir_level_verified": false,
+    "probe_placement_verified": false
+  }
+}

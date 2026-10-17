@@ -1,0 +1,32 @@
+{
+  "checked_at_utc": "2026-10-17T03:02:33.233Z",
+  "local_source_commit": "08b6fc5",
+  "deployed_binary_identity_verified": false,
+  "note": "Host suites test local controller source using simulated hardware. Deployed HTML matches that source; the live status API has no firmware version or binary hash.",
+  "suites": [
+    {
+      "suite": "model",
+      "command": "python test/run_host_model_tests.py",
+      "exit_code": 0,
+      "output": "C:\\Users\\Leo\\AppData\\Local\\Temp\\watering-model-13_9ttrk\\tests.c:53:test_0:PASS\r\nC:\\Users\\Leo\\AppData\\Local\\Temp\\watering-model-13_9ttrk\\tests.c:54:test_1:PASS\r\nC:\\Users\\Leo\\AppData\\Local\\Temp\\watering-model-13_9ttrk\\tests.c:55:test_2:PASS\r\n\r\n-----------------------\r\n3 Tests 0 Failures 0 Ignored \r\nOK\r\n"
+    },
+    {
+      "suite": "target",
+      "command": "python test/run_host_target_tests.py",
+      "exit_code": 0,
+      "output": "Pulse, soak and target stop passed\r\nFive-point target band passed\r\nUnavailable, warming and disabled target fallback passed\r\nNo-response fallback and total watering allowance passed\r\nStop, target change, schedule pause and manual override passed\r\nExpired session cancellation passed\r\nPersistent restart duplicate guard and storage-failure lockout passed\r\nDaily time across all seven weekdays, no early or duplicate run passed\r\nSchedule-only weekdays, changed daily time and pending cycle cancellation passed\r\nProbe fallback also protected against same-minute reboot passed\r\nFourteen continuous days: correct daily time, wet-soil skips, missing probe, bounded fallback, no weather dependency passed\r\n"
+    },
+    {
+      "suite": "pump",
+      "command": "python test/run_host_pump_tests.py",
+      "exit_code": 0,
+      "output": "Clock corrections cannot extend or shorten pump runtime passed\r\nCooldown expires independently of wall clock passed\r\nFresh runtime limits applied without reboot passed\r\nStop clears queued starts passed\r\nAutomation off prevents a queued scheduled start passed\r\nLow reservoir stops the pump passed\r\n"
+    },
+    {
+      "suite": "reservoir",
+      "command": "python test/run_host_reservoir_tests.py",
+      "exit_code": 0,
+      "output": "Reservoir task: enable, disable, GPIO change, bypass, polarity, debounce and configuration failure passed\r\n"
+    }
+  ]
+}
