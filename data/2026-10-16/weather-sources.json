@@ -1,0 +1,40 @@
+{
+  "retrieved_at_utc": "2026-10-17T03:10:37.493917+00:00",
+  "sources": [
+    {
+      "file": "weather-archive-daily.json",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=49.32&longitude=-123.07&start_date=2026-09-05&end_date=2026-10-16&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,et0_fao_evapotranspiration&timezone=America%2FVancouver",
+      "description": "Open-Meteo archive; gridded model estimate, default model selection",
+      "sha256": "706d0ed819f89ba60861349126af101342cdebb2f5ea2433f60eb0c621fc4db6"
+    },
+    {
+      "file": "weather-archive-hourly.json",
+      "url": "https://archive-api.open-meteo.com/v1/archive?latitude=49.32&longitude=-123.07&start_date=2026-10-10&end_date=2026-10-16&hourly=temperature_2m,relative_humidity_2m,precipitation,rain&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,et0_fao_evapotranspiration&timezone=America%2FVancouver",
+      "description": "Open-Meteo archive; gridded model estimate, default model selection",
+      "sha256": "7cc327dd2335b414e40e6950137a44766e5ea087690dbd8e3410074b94be3643"
+    },
+    {
+      "file": "weather-historical-forecast.json",
+      "url": "https://historical-forecast-api.open-meteo.com/v1/forecast?latitude=49.32&longitude=-123.07&start_date=2026-10-10&end_date=2026-10-16&hourly=temperature_2m,relative_humidity_2m,precipitation,rain&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum,et0_fao_evapotranspiration&timezone=America%2FVancouver",
+      "description": "Open-Meteo historical forecast; archived model forecasts, not station observations",
+      "sha256": "c81c43e75a2041c53c417b56fd00b6cf3223e15e8a4278245f836dc57c73df66"
+    },
+    {
+      "file": "weather-eccc-wharves.json",
+      "url": "https://api.weather.gc.ca/collections/climate-daily/items?CLIMATE_IDENTIFIER=1105669&datetime=2026-10-10T00:00:00Z/2026-10-16T23:59:59Z&limit=20&f=json",
+      "description": "Environment and Climate Change Canada; North Vancouver Wharves station 833, climate ID 1105669",
+      "sha256": "07f1dfed002db0827bb83d1be0670b26e240f274dbe8c7bb6ca116d180211c5c"
+    },
+    {
+      "file": "weather-eccc-yvr.json",
+      "url": "https://climate.weather.gc.ca/climate_data/bulk_data_e.html?format=csv&stationID=51442&Year=2026&Month=10&Day=16&timeframe=2&submit=Download+Data",
+      "description": "Environment and Climate Change Canada, Vancouver International Airport station 51442, climate ID 1108395",
+      "sha256": "dc8ef66525b8ddf96b55a0bb6ee1d1eafee514007b6a3d5144d4316802181489"
+    }
+  ],
+  "documentation": [
+    "https://open-meteo.com/en/docs/historical-weather-api",
+    "https://open-meteo.com/en/docs/historical-forecast-api",
+    "https://docs.espressif.com/projects/esp-idf/en/v5.5/esp32s3/api-reference/peripherals/adc_oneshot.html"
+  ]
+}

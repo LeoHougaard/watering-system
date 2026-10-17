@@ -2,6 +2,8 @@
 
 Collected October 16, 2026 at about 20:00 PDT, October 17 at 03:00 UTC. The controller is online and logging reliably. The moisture probe needs a physical check after abnormal readings on October 14 and 15. The optional camera could not be reached by its documented hostname.
 
+The follow-up [weather comparison](weather-comparison.md) checks whether North Vancouver rain explains the readings. The longer trend is plausible; the October 13 to 15 collapse remains unexplained by ordinary drying.
+
 ## Controller checks
 
 - Pump IDLE, relay GPIO5 at its off level, no fault flags or block reason, and no active target cycle.

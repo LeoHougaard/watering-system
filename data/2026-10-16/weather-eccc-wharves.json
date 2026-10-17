@@ -1,0 +1,359 @@
+{
+  "url": "https://api.weather.gc.ca/collections/climate-daily/items?CLIMATE_IDENTIFIER=1105669&datetime=2026-10-10T00:00:00Z/2026-10-16T23:59:59Z&limit=20&f=json",
+  "data": {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "id": "1105669.2026.10.11",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.11",
+          "LOCAL_DATE": "2026-10-11 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 11,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": 0,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": 0,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": 0,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": 0,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      },
+      {
+        "id": "1105669.2026.10.10",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.10",
+          "LOCAL_DATE": "2026-10-10 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 10,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": 0,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": 0,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": 0,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": 0,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      },
+      {
+        "id": "1105669.2026.10.13",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.13",
+          "LOCAL_DATE": "2026-10-13 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 13,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": 10,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": 10,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": 0,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": 0,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      },
+      {
+        "id": "1105669.2026.10.15",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.15",
+          "LOCAL_DATE": "2026-10-15 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 15,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": null,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": null,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": null,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": null,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      },
+      {
+        "id": "1105669.2026.10.12",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.12",
+          "LOCAL_DATE": "2026-10-12 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 12,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": 0,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": 0,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": 0,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": 0,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      },
+      {
+        "id": "1105669.2026.10.14",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.14",
+          "LOCAL_DATE": "2026-10-14 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 14,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": 0,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": 0,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": 0,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": 0,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      },
+      {
+        "id": "1105669.2026.10.16",
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -123.11527777777778,
+            49.31478333333333
+          ]
+        },
+        "properties": {
+          "STATION_NAME": "N VANCOUVER WHARVES",
+          "CLIMATE_IDENTIFIER": "1105669",
+          "ID": "1105669.2026.10.16",
+          "LOCAL_DATE": "2026-10-16 00:00:00",
+          "PROVINCE_CODE": "BC",
+          "LOCAL_YEAR": 2026,
+          "LOCAL_MONTH": 10,
+          "LOCAL_DAY": 16,
+          "MEAN_TEMPERATURE": null,
+          "MEAN_TEMPERATURE_FLAG": null,
+          "MIN_TEMPERATURE": null,
+          "MIN_TEMPERATURE_FLAG": null,
+          "MAX_TEMPERATURE": null,
+          "MAX_TEMPERATURE_FLAG": null,
+          "TOTAL_PRECIPITATION": null,
+          "TOTAL_PRECIPITATION_FLAG": null,
+          "TOTAL_RAIN": null,
+          "TOTAL_RAIN_FLAG": null,
+          "TOTAL_SNOW": null,
+          "TOTAL_SNOW_FLAG": null,
+          "SNOW_ON_GROUND": null,
+          "SNOW_ON_GROUND_FLAG": null,
+          "DIRECTION_MAX_GUST": null,
+          "DIRECTION_MAX_GUST_FLAG": null,
+          "SPEED_MAX_GUST": null,
+          "SPEED_MAX_GUST_FLAG": null,
+          "COOLING_DEGREE_DAYS": null,
+          "COOLING_DEGREE_DAYS_FLAG": null,
+          "HEATING_DEGREE_DAYS": null,
+          "HEATING_DEGREE_DAYS_FLAG": null,
+          "MIN_REL_HUMIDITY": null,
+          "MIN_REL_HUMIDITY_FLAG": null,
+          "STN_ID": 833
+        }
+      }
+    ],
+    "numberMatched": 7,
+    "numberReturned": 7,
+    "links": [
+      {
+        "type": "application/geo+json",
+        "rel": "self",
+        "title": "This document as GeoJSON",
+        "href": "https://api.weather.gc.ca/collections/climate-daily/items?f=json&CLIMATE_IDENTIFIER=1105669&datetime=2026-10-10T00%3A00%3A00Z%2F2026-10-16T23%3A59%3A59Z&limit=20"
+      },
+      {
+        "rel": "alternate",
+        "type": "application/ld+json",
+        "title": "This document as RDF (JSON-LD)",
+        "href": "https://api.weather.gc.ca/collections/climate-daily/items?f=jsonld&CLIMATE_IDENTIFIER=1105669&datetime=2026-10-10T00%3A00%3A00Z%2F2026-10-16T23%3A59%3A59Z&limit=20"
+      },
+      {
+        "type": "text/html",
+        "rel": "alternate",
+        "title": "This document as HTML",
+        "href": "https://api.weather.gc.ca/collections/climate-daily/items?f=html&CLIMATE_IDENTIFIER=1105669&datetime=2026-10-10T00%3A00%3A00Z%2F2026-10-16T23%3A59%3A59Z&limit=20"
+      },
+      {
+        "type": "application/json",
+        "title": "Climate - Daily Observations",
+        "rel": "collection",
+        "href": "https://api.weather.gc.ca/collections/climate-daily"
+      }
+    ],
+    "timeStamp": "2026-10-17T03:08:40.464038Z"
+  }
+}
