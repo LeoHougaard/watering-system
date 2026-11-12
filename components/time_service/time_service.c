@@ -6,6 +6,7 @@
 
 #include "config_store.h"
 #include "esp_log.h"
+#include "esp_netif_sntp.h"
 
 static const char *TAG = "time";
 
@@ -17,5 +18,10 @@ esp_err_t time_service_init(void)
     setenv("TZ", tz, 1);
     tzset();
     ESP_LOGI(TAG, "timezone set to %s", tz);
-    return ESP_OK;
+
+    esp_sntp_config_t sntp = ESP_NETIF_SNTP_DEFAULT_CONFIG_MULTIPLE(
+        3, ESP_SNTP_SERVER_LIST("time.cloudflare.com", "time.google.com", "pool.ntp.org"));
+    esp_err_t err = esp_netif_sntp_init(&sntp);
+    if (err == ESP_OK) ESP_LOGI(TAG, "automatic network time synchronization started");
+    return err;
 }

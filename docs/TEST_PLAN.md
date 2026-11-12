@@ -1,35 +1,13 @@
-# Test Plan
+# Software checks
 
-## Unit Tests
+Run with GCC and the local ESP-IDF installation available:
 
-- Pump state transitions: `IDLE`, `MANUAL_RUNNING`, `SCHEDULED_RUNNING`, `COOLDOWN`, low-reservoir lockout, max-runtime lockout, fault.
-- Manual timer expiration: requested run stops at requested duration or at 1200 seconds, whichever is lower.
-- Reservoir lockout: low reservoir blocks manual and scheduled starts.
-- Cooldown logic: run requests during cooldown are rejected or skipped without relay activation.
-- Schedule calculation: enabled days and start minute trigger exactly once per day.
-- Rain delay behavior: scheduled run is skipped until `rain_delay_until`.
-- Seasonal multiplier: scheduled duration is multiplied then capped at 300 seconds.
-- Recommendation rules: repeated dry/wet observations, stale observation reminder, manual-after-schedule pattern.
-- Settings persistence: NVS defaults are created and saved settings survive reboot.
+- `python test/run_host_model_tests.py`: settings limits and model serialization.
+- `python test/run_host_target_tests.py`: fourteen days of the actual scheduler, daily timing, wet-soil skips, missing probes, Stop and runtime limits.
+- `python test/run_host_pump_tests.py`: actual pump task with simulated GPIO, queue handling, reservoir input and clocks. Includes clock corrections, cooldown, changed limits and queued-start cancellation.
+- `python test/run_host_reservoir_tests.py`: debounce, polarity, bypass and reconfiguration.
+- `python test/preview_server.py`: read-only UI preview. Evaluate both browser regression scripts there; all control requests are mocked and the preview rejects POST requests.
 
-## Integration Tests
+Build with `tools/build_s3_fast.cmd`. Compare the deployed HTML against the built source and read the live settings, status and history after deployment. Confirm the chosen target, time and cap are preserved, the clock is valid, the pump is idle and the stored records remain available.
 
-- 10-minute manual run starts and stops correctly.
-- Manual stop works immediately.
-- Low reservoir blocks manual run.
-- Low reservoir blocks scheduled run.
-- Low reservoir during run stops pump.
-- Scheduled watering runs only once per scheduled window.
-- Rain delay skips scheduled watering.
-- Reboot preserves settings and planter profiles.
-- Repeated dry observations create dripper-open recommendation.
-- Repeated wet observations create dripper-close recommendation.
-- Many dry observations create schedule-increase recommendation.
-- Many wet observations create schedule-decrease recommendation.
-
-## Hardware Safety Checks
-
-- Confirm relay GPIO is low/off during boot and reset.
-- Confirm relay module is wired fail-off for ESP32 reset and power loss.
-- Confirm mains wiring is isolated in a rated enclosure.
-- Confirm reservoir sensor polarity matches `reservoir_active_high`.
+Physical testing is not part of this update, at Leo's request.

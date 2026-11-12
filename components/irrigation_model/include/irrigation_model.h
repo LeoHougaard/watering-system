@@ -6,12 +6,8 @@
 
 #include "cJSON.h"
 
-#define PLANTER_COUNT 7
-#define MAX_RECOMMENDATIONS 16
 #define MAX_FAULT_FLAGS 8
 #define MAX_SCHEDULE_SLOTS 8
-#define WEATHER_DATA_VERSION 2
-#define WEATHER_DATA_MAX_AGE_SEC (8 * 60 * 60)
 
 typedef enum {
     PUMP_STATE_IDLE,
@@ -39,19 +35,10 @@ typedef enum {
     STOP_RAIN_DELAY,
     STOP_AUTO_DISABLED,
     STOP_MAX_RUNTIME,
+    STOP_MOISTURE_TARGET,
 } stop_reason_t;
 
-typedef struct {
-    int id;
-    char name[32];
-    char plant_type[32];
-    char container_size[24];
-    char sun_exposure[24];
-    char water_need[12];
-    char dripper_setting[12];
-    bool enabled;
-    char notes[128];
-} planter_config_t;
+
 
 typedef struct {
     char start[6];
@@ -79,9 +66,10 @@ typedef struct {
     uint32_t manual_max_run_sec;
     uint32_t scheduled_max_run_sec;
     uint32_t pump_cooldown_sec;
-    bool rain_delay_enabled;
-    time_t rain_delay_until;
-    float seasonal_multiplier;
+    /* Reserved legacy fields retain offsets in the deployed NVS settings blob. */
+    bool legacy_rain_delay_enabled;
+    time_t legacy_rain_delay_until;
+    float legacy_seasonal_multiplier;
     bool reservoir_sensor_enabled;
     bool reservoir_sensor_bypass;
     bool reservoir_active_high;
@@ -92,42 +80,32 @@ typedef struct {
     uint32_t moisture_wet_raw;
     uint32_t moisture_sample_interval_sec;
     uint32_t moisture_history_days;
-    bool weather_adjust_enabled;
-    bool weather_skip_on_rain;
-    float weather_hot_multiplier;
-    float weather_rain_multiplier;
-    float weather_last_multiplier;
-    float weather_last_temp_c;
-    float weather_last_precip_mm;
-    time_t weather_last_update;
+    bool legacy_weather_adjust_enabled;
+    bool legacy_weather_skip_on_rain;
+    float legacy_weather_hot_multiplier;
+    float legacy_weather_rain_multiplier;
+    float legacy_weather_last_multiplier;
+    float legacy_weather_last_temp_c;
+    float legacy_weather_last_precip_mm;
+    time_t legacy_weather_last_update;
     int pump_gpio;
     int pump_gpio_b;
     int pump_sleep_gpio;
     int reservoir_gpio;
     char auth_pin_hash[65];
     uint32_t moisture_live_interval_sec;
-    float weather_last_et0_mm;
-    float weather_last_recent_rain_mm;
-    float weather_last_forecast_rain_mm;
-    float weather_last_rain_probability_pct;
-    uint32_t weather_data_version;
+    float legacy_weather_last_et0_mm;
+    float legacy_weather_last_recent_rain_mm;
+    float legacy_weather_last_forecast_rain_mm;
+    float legacy_weather_last_rain_probability_pct;
+    uint32_t legacy_weather_data_version;
+    uint32_t moisture_average_count;
+    uint32_t storage_policy_version;
 } system_settings_t;
 
-typedef struct {
-    float recent_rain_mm;
-    float forecast_rain_12h_mm;
-    float forecast_rain_24h_mm;
-    float forecast_rain_probability_pct;
-    float previous_et0_mm;
-    float forecast_et0_mm;
-} weather_observation_t;
 
-typedef struct {
-    float multiplier;
-    float demand_et0_mm;
-    float effective_rain_mm;
-    bool skipped_for_rain;
-} weather_adjustment_t;
+
+
 
 typedef struct {
     pump_state_t pump_state;
@@ -161,37 +139,14 @@ typedef struct {
     stop_reason_t stopped_reason;
 } watering_event_t;
 
-typedef struct {
-    time_t timestamp;
-    int planter_id;
-    char condition[24];
-    char severity[12];
-    char note[128];
-} user_observation_t;
 
-typedef struct {
-    char id[40];
-    time_t timestamp;
-    char scope[12];
-    int planter_id;
-    char category[32];
-    char severity[12];
-    float confidence;
-    char message[192];
-    bool resolved;
-    time_t snoozed_until;
-} recommendation_record_t;
+
+
 
 const char *pump_state_to_string(pump_state_t state);
 const char *event_type_to_string(watering_event_type_t type);
 const char *stop_reason_to_string(stop_reason_t reason);
 void model_defaults_settings(system_settings_t *settings);
-void model_defaults_planters(planter_config_t planters[PLANTER_COUNT]);
 cJSON *settings_to_json(const system_settings_t *settings);
 cJSON *runtime_to_json(const runtime_state_t *runtime);
-cJSON *planter_to_json(const planter_config_t *planter);
-bool json_to_planter(const cJSON *json, planter_config_t *planter);
 bool json_to_settings(const cJSON *json, system_settings_t *settings);
-weather_adjustment_t model_weather_adjustment(const weather_observation_t *observation, bool allow_rain_skip);
-bool model_weather_data_is_fresh(const system_settings_t *settings, time_t now);
-float model_weather_multiplier(const system_settings_t *settings, time_t now);

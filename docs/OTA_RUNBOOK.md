@@ -6,7 +6,7 @@ Use this when a future thread needs to build and upload firmware over Wi-Fi.
 
 - Device URL: `http://10.1.40.117/`
 - OTA endpoint: `http://10.1.40.117/api/v1/ota/apply`
-- Local API PIN: `1234`
+- Local API PIN: the existing deployed PIN, preserved during the secure-storage migration
 - Firmware image path: `build_s3\esp32_irrigation_controller.bin`
 
 ## Build
@@ -47,7 +47,7 @@ Optional overrides:
 
 ```powershell
 $env:WATERING_DEVICE_URL = "http://10.1.40.117"
-$env:WATERING_LOCAL_PIN = "1234"
+$env:WATERING_LOCAL_PIN = "<controller-pin>"
 $env:WATERING_BUILD_STAGE = "C:\Temp\WateringSystem"
 .\tools\ota_s3_fast.cmd
 ```
@@ -57,7 +57,7 @@ After a successful build, upload with `curl.exe`. Use HTTP/1.0 and explicit time
 ```powershell
 curl.exe --http1.0 --no-buffer --connect-timeout 10 --max-time 180 `
   -X POST http://10.1.40.117/api/v1/ota/apply `
-  -H "X-Local-PIN: 1234" `
+  -H "X-Local-PIN: <controller-pin>" `
   -H "Content-Type: application/octet-stream" `
   --data-binary "@build_s3\esp32_irrigation_controller.bin"
 ```
@@ -97,6 +97,7 @@ Healthy pump status after the reservoir-safety fix should include:
 ## Notes
 
 - OTA preserves NVS settings. If a firmware default changes, the live device may still use older saved settings until `/api/v1/settings` is updated or NVS is erased.
+- OTA writes only the inactive app partition. It does not erase the NVS settings partition or the SPIFFS history partition. Compare the schedule and history record counts before and after every production upload. The firmware also refuses to auto-format SPIFFS on a mount failure so collected data remains available for deliberate recovery.
 - Pump GPIO settings are loaded by `pump_controller_start()` at boot. If GPIO settings are changed through `/api/v1/settings`, reboot the controller before expecting `/api/v1/status` to reflect the new pump pins.
 - The current relay-module wiring uses GPIO5 for the active-low relay module IN1 control input. GPIO5 high means pump off; GPIO5 low means pump on. GPIO6 is still held low as the secondary pump output for compatibility with the previous DRV8833 wiring and can remain disconnected.
 - Current OTA reliability hardening in firmware: station Wi-Fi power save is disabled, HTTP receive timeout is 120 seconds, HTTP server stack is 8192 bytes, OTA upload size is validated before writing, OTA writes use a 4096-byte buffer, and OTA failures log received byte counts.

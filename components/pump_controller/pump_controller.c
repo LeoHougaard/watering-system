@@ -7,6 +7,7 @@
 #include "config_store.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
+#include "esp_timer.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/queue.h"
 #include "freertos/task.h"
@@ -14,7 +15,6 @@
 #include "reservoir_manager.h"
 
 static const char *TAG = "pump";
-static const bool DIAGNOSTIC_FORCE_GPIO_5_HIGH_6_LOW = false;
 
 typedef enum {
     CMD_MANUAL_RUN,
@@ -37,11 +37,22 @@ static runtime_state_t g_runtime = {
 static system_settings_t g_settings;
 static bool g_running;
 static time_t g_run_started_at;
+static int64_t g_run_started_us;
+static int64_t g_cooldown_until_us;
 static uint32_t g_run_duration_sec;
 static watering_event_type_t g_run_type;
 static int g_cmd_a;
 static int g_cmd_b;
 static int g_cmd_sleep = -1;
+
+void pump_controller_preinit_safe_off(void)
+{
+    /* Set output latches before enabling the pins to avoid an active-low relay pulse. */
+    gpio_set_level(5, 1);
+    gpio_set_level(6, 0);
+    gpio_set_direction(5, GPIO_MODE_OUTPUT);
+    gpio_set_direction(6, GPIO_MODE_OUTPUT);
+}
 
 static bool pins_conflict(const system_settings_t *settings, char *reason, size_t reason_len)
 {
@@ -93,7 +104,7 @@ static void relay_on(void)
 static void log_stop(stop_reason_t reason, bool completed)
 {
     time_t now = time(NULL);
-    uint32_t actual = g_run_started_at > 0 ? (uint32_t)(now - g_run_started_at) : 0;
+    uint32_t actual = (uint32_t)((esp_timer_get_time() - g_run_started_us) / 1000000);
     watering_event_t event = {
         .timestamp = g_run_started_at > 0 ? g_run_started_at : now,
         .type = g_run_type,
@@ -121,9 +132,11 @@ static void stop_running(stop_reason_t reason)
         reason == STOP_FAULT ||
         reason == STOP_MAX_RUNTIME;
     if (cooldown_needed) {
+        g_cooldown_until_us = esp_timer_get_time() + (int64_t)g_settings.pump_cooldown_sec * 1000000;
         g_runtime.cooldown_until = time(NULL) + g_settings.pump_cooldown_sec;
         g_runtime.pump_state = PUMP_STATE_COOLDOWN;
     } else {
+        g_cooldown_until_us = 0;
         g_runtime.cooldown_until = 0;
         g_runtime.pump_state = g_runtime.reservoir_ok ? PUMP_STATE_IDLE : PUMP_STATE_LOCKED_OUT_LOW_RESERVOIR;
     }
@@ -133,6 +146,10 @@ static void stop_running(stop_reason_t reason)
 static void start_run(watering_event_type_t type, uint32_t requested_duration, const char *reason)
 {
     time_t now = time(NULL);
+    if (g_running) {
+        ESP_LOGW(TAG, "ignoring duplicate start request while pump is running");
+        return;
+    }
     g_runtime.reservoir_ok = reservoir_manager_is_ok();
     if (!g_runtime.reservoir_ok) {
         g_runtime.pump_state = PUMP_STATE_LOCKED_OUT_LOW_RESERVOIR;
@@ -148,7 +165,7 @@ static void start_run(watering_event_type_t type, uint32_t requested_duration, c
         history_store_log_watering(&skipped);
         return;
     }
-    if (now < g_runtime.cooldown_until) {
+    if (esp_timer_get_time() < g_cooldown_until_us) {
         g_runtime.pump_state = PUMP_STATE_COOLDOWN;
         snprintf(g_runtime.block_reason, sizeof(g_runtime.block_reason), "Pump is cooling down.");
         watering_event_t skipped = {
@@ -162,13 +179,17 @@ static void start_run(watering_event_type_t type, uint32_t requested_duration, c
         history_store_log_watering(&skipped);
         return;
     }
-    uint32_t max = type == RUN_TYPE_MANUAL ? g_settings.manual_max_run_sec : g_settings.scheduled_max_run_sec;
+    system_settings_t current_settings;
+    config_store_get_settings(&current_settings);
+    if (type == RUN_TYPE_SCHEDULED && !current_settings.auto_mode_enabled) return;
+    uint32_t max = type == RUN_TYPE_MANUAL ? current_settings.manual_max_run_sec : current_settings.scheduled_max_run_sec;
     uint32_t duration = requested_duration > max ? max : requested_duration;
     if (requested_duration > max) g_runtime.pump_state = PUMP_STATE_LOCKED_OUT_MAX_RUNTIME;
     snprintf(g_runtime.block_reason, sizeof(g_runtime.block_reason), "Running.");
 
     g_running = true;
     g_run_started_at = now;
+    g_run_started_us = esp_timer_get_time();
     g_run_duration_sec = duration;
     g_run_type = type;
     g_runtime.current_run_remaining_sec = duration;
@@ -190,12 +211,11 @@ static void pump_task(void *arg)
 
         g_runtime.reservoir_ok = reservoir_manager_is_ok();
         if (g_running) {
-            time_t now = time(NULL);
-            uint32_t elapsed = (uint32_t)(now - g_run_started_at);
+            uint32_t elapsed = (uint32_t)((esp_timer_get_time() - g_run_started_us) / 1000000);
             g_runtime.current_run_remaining_sec = elapsed >= g_run_duration_sec ? 0 : g_run_duration_sec - elapsed;
             if (!g_runtime.reservoir_ok) stop_running(STOP_LOW_RESERVOIR);
             else if (elapsed >= g_run_duration_sec) stop_running(STOP_TIMER_COMPLETE);
-        } else if (g_runtime.pump_state == PUMP_STATE_COOLDOWN && time(NULL) >= g_runtime.cooldown_until) {
+        } else if (g_runtime.pump_state == PUMP_STATE_COOLDOWN && esp_timer_get_time() >= g_cooldown_until_us) {
             g_runtime.pump_state = g_runtime.reservoir_ok ? PUMP_STATE_IDLE : PUMP_STATE_LOCKED_OUT_LOW_RESERVOIR;
             snprintf(g_runtime.block_reason, sizeof(g_runtime.block_reason), "%s", g_runtime.reservoir_ok ? "" : "Reservoir sensor reads low.");
         } else if (!g_runtime.reservoir_ok && g_runtime.pump_state == PUMP_STATE_IDLE) {
@@ -211,16 +231,13 @@ static void pump_task(void *arg)
 esp_err_t pump_controller_start(void)
 {
     config_store_get_settings(&g_settings);
-    if (DIAGNOSTIC_FORCE_GPIO_5_HIGH_6_LOW) {
-        g_settings.pump_gpio = 5;
-        g_settings.pump_gpio_b = 6;
-        g_settings.pump_sleep_gpio = -1;
-    }
     if (pins_conflict(&g_settings, g_runtime.block_reason, sizeof(g_runtime.block_reason))) {
         g_runtime.pump_state = PUMP_STATE_FAULT;
         ESP_LOGE(TAG, "%s", g_runtime.block_reason);
         return ESP_ERR_INVALID_STATE;
     }
+    gpio_set_level(g_settings.pump_gpio, 1);
+    gpio_set_level(g_settings.pump_gpio_b, 0);
     gpio_config_t io = {
         .pin_bit_mask = (1ULL << g_settings.pump_gpio) | (1ULL << g_settings.pump_gpio_b),
         .mode = GPIO_MODE_OUTPUT,
@@ -240,14 +257,7 @@ esp_err_t pump_controller_start(void)
         gpio_config(&sleep_io);
         gpio_set_level(g_settings.pump_sleep_gpio, 1);
     }
-    if (DIAGNOSTIC_FORCE_GPIO_5_HIGH_6_LOW) {
-        relay_on();
-        g_runtime.pump_state = PUMP_STATE_MANUAL_RUNNING;
-        snprintf(g_runtime.last_run_reason, sizeof(g_runtime.last_run_reason), "diagnostic_hold");
-        ESP_LOGW(TAG, "diagnostic hold active: GPIO5 high, GPIO6 low");
-    } else {
-        relay_off();
-    }
+    relay_off();
     g_queue = xQueueCreate(8, sizeof(pump_command_t));
     if (!g_queue) return ESP_ERR_NO_MEM;
     if (xTaskCreate(pump_task, "Pump Task", 4096, NULL, 8, NULL) != pdPASS) {
@@ -297,12 +307,16 @@ esp_err_t pump_controller_scheduled_run(uint32_t duration_sec)
 
 esp_err_t pump_controller_stop(stop_reason_t reason)
 {
+    /* Stop also discards starts that have not reached the pump task yet. */
+    xQueueReset(g_queue);
     pump_command_t cmd = {.type = CMD_STOP, .stop_reason = reason};
-    return xQueueSend(g_queue, &cmd, pdMS_TO_TICKS(100)) == pdTRUE ? ESP_OK : ESP_ERR_TIMEOUT;
+    return xQueueSendToFront(g_queue, &cmd, pdMS_TO_TICKS(100)) == pdTRUE ? ESP_OK : ESP_ERR_TIMEOUT;
 }
 
 runtime_state_t pump_controller_get_runtime(void)
 {
+    int64_t cooldown_left = g_cooldown_until_us - esp_timer_get_time();
+    g_runtime.cooldown_until = cooldown_left > 0 ? time(NULL) + (cooldown_left + 999999) / 1000000 : 0;
     g_runtime.pump_gpio = g_settings.pump_gpio;
     g_runtime.pump_gpio_b = g_settings.pump_gpio_b;
     g_runtime.pump_gpio_level = g_cmd_a;

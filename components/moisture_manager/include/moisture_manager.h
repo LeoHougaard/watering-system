@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <time.h>
 
 #include "esp_err.h"
@@ -10,6 +11,7 @@ typedef struct {
     int gpio;
     int raw;
     int percent;
+    uint32_t samples_collected;
     time_t updated_at;
 } moisture_reading_t;
 

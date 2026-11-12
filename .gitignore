@@ -16,3 +16,7 @@ dependencies.lock
 *.elf
 *.map
 sdkconfig.old
+
+# Python test helpers
+__pycache__/
+*.py[cod]

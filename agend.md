@@ -5,7 +5,7 @@
 - Build: `.\tools\build_s3_fast.cmd`
 - Build and OTA: `.\tools\ota_s3_fast.cmd`
 - Device URL: `http://10.1.40.117`
-- Local PIN: `1234`
+- Local PIN: the existing deployed PIN is preserved by OTA; set `WATERING_LOCAL_PIN` in the current shell
 - Firmware artifact: `build_s3\esp32_irrigation_controller.bin`
 - USB recovery port, when plugged in: currently `COM6`
 
