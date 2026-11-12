@@ -1,22 +1,23 @@
 # ESP32-S3 Irrigation Controller
 
-ESP-IDF firmware for a local-only irrigation controller for seven planter containers. One shared pump waters all containers together through manually adjusted drip emitters. Watering is schedule-based, with optional capacitive soil-moisture logging for testing and trend visibility.
+ESP-IDF firmware for a local-only irrigation controller for seven planter containers. One shared pump waters all containers together through manually adjusted drip emitters. Watering uses a moisture target checked at one chosen time every day, or a timed weekday schedule. Select the mode, percentage and daily time in Schedule.
 
 Target board: Waveshare ESP32-S3-Zero / ESP32-S3-Zero-M with 4 MB flash and 2 MB PSRAM.
 
 ## Features
 
 - Pump relay control through an active-low relay module with pump-off default after firmware startup.
-- Manual runs: 5 min, 10 min, 15 min, 20 min.
+- One manual duration selector, Run and Stop.
 - Pump countdown, immediate stop, max runtime, cooldown, and event logging.
 - Optional debounced reservoir-level input with active-high or active-low configuration.
 - Optional capacitive soil-moisture sensor on an ESP32-S3 ADC1 GPIO.
+- One optional target percentage and daily time: two-minute pulses followed by 30-minute soak checks, within the daily runtime limit. An invalid, stale or missing probe skips target watering. A valid probe with little measured response retains the bounded daily allowance. The percentage represents one pot and needs local calibration.
 - Scheduled watering with daily default at 06:00 for 2 minutes, max 5 minutes.
-- Internet weather compensation using Open-Meteo forecast data, FAO-56 reference evapotranspiration, and forecast/recent rain.
-- Seven editable planter profiles and user observation history.
-- Plain-language recommendations based on schedules, history, plant profiles, and user observations.
+- Automatic network time synchronization; schedules remain locked out until the clock is valid.
 - Local web UI and `/api/v1/*` endpoints.
-- NVS settings storage plus SPIFFS append logs.
+- NVS settings storage plus bounded SPIFFS logs. Hourly moisture history is kept
+  for at least one year in monthly files, while graph responses are downsampled
+  on the device to stay fast and memory-safe.
 - OTA-ready partition table.
 
 ## Build
@@ -60,17 +61,17 @@ On Windows, this project path contains a space and ESP-IDF may hit a compiler sh
 
 It builds from `C:\Temp\WateringSystem`, reuses incremental output there, and copies firmware artifacts back to `build_s3`.
 
-On first boot, the device starts a setup Wi-Fi network named `IrrigationController` with password `water1234`. Connect to it, open `http://192.168.4.1`, then use the Wi-Fi tab to save your home Wi-Fi name and password. The controller restarts and joins your home network. The local UI write PIN is `1234` or `water1234` in this scaffold; replace this with a configured PIN hash before unattended deployment.
+On first boot, the device prints a unique controller PIN and a temporary setup Wi-Fi name/password to USB serial. Save the controller PIN, connect to the setup network, open `http://192.168.4.1`, and submit home Wi-Fi credentials through `/api/v1/wifi`. The controller restarts and joins the saved network. No home-network password or universal control PIN is compiled into the firmware.
 
 ## Over-The-Air Updates
 
 The first firmware upload must be done over USB serial. After that, build a new firmware image and upload `build_s3/esp32_irrigation_controller.bin` over Wi-Fi. In VS Code, run the task `ESP-IDF: OTA upload over Wi-Fi`, or use:
 
 ```powershell
-Invoke-WebRequest -Method Post -Uri http://192.168.4.1/api/v1/ota/apply -Headers @{"X-Local-PIN"="1234"} -InFile build_s3\esp32_irrigation_controller.bin -ContentType "application/octet-stream"
+Invoke-WebRequest -Method Post -Uri http://192.168.4.1/api/v1/ota/apply -Headers @{"X-Local-PIN"="<controller-pin>"} -InFile build_s3\esp32_irrigation_controller.bin -ContentType "application/octet-stream"
 ```
 
-The controller writes the uploaded binary to the inactive OTA partition, marks it as the next boot image, sends an `{ "ok": true, "rebooting": true }` response, and restarts.
+The controller writes the uploaded binary to the inactive OTA partition, marks it as the next boot image, sends an `{ "ok": true, "rebooting": true }` response, and restarts. The bootloader rolls back an image that cannot complete startup checks.
 
 For the current deployed controller at `http://10.1.40.117/`, use the project runbook: [docs/OTA_RUNBOOK.md](docs/OTA_RUNBOOK.md).
 
@@ -79,18 +80,6 @@ Fast build plus OTA:
 ```powershell
 .\tools\ota_s3_fast.cmd
 ```
-
-## Weather Adjustment
-
-Weather adjustment is optional and is off by default. When enabled, the controller refreshes Open-Meteo data every three hours and uses a rolling water balance instead of calendar-day totals:
-
-- FAO-56 reference evapotranspiration from the previous 24 hours and forecast 24 hours estimates plant water demand.
-- Rain from the previous 24 hours receives the most credit. Forecast rain receives less credit based on confidence and whether it is expected in the next 12 hours or later.
-- Duration is limited to 50–135% of the configured schedule before the existing seasonal and maximum-runtime limits are applied.
-- If rain skipping is enabled, a run is skipped only after at least 4 mm of recent rain, or at least 4 mm forecast within 12 hours with 70% or higher weighted confidence.
-- Weather data expires after eight hours. Missing, invalid, future-dated, legacy, or stale data always falls back to the normal duration and can never leave watering indefinitely paused.
-
-Failed updates retry with a 15-minute-to-1-hour backoff. A manual refresh is available under **Settings > Weather adjustment** and at `POST /api/v1/weather/refresh`.
 
 ## Safety Notes
 
@@ -118,4 +107,6 @@ Default moisture sensor pin:
 
 Use the sensor's analog output, usually labeled `AOUT` or `AO`, not the digital `DOUT` pin. GPIO1 is the default because it maps to ESP32-S3 ADC1 channel 0 and does not conflict with the default pump relay pins. Other supported ADC1 pins are GPIO1 through GPIO10, but avoid GPIO4 if you are using the reservoir sensor and avoid GPIO5/GPIO6 with the default pump wiring.
 
-To test it, open the local web UI, go to **Settings**, check **Enable moisture sensor**, keep **ADC GPIO** set to `1`, choose the `0 min 5 sec` live read interval, and save. `/api/v1/moisture/latest` and the web UI should update with live `raw` and `percent` readings on that interval. The separate graph sample interval controls how often readings are saved to history. For a capacitive sensor, the raw value is typically higher when dry and lower when wet; adjust `Dry raw` and `Wet raw` after you see your actual readings.
+Calibration is under Settings > Calibration. The sensor averages five readings taken one minute apart and saves an hourly history point. Set Dry and Wet using measured raw values. Hardware pins, sampling and storage settings remain available through the authenticated settings API for maintenance.
+
+The graph offers 24-hour, 7-day and 30-day views. The controller retains a year of hourly data in bounded monthly files. `GET /api/v1/moisture?days=365&max_points=800` exports older records. Existing data is preserved during upgrades.

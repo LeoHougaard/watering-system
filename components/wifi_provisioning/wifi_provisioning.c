@@ -5,10 +5,13 @@
 
 #include "esp_event.h"
 #include "esp_log.h"
+#include "esp_mac.h"
 #include "esp_netif.h"
+#include "esp_random.h"
 #include "esp_wifi.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/event_groups.h"
+#include "freertos/timers.h"
 #include "nvs.h"
 #include "nvs_flash.h"
 
@@ -17,7 +20,16 @@ static const char *NS = "wifi";
 static const int WIFI_CONNECTED_BIT = BIT0;
 static const int WIFI_FAIL_BIT = BIT1;
 static EventGroupHandle_t g_wifi_events;
+static TimerHandle_t g_reconnect_timer;
 static int g_retry_count;
+static bool g_ever_connected;
+static bool g_allow_reconnect;
+
+static void reconnect_timer_callback(TimerHandle_t timer)
+{
+    (void)timer;
+    if (g_allow_reconnect) esp_wifi_connect();
+}
 
 static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t event_id, void *event_data)
 {
@@ -27,15 +39,20 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base, int32_t e
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
-        if (g_retry_count < 5) {
+        if (!g_ever_connected && g_retry_count < 5) {
             g_retry_count++;
             esp_wifi_connect();
-        } else {
+        } else if (!g_ever_connected) {
             xEventGroupSetBits(g_wifi_events, WIFI_FAIL_BIT);
+        } else if (g_allow_reconnect && g_reconnect_timer) {
+            ESP_LOGW(TAG, "Wi-Fi disconnected; retrying in 5 seconds");
+            xTimerStart(g_reconnect_timer, 0);
         }
     } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
         ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
         g_retry_count = 0;
+        g_ever_connected = true;
+        if (g_reconnect_timer) xTimerStop(g_reconnect_timer, 0);
         ESP_LOGI(TAG, "connected to home Wi-Fi, IP: " IPSTR, IP2STR(&event->ip_info.ip));
         xEventGroupSetBits(g_wifi_events, WIFI_CONNECTED_BIT);
     }
@@ -74,22 +91,33 @@ static esp_err_t start_ap(void)
     esp_netif_create_default_wifi_ap();
 
     wifi_config_t ap = {0};
-    snprintf((char *)ap.ap.ssid, sizeof(ap.ap.ssid), "IrrigationController");
+    uint8_t mac[6];
+    uint32_t random_words[12];
+    static const char alphabet[] = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+    esp_read_mac(mac, ESP_MAC_WIFI_STA);
+    snprintf((char *)ap.ap.ssid, sizeof(ap.ap.ssid), "Irrigation-%02X%02X%02X", mac[3], mac[4], mac[5]);
     ap.ap.ssid_len = strlen((char *)ap.ap.ssid);
-    snprintf((char *)ap.ap.password, sizeof(ap.ap.password), "water1234");
+    esp_fill_random(random_words, sizeof(random_words));
+    for (size_t i = 0; i < 12; i++) ap.ap.password[i] = alphabet[random_words[i] % (sizeof(alphabet) - 1)];
+    ap.ap.password[12] = '\0';
     ap.ap.max_connection = 4;
     ap.ap.authmode = WIFI_AUTH_WPA_WPA2_PSK;
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_AP));
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap));
     ESP_ERROR_CHECK(esp_wifi_start());
-    ESP_LOGI(TAG, "setup AP started: %s", ap.ap.ssid);
+    ESP_LOGW(TAG, "SETUP WI-FI: SSID %s, password %s", ap.ap.ssid, ap.ap.password);
+    memset(random_words, 0, sizeof(random_words));
     return ESP_OK;
 }
 
 static esp_err_t start_sta(const wifi_provisioning_credentials_t *credentials)
 {
     g_wifi_events = xEventGroupCreate();
+    g_reconnect_timer = xTimerCreate("wifi_retry", pdMS_TO_TICKS(5000), pdFALSE, NULL, reconnect_timer_callback);
+    if (!g_wifi_events || !g_reconnect_timer) return ESP_ERR_NO_MEM;
+    g_allow_reconnect = true;
+    g_ever_connected = false;
     esp_netif_create_default_wifi_sta();
     ESP_ERROR_CHECK(esp_event_handler_instance_register(WIFI_EVENT, ESP_EVENT_ANY_ID, wifi_event_handler, NULL, NULL));
     ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT, IP_EVENT_STA_GOT_IP, wifi_event_handler, NULL, NULL));
@@ -109,7 +137,10 @@ static esp_err_t start_sta(const wifi_provisioning_credentials_t *credentials)
     if (bits & WIFI_CONNECTED_BIT) return ESP_OK;
 
     ESP_LOGW(TAG, "could not connect to saved Wi-Fi; falling back to setup AP");
+    g_allow_reconnect = false;
     ESP_ERROR_CHECK(esp_wifi_stop());
+    xTimerDelete(g_reconnect_timer, 0);
+    g_reconnect_timer = NULL;
     vEventGroupDelete(g_wifi_events);
     g_wifi_events = NULL;
     return start_ap();
@@ -130,11 +161,6 @@ esp_err_t wifi_provisioning_start(void)
         return start_sta(&credentials);
     }
 
-    wifi_provisioning_credentials_t default_credentials = {
-        .ssid = "Canyon",
-        .password = "927canyon",
-        .configured = true,
-    };
-    ESP_LOGI(TAG, "connecting to default Wi-Fi SSID: %s", default_credentials.ssid);
-    return start_sta(&default_credentials);
+    ESP_LOGI(TAG, "no saved Wi-Fi credentials; starting secure setup AP");
+    return start_ap();
 }

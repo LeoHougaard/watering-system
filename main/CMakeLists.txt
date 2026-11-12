@@ -11,12 +11,12 @@ idf_component_register(SRCS "app_main.c"
         reservoir_manager
         pump_controller
         scheduler
-        recommendation_engine
+
         history_store
         api_server
         wifi_provisioning
         ota_update
         time_service
         alarm_and_safety
-        user_observation_store
-        weather_manager)
+
+        )

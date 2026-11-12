@@ -11,12 +11,9 @@
 #include "moisture_manager.h"
 #include "ota_update.h"
 #include "pump_controller.h"
-#include "recommendation_engine.h"
 #include "reservoir_manager.h"
 #include "scheduler.h"
 #include "time_service.h"
-#include "user_observation_store.h"
-#include "weather_manager.h"
 #include "wifi_provisioning.h"
 
 static const char *TAG = "irrigation";
@@ -27,13 +24,16 @@ static void mount_storage(void)
         .base_path = "/spiffs",
         .partition_label = "storage",
         .max_files = 8,
-        .format_if_mount_failed = true,
+        // Never erase collected history just because a mount fails. Preserve the
+        // partition so it can be recovered or inspected deliberately.
+        .format_if_mount_failed = false,
     };
     ESP_ERROR_CHECK(esp_vfs_spiffs_register(&conf));
 }
 
 void app_main(void)
 {
+    pump_controller_preinit_safe_off();
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_ERROR_CHECK(nvs_flash_erase());
@@ -53,18 +53,16 @@ void app_main(void)
 
     ESP_ERROR_CHECK(config_store_init());
     ESP_ERROR_CHECK(history_store_init());
-    ESP_ERROR_CHECK(user_observation_store_init());
-    ESP_ERROR_CHECK(time_service_init());
     ESP_ERROR_CHECK(wifi_provisioning_start());
+    ESP_ERROR_CHECK(time_service_init());
     ESP_ERROR_CHECK(reservoir_manager_start());
     ESP_ERROR_CHECK(moisture_manager_start());
     ESP_ERROR_CHECK(pump_controller_start());
     ESP_ERROR_CHECK(scheduler_start());
-    ESP_ERROR_CHECK(recommendation_engine_start());
     ESP_ERROR_CHECK(alarm_and_safety_start());
     ESP_ERROR_CHECK(ota_update_init());
     ESP_ERROR_CHECK(api_server_start());
-    ESP_ERROR_CHECK(weather_manager_start());
+    ESP_ERROR_CHECK(ota_update_confirm_running_image());
 
     ESP_LOGI(TAG, "Irrigation controller ready. Pump is off; local UI/API started.");
 }

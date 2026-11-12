@@ -41,26 +41,14 @@ static void reservoir_task(void *arg)
     g_sensor_enabled = settings.reservoir_sensor_enabled;
     g_active_high = settings.reservoir_active_high;
     g_gpio = settings.reservoir_gpio;
-    if (settings.reservoir_sensor_bypass || !settings.reservoir_sensor_enabled) {
-        g_reservoir_ok = true;
-    } else {
-        gpio_config_t io = {
-            .pin_bit_mask = 1ULL << settings.reservoir_gpio,
-            .mode = GPIO_MODE_INPUT,
-            .pull_up_en = GPIO_PULLUP_ENABLE,
-            .pull_down_en = GPIO_PULLDOWN_DISABLE,
-            .intr_type = GPIO_INTR_DISABLE,
-        };
-        gpio_config(&io);
-    }
-
     bool last_sample = true;
     bool debounced = true;
     bool last_bypass = g_bypass;
     bool last_active_high = g_active_high;
     int last_gpio = g_gpio;
+    int configured_gpio = -1;
+    bool was_monitoring = false;
     TickType_t changed_at = xTaskGetTickCount();
-    const TickType_t debounce_ticks = pdMS_TO_TICKS(settings.reservoir_debounce_ms);
 
     while (true) {
         config_store_get_settings(&settings);
@@ -70,16 +58,34 @@ static void reservoir_task(void *arg)
         g_gpio = settings.reservoir_gpio;
         if (g_bypass || !g_sensor_enabled) {
             g_reservoir_ok = true;
+            g_raw_level = -1;
+            was_monitoring = false;
             last_bypass = g_bypass;
             last_active_high = g_active_high;
             last_gpio = g_gpio;
             vTaskDelay(pdMS_TO_TICKS(500));
             continue;
         }
+        if (configured_gpio != settings.reservoir_gpio) {
+            gpio_config_t io = {
+                .pin_bit_mask = 1ULL << settings.reservoir_gpio,
+                .mode = GPIO_MODE_INPUT,
+                .pull_up_en = GPIO_PULLUP_ENABLE,
+                .pull_down_en = GPIO_PULLDOWN_DISABLE,
+                .intr_type = GPIO_INTR_DISABLE,
+            };
+            if (gpio_config(&io) != ESP_OK) {
+                g_reservoir_ok = false;
+                g_raw_level = -1;
+                vTaskDelay(pdMS_TO_TICKS(500));
+                continue;
+            }
+            configured_gpio = settings.reservoir_gpio;
+        }
         int raw = gpio_get_level(settings.reservoir_gpio);
         g_raw_level = raw;
         bool ok = settings.reservoir_active_high ? raw == 1 : raw == 0;
-        if (last_bypass != g_bypass || last_active_high != g_active_high || last_gpio != g_gpio) {
+        if (!was_monitoring || last_bypass != g_bypass || last_active_high != g_active_high || last_gpio != g_gpio) {
             last_sample = ok;
             debounced = ok;
             g_reservoir_ok = ok;
@@ -88,11 +94,12 @@ static void reservoir_task(void *arg)
             last_active_high = g_active_high;
             last_gpio = g_gpio;
         }
+        was_monitoring = true;
         if (ok != last_sample) {
             last_sample = ok;
             changed_at = xTaskGetTickCount();
         }
-        if (ok != debounced && (xTaskGetTickCount() - changed_at) >= debounce_ticks) {
+        if (ok != debounced && (xTaskGetTickCount() - changed_at) >= pdMS_TO_TICKS(settings.reservoir_debounce_ms)) {
             debounced = ok;
             g_reservoir_ok = debounced;
             history_store_log_reservoir(debounced);

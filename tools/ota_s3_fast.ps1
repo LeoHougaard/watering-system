@@ -6,7 +6,7 @@ if (-not $deviceUrl) {
 }
 $pin = $env:WATERING_LOCAL_PIN
 if (-not $pin) {
-    $pin = '1234'
+    throw 'Set WATERING_LOCAL_PIN to the unique controller PIN before running OTA.'
 }
 
 & "$PSScriptRoot\build_s3_fast.ps1"

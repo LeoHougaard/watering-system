@@ -6,6 +6,7 @@
 #include "irrigation_model.h"
 
 esp_err_t pump_controller_start(void);
+void pump_controller_preinit_safe_off(void);
 esp_err_t pump_controller_manual_run(uint32_t duration_sec, const char *reason);
 esp_err_t pump_controller_can_manual_run(uint32_t duration_sec, char *reason, size_t reason_len);
 esp_err_t pump_controller_scheduled_run(uint32_t duration_sec);

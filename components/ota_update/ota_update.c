@@ -20,6 +20,17 @@ esp_err_t ota_update_init(void)
     return ESP_OK;
 }
 
+esp_err_t ota_update_confirm_running_image(void)
+{
+    const esp_partition_t *running = esp_ota_get_running_partition();
+    esp_ota_img_states_t state;
+    if (esp_ota_get_state_partition(running, &state) == ESP_OK && state == ESP_OTA_IMG_PENDING_VERIFY) {
+        ESP_LOGI(TAG, "startup checks passed; confirming OTA image");
+        return esp_ota_mark_app_valid_cancel_rollback();
+    }
+    return ESP_OK;
+}
+
 static void restart_task(void *arg)
 {
     (void)arg;
