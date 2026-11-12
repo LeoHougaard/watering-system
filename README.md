@@ -11,7 +11,7 @@ Target board: Waveshare ESP32-S3-Zero / ESP32-S3-Zero-M with 4 MB flash and 2 MB
 - Pump countdown, immediate stop, max runtime, cooldown, and event logging.
 - Optional debounced reservoir-level input with active-high or active-low configuration.
 - Optional capacitive soil-moisture sensor on an ESP32-S3 ADC1 GPIO.
-- One optional target percentage and daily time: two-minute pulses followed by 30-minute soak checks, within the daily runtime limit. A missing or unresponsive probe falls back to that allowance. The percentage represents one pot and needs local calibration.
+- One optional target percentage and daily time: two-minute pulses followed by 30-minute soak checks, within the daily runtime limit. An invalid, stale or missing probe skips target watering. A valid probe with little measured response retains the bounded daily allowance. The percentage represents one pot and needs local calibration.
 - Scheduled watering with daily default at 06:00 for 2 minutes, max 5 minutes.
 - Automatic network time synchronization; schedules remain locked out until the clock is valid.
 - Local web UI and `/api/v1/*` endpoints.

@@ -19,7 +19,7 @@ typedef int esp_err_t;
 #define pdMS_TO_TICKS(x) (x)
 #define ESP_LOGI(...) ((void)0)
 #define xTaskCreate(...) pdPASS
-typedef struct {bool enabled;int gpio,raw,percent;uint32_t samples_collected;time_t updated_at;} moisture_reading_t;
+#include "moisture_manager.h"
 static system_settings_t config;
 static runtime_state_t runtime;
 static moisture_reading_t reading;
@@ -39,7 +39,7 @@ static int config_store_moisture_target(void){return target;}
 static int config_store_target_time(void){return daily_minute;}
 static int config_store_claim_target_cycle(time_t minute){if(claim_error||minute<=claimed)return 1;claimed=minute;return 0;}
 static runtime_state_t pump_controller_get_runtime(void){return runtime;}
-static moisture_reading_t moisture_manager_get_latest(void){return reading;}
+moisture_reading_t moisture_manager_get_latest(void){return reading;}
 static int pump_controller_scheduled_run(unsigned seconds){assert(calls<16);commanded[calls++]=seconds;return 0;}
 static void history_store_log_diagnostic(const char *msg){}
 static void history_store_log_watering(const watering_event_t *e){skips++;skip_reason=e->stopped_reason;}
@@ -52,7 +52,7 @@ static void reset(void){
  daily_minute=tm->tm_hour*60+tm->tm_min;
  config.schedule_slots[0].enabled=true;config.schedule_slots[0].days[tm->tm_wday]=true;config.schedule_slots[0].duration_sec=600;
  runtime=(runtime_state_t){.pump_state=PUMP_STATE_IDLE,.reservoir_ok=true};
- reading=(moisture_reading_t){.enabled=true,.percent=35,.samples_collected=5,.updated_at=now};
+ reading=(moisture_reading_t){.quality=MOISTURE_VALID,.enabled=true,.percent=35,.samples_collected=5,.updated_at=now};
  memset(&g_target_cycle,0,sizeof(g_target_cycle));g_cancel_target=false;target=60;calls=skips=claim_error=0;claimed=0;
  for(int i=0;i<MAX_SCHEDULE_SLOTS;i++){g_last_run_yday[i]=-1;g_last_run_minute[i]=-1;}
 }
@@ -78,10 +78,10 @@ int main(void){
  reset();reading.percent=54;tick();assert(calls==1&&commanded[0]==120);
  puts("Five-point target band passed");
 
- reset();reading.updated_at=now-301;tick();assert(calls==1&&commanded[0]==600&&!g_target_cycle.active);
- reset();reading.samples_collected=1;tick();assert(calls==1&&commanded[0]==600);
+ reset();reading.updated_at=now-301;tick();assert(calls==0&&!g_target_cycle.active);
+ reset();reading.samples_collected=1;tick();assert(calls==0);
  reset();target=0;tick();assert(calls==1&&commanded[0]==600);
- puts("Unavailable, warming and disabled target fallback passed");
+ puts("Unavailable and warming blocked; timed mode unchanged passed");
 
  reset();tick();finish_pulse(36);assert(calls==2&&commanded[1]==480&&!g_target_cycle.active);
  reset();tick();for(int i=0;i<5;i++)finish_pulse(39+i*4);
@@ -122,10 +122,10 @@ int main(void){
  assert(!g_target_cycle.active);
  puts("Schedule-only weekdays, changed daily time and pending cycle cancellation passed");
 
- reset();reading.samples_collected=0;tick();assert(calls==1&&commanded[0]==600);
+ reset();reading.samples_collected=0;tick();assert(calls==0);
  for(int i=0;i<MAX_SCHEDULE_SLOTS;i++){g_last_run_yday[i]=-1;g_last_run_minute[i]=-1;}
- tick();assert(calls==1);
- puts("Probe fallback also protected against same-minute reboot passed");
+ tick();assert(calls==0);
+ puts("Probe skip also protected against same-minute reboot passed");
 
  reset();daily_minute=360;
  config.legacy_weather_adjust_enabled=true;config.legacy_weather_last_multiplier=0;
@@ -143,15 +143,21 @@ int main(void){
    if(calls>previous_calls&&previous_calls==0)assert(minute==360);
   }
   unsigned total=0;for(int i=0;i<calls;i++)total+=commanded[i];
-  if(day%3==0){assert(calls==0&&skips==1);}else{assert(total==600);}
+  if(day%3==0||day%3==2){assert(calls==0&&skips==1);}else{assert(total==600);}
   assert(!g_target_cycle.active);
  }
- puts("Fourteen continuous days: correct daily time, wet-soil skips, missing probe, bounded fallback, no weather dependency passed");
+ puts("Fourteen continuous days: correct daily time, wet-soil skips, missing probe blocked, bounded valid-response fallback, no weather dependency passed");
+ for(int q=MOISTURE_DISABLED;q<=MOISTURE_STALE;q++){
+  if(q==MOISTURE_VALID)continue;
+  reset();reading.quality=q;tick();assert(calls==0);
+  reset();tick();reading.quality=q;finish_pulse(35);assert(calls==1&&!g_target_cycle.active);
+ }
+ puts("All invalid qualities block initial and soak watering passed");
  return 0;
 }
 '''
 with tempfile.TemporaryDirectory(prefix='watering-target-') as directory:
- temp=Path(directory);(temp/'test.c').write_text(stubs+source+tests)
+ temp=Path(directory);(temp/'esp_err.h').write_text('typedef int esp_err_t;\n');(temp/'test.c').write_text(stubs+source+tests)
  cjson=idf/'components/json/cJSON'
- subprocess.run(['gcc','-std=c11','-I'+str(root/'components/irrigation_model/include'),'-I'+str(cjson),str(temp/'test.c'),str(root/'components/irrigation_model/irrigation_model.c'),str(cjson/'cJSON.c'),'-o',str(temp/'test.exe')],check=True)
+ subprocess.run(['gcc','-std=c11','-I'+str(temp),'-I'+str(root/'components/moisture_manager/include'),'-I'+str(root/'components/irrigation_model/include'),'-I'+str(cjson),str(temp/'test.c'),str(root/'components/irrigation_model/irrigation_model.c'),str(cjson/'cJSON.c'),'-o',str(temp/'test.exe')],check=True)
  subprocess.run([str(temp/'test.exe')],check=True)

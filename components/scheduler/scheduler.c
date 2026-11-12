@@ -47,7 +47,7 @@ bool scheduler_target_cycle_active(void)
 
 static bool usable_moisture(const system_settings_t *s, moisture_reading_t r, time_t now)
 {
-    return s->moisture_sensor_enabled && r.enabled && r.percent >= 0 && r.percent <= 100 &&
+    return r.quality == MOISTURE_VALID && s->moisture_sensor_enabled && r.enabled && r.percent >= 0 && r.percent <= 100 &&
         r.samples_collected >= s->moisture_average_count && r.updated_at > 0 &&
         r.updated_at <= now && now - r.updated_at <= 300;
 }
@@ -98,13 +98,17 @@ static void advance_target_cycle(const system_settings_t *s, time_t now)
     }
     moisture_reading_t reading = moisture_manager_get_latest();
     bool usable = usable_moisture(s, reading, now);
-    if (usable && reading.percent >= g_target_cycle.target) {
+    if (!usable) {
+        g_target_cycle.active = false;
+        target_message("Probe unavailable. Watering skipped.");
+        history_store_log_diagnostic(g_target_status);
+    } else if (reading.percent >= g_target_cycle.target) {
         g_target_cycle.active = false;
         target_message("Target reached.");
     } else if (!g_target_cycle.remaining) {
         g_target_cycle.active = false;
         target_message("Daily limit reached.");
-    } else if (!usable || reading.percent < g_target_cycle.baseline + 3) {
+    } else if (reading.percent < g_target_cycle.baseline + 3) {
         /* An unreliable probe must not request unlimited pulses. Complete only
            the unused part of the daily allowance. */
         uint32_t remaining = g_target_cycle.remaining;
@@ -278,9 +282,12 @@ static void scheduler_task(void *arg)
                         g_target_cycle.expires_at = now + 3 * 60 * 60;
                         target_pulse(now, reading.percent);
                     }
+                } else if (target) {
+                    target_message("Probe unavailable. Watering skipped.");
+                    log_skip(STOP_FAULT);
+                    history_store_log_diagnostic(g_target_status);
                 } else {
-                    target_message(target ? "Probe unavailable. Using daily allowance." :
-                        "Schedule only.");
+                    target_message("Schedule only.");
                     pump_controller_scheduled_run(duration);
                 }
                 ESP_LOGI(TAG, "scheduled watering requested for %lu sec", (unsigned long)duration);
