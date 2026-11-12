@@ -1,0 +1,45 @@
+name: Host regression tests
+
+on:
+  pull_request:
+  push:
+    branches: [main, review/probe-quality]
+
+permissions:
+  contents: read
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      # Only host-test dependency sources; no SDK/toolchain install or device access.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: espressif/esp-idf
+          ref: fcae32885b0296b32044cb99ecbdc50d98dddb83 # v5.5.1
+          path: .ci/esp-idf
+          sparse-checkout: |
+            components/json
+            components/unity
+          persist-credentials: false
+      - name: Fetch pinned cJSON and Unity submodules
+        run: git -C .ci/esp-idf submodule update --init --depth 1 components/json/cJSON components/unity/unity
+      - name: Tool versions
+        run: |
+          python --version
+          gcc --version
+          node --version
+      - name: Run host regression suites
+        env:
+          IDF_PATH: ${{ github.workspace }}/.ci/esp-idf
+        run: |
+          python test/run_host_model_tests.py
+          python test/run_host_pump_tests.py
+          python test/run_host_reservoir_tests.py
+          python test/run_host_target_tests.py
+          python test/run_host_moisture_tests.py

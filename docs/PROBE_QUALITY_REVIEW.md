@@ -8,7 +8,7 @@ Canonical source: `C:/Users/Leo/OneDrive/Projects/watering-system`, clean starti
 
 Read-only comparison: `C:/Users/Leo/OneDrive/Projects/Watering system`, HEAD `11db77d81b37d0c205d78d618b392a8cfc913e34`, eight tracked modifications: `agend.md`, API server, config store, irrigation model header/implementation, moisture manager, and status display CMake/implementation. That copy uses a different live sampling/history implementation and includes OLED work absent from canonical source. Neither copy was overwritten, merged or deleted; this correction applies only to canonical source. Local connection notes differ and are deliberately not reproduced here. No assumptions about which firmware is physically installed follow from these checkouts.
 
-Publication uses a source-only baseline of `08b6fc5` on top of GitHub main, excluding `docs/reviews/` saved telemetry and captures. The correction draft targets that baseline, preserving the original local history. The baseline is a dependency for review, not a deployment recommendation.
+Publication uses a source-only baseline of `08b6fc5` on top of GitHub main, excluding `docs/reviews/` saved telemetry and captures. The correction initially targeted that baseline. Final delivery targets `main` and includes this required canonical daily-target source dependency, preserving the original local history. This is source delivery, not a deployment recommendation.
 
 ## Before and after
 
@@ -23,7 +23,11 @@ Quality values: `disabled`, `warming`, `valid`, `saturated`, `read_error`, `inva
 
 Run `python test/run_host_moisture_tests.py` and the four existing `test/run_host_{target,pump,model,reservoir}_tests.py` scripts individually. All five passed on November 12 using host GCC/Node. The moisture test runs the actual task, snapshot getter, API serializer and UI rendering function with rail, read/setup failure, invalid calibration/GPIO, startup, stale/recovery, disabled and offline/reconnect fixtures. Embedded JavaScript parses. Scheduler fixtures cover every invalid quality before initial and soak requests, wet skips, valid pulses, daily limits and duplicate protection over 14 simulated days. Existing pump/reservoir/model checks pass.
 
-Review covered intended diff, unchanged calibration and pump paths, publication file list and whitespace checks. Full ESP-IDF compile/size verification, real browser layout, deployed firmware identity, physical accuracy and device recovery remain unverified. No build, flash, OTA, reboot, live pump command or service restart was performed. Draft must remain undeployed pending authorized firmware validation and physical comparison.
+Review covered intended diff, unchanged calibration and pump paths, publication file list and whitespace checks. Full ESP-IDF compile/size verification, real browser layout, deployed firmware identity, physical accuracy and device recovery remain unverified. No build, flash, OTA, reboot, live pump command or service restart was performed. Merged source must remain undeployed pending authorized firmware validation and physical comparison.
+
+## Repository CI
+
+`.github/workflows/host-tests.yml` runs all five host suites on Ubuntu for pull requests and pushes to `main` and the correction branch. Actions and the ESP-IDF v5.5.1 test dependency revision are pinned; only cJSON/Unity source submodules are fetched. No firmware toolchain, device commands or deployment steps run. CI verifies host behavior, not physical accuracy or firmware image size. PR checks and the post-merge push run must both pass at their exact revisions before delivery is complete.
 
 ## Physical comparison for Leo
 
