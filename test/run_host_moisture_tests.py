@@ -129,7 +129,10 @@ static int send_json(httpd_req_t *req,cJSON *root){char *s=cJSON_PrintUnformatte
     fixtures = [json.loads(line) for line in result.stdout.splitlines()]
     # Decode the actual concatenated C strings and syntax-check every embedded script.
     api = (root/'components/api_server/api_server.c').read_text()
-    html = ''.join(ast.literal_eval(s) for s in re.findall(r'^"(?:[^"\\]|\\.)*"',api,re.M))
+    literals = re.findall(r'^"(?:[^"\\]|\\.)*"',api,re.M)
+    (temp/'html.c').write_text('static const char html[] =\n'+'\n'.join(literals)+';\n')
+    subprocess.run(['gcc','-std=c11','-Werror=trigraphs','-fsyntax-only',str(temp/'html.c')],check=True)
+    html = ''.join(ast.literal_eval(s) for s in literals)
     scripts = re.findall(r'<script>(.*?)</script>',html,re.S)
     render = re.search(r'function renderMoisture\(\).*?(?=function renderDash)',html,re.S).group()
     js = 'const assert=require("assert");\n'

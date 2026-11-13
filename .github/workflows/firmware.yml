@@ -26,6 +26,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Bind-mount ownership differs in containers. Scope trust to this job's
+          # checkout via process environment, without changing global Git config.
+          export GIT_CONFIG_COUNT=1
+          export GIT_CONFIG_KEY_0=safe.directory
+          export GIT_CONFIG_VALUE_0="$PWD"
           . "$IDF_PATH/export.sh"
           test "$(git -C "$IDF_PATH" rev-parse HEAD)" = fcae32885b0296b32044cb99ecbdc50d98dddb83
           mkdir -p build_s3

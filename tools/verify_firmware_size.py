@@ -59,6 +59,7 @@ def main():
     revision = command('git', '-C', str(idf), 'rev-parse', 'HEAD')
     if revision != IDF_REVISION:
         raise ValueError('ESP-IDF differs from the pinned project toolchain')
+    description = json.loads((build/'project_description.json').read_text())
     app = build/'esp32_irrigation_controller.bin'
     bootloader = build/'bootloader/bootloader.bin'
     partition = build/'partition_table/partition-table.bin'
@@ -66,7 +67,7 @@ def main():
     sizes = verify_sizes(table, app.stat().st_size, bootloader.stat().st_size, partition.stat().st_size)
     report = {'source_sha': command('git', 'rev-parse', 'HEAD'),
               'idf_revision': revision, 'idf_version': command('idf.py', '--version'),
-              'compiler': command('xtensa-esp-elf-gcc', '--version').splitlines()[0],
+              'compiler': command(description['c_compiler'], '--version').splitlines()[0],
               'container': os.environ.get('FIRMWARE_CONTAINER'),
               'input_sha256': {p: sha256(Path(p)) for p in ('sdkconfig.s3', 'sdkconfig.defaults', 'partitions.csv')},
               'compiled_config_sha256': sha256(build/'config/sdkconfig.json'),
