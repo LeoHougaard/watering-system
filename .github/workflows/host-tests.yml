@@ -25,6 +25,7 @@ jobs:
           path: .ci/esp-idf
           sparse-checkout: |
             components/json
+            components/partition_table
             components/unity
           persist-credentials: false
       - name: Fetch pinned cJSON and Unity submodules
