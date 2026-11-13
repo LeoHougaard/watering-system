@@ -43,3 +43,4 @@ jobs:
           python test/run_host_reservoir_tests.py
           python test/run_host_target_tests.py
           python test/run_host_moisture_tests.py
+          python -m unittest discover -s test -p test_firmware_size.py

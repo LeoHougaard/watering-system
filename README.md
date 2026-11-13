@@ -63,6 +63,12 @@ It builds from `C:\Temp\WateringSystem`, reuses incremental output there, and co
 
 On first boot, the device prints a unique controller PIN and a temporary setup Wi-Fi name/password to USB serial. Save the controller PIN, connect to the setup network, open `http://192.168.4.1`, and submit home Wi-Fi credentials through `/api/v1/wifi`. The controller restarts and joins the saved network. No home-network password or universal control PIN is compiled into the firmware.
 
+## Hosted firmware verification
+
+GitHub Actions runs the host suites and a full firmware build for pull requests and `main`. The firmware job uses the digest-pinned Espressif ESP-IDF v5.5.1 image, copies the committed `sdkconfig.s3` into its build directory, and builds `esp32s3` with the committed defaults and partition table. It checks the generated configuration and partition binary, requires the app to fit all three 1 MiB app slots, and verifies bootloader/table boundaries and 4 MiB flash capacity.
+
+Each successful run saves `firmware-evidence-<source SHA>` with `firmware-evidence.json`: exact source/toolchain identity, input and binary hashes, image sizes and remaining partition space. Build logs include `idf.py size`. No firmware is uploaded to a controller. Compilation and partition fit do not validate sensor accuracy, physical behavior or deployment.
+
 ## Over-The-Air Updates
 
 The first firmware upload must be done over USB serial. After that, build a new firmware image and upload `build_s3/esp32_irrigation_controller.bin` over Wi-Fi. In VS Code, run the task `ESP-IDF: OTA upload over Wi-Fi`, or use:

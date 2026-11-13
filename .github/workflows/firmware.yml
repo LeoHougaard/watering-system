@@ -1,0 +1,40 @@
+name: ESP32-S3 firmware
+
+on:
+  pull_request:
+  push:
+    branches: [main, review/firmware-ci]
+
+permissions:
+  contents: read
+
+jobs:
+  firmware-build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    container:
+      # Espressif ESP-IDF v5.5.1, linux/amd64; immutable toolchain image.
+      image: espressif/idf@sha256:cbc2e2ec2afee95f1cfa14acfa3bb6cc69a51816537fe0234f4429e71a881066
+    env:
+      FIRMWARE_CONTAINER: espressif/idf@sha256:cbc2e2ec2afee95f1cfa14acfa3bb6cc69a51816537fe0234f4429e71a881066
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Build intended board configuration and verify partition fit
+        shell: bash
+        run: |
+          set -euo pipefail
+          . "$IDF_PATH/export.sh"
+          test "$(git -C "$IDF_PATH" rev-parse HEAD)" = fcae32885b0296b32044cb99ecbdc50d98dddb83
+          mkdir -p build_s3
+          cp sdkconfig.s3 build_s3/sdkconfig
+          idf.py -B build_s3 -D "SDKCONFIG=$PWD/build_s3/sdkconfig" -D IDF_TARGET=esp32s3 build size
+          python tools/verify_firmware_size.py build_s3
+      - name: Save build identity and size evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: firmware-evidence-${{ github.event.pull_request.head.sha || github.sha }}
+          path: build_s3/firmware-evidence.json
+          if-no-files-found: error
